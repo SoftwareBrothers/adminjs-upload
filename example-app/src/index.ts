@@ -22,6 +22,8 @@ const run = async () => {
     ],
   })
 
+  admin.watch()
+
   const router = buildRouter(admin)
 
   app.use(admin.options.rootPath, router)
