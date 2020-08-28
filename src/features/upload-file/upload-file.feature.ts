@@ -1,128 +1,171 @@
 import fs from 'fs'
 import path from 'path'
 
-import AdminBro, { buildFeature, ActionRequest, ActionContext, RecordActionResponse, BaseRecord, FeatureType } from 'admin-bro'
-import { S3 } from 'aws-sdk'
-import { MIME_TYPES, MAX_SIZE } from './file.constants'
+import AdminBro, {
+  buildFeature,
+  ActionRequest,
+  ActionContext,
+  RecordActionResponse,
+  FeatureType,
+  ListActionResponse,
+  RecordJSON,
+} from 'admin-bro'
+import buildPath from './build-path'
+import AWSAdapter from './adapters/aws-adapter'
+import UploadConfig from './upload-config.type'
+import PropertyCustom from './property-custom.type'
 
-export interface Credentials {
-    accessKeyId: string;
-    secretAccessKey: string;
-    region: string;
-    bucket: string;
-}
-
-export interface Properties {
-  file: string;
-  key: string;
-  bucket: string;
-  mimeType?: string;
-  size?: string;
-  filename?: string;
-}
-
-export interface Validation {
-  mimeTypes?: string[],
-  maxSize?: number,
-}
-
-export interface Config {
-    credentials: Credentials,
-    properties: Properties,
-    validation?: Validation,
-}
-
-const buildS3Key = (record: BaseRecord, properties: Properties, extension: string): string => {
-  const filename = properties.filename && record.params[properties.filename]
-    ? record.params[properties.filename] : properties.file
-
-  return `${record.params.id}/${filename}${extension}`
-}
-
-const uploadFileFeature = (config: Config): FeatureType => {
+const uploadFileFeature = (config: UploadConfig): FeatureType => {
   const { credentials, properties, validation } = config
 
-  const s3 = new S3(credentials)
+  const adapter = new AWSAdapter(credentials.aws)
 
-  const before = async (request: ActionRequest, context: ActionContext): Promise<ActionRequest> => {
-    context[properties.file] = request?.payload?.[properties.file]
-    delete (request?.payload?.[properties.file])
+  const fileProperty = properties.file || 'file'
+  const filePathProperty = properties.filePath || 'filePath'
+
+  const stripFileFromPayload = async (
+    request: ActionRequest,
+    context: ActionContext,
+  ): Promise<ActionRequest> => {
+    context[fileProperty] = request?.payload?.[fileProperty]
+    delete (request?.payload?.[fileProperty])
 
     return request
   }
 
-  const removeFile = async (
-    key: string,
-    bucket: string,
-  ) => (s3.deleteObject({ Key: key, Bucket: bucket }).promise())
-
-  const after = async (
+  const uploadFile = async (
     response: RecordActionResponse,
     request: ActionRequest,
     context: ActionContext,
   ): Promise<RecordActionResponse> => {
-    const { record, [properties.file]: file } = context
-    if (record && record.isValid() && file) {
-      const { ext } = path.parse(file.name)
-      const oldRecord = { ...record }
+    const { record, [fileProperty]: file } = context
+    const { method } = request
 
-      const s3Key = buildS3Key(record, properties, ext)
-      const tmpFile = fs.readFileSync(file.path)
+    if (method !== 'post') {
+      return response
+    }
 
-      const s3Response = await s3
-        .upload({
-          Bucket: credentials.bucket,
-          Key: s3Key,
-          ACL: 'public-read',
-          Body: tmpFile,
-        })
-        .promise()
+    if (record && record.isValid()) {
+      // someone wants to remove file
+      if (file === null) {
+        const bucket = (properties.bucket && record[properties.bucket]) || adapter.bucket
+        const key = record.params[properties.key]
 
-      const params = {
-        [properties.key]: s3Key,
-        [properties.bucket]: credentials.bucket,
-        path: s3Response.Location,
-        ...properties.size && { [properties.size]: file.size },
-        ...properties.mimeType && { [properties.mimeType]: file.type },
+        // and file exists
+        if (key && bucket) {
+          const params = {
+            [properties.key]: null,
+            ...properties.bucket && { [properties.bucket]: null },
+            ...properties.size && { [properties.size]: null },
+            ...properties.mimeType && { [properties.mimeType]: null },
+            ...properties.filename && { [properties.filename]: null },
+          }
+
+          await record.update(params)
+          await adapter.delete(key, bucket)
+
+          return {
+            ...response,
+            record: record.toJSON(context.currentAdmin),
+          }
+        }
       }
+      if (file) {
+        const { ext } = path.parse(file.name)
+        const oldRecord = { ...record }
 
-      await record.update(params)
+        const key = buildPath(record, properties, ext)
+        const tmpFile = fs.readFileSync(file.path)
 
-      if (oldRecord.params.s3Key && oldRecord.params.s3Key !== s3Key) {
-        await removeFile(s3Key, credentials.bucket)
-      }
+        await adapter.upload(tmpFile, key)
 
-      return {
-        ...response,
-        record: record.toJSON(context.currentAdmin),
+        const params = {
+          [properties.key]: key,
+          ...properties.bucket && { [properties.bucket]: adapter.bucket },
+          ...properties.size && { [properties.size]: file.size },
+          ...properties.mimeType && { [properties.mimeType]: file.type },
+          ...properties.filename && { [properties.filename]: file.filename },
+        }
+
+        await record.update(params)
+
+        if (oldRecord.params[properties.key] && oldRecord.params[properties.key] !== key) {
+          const storedBucket = properties.bucket && oldRecord[properties.bucket]
+          await adapter.delete(key, storedBucket || adapter.bucket)
+        }
+
+        return {
+          ...response,
+          record: record.toJSON(context.currentAdmin),
+        }
       }
     }
 
     return response
   }
 
-  const afterDelete = async (
+  const deleteFile = async (
     response: RecordActionResponse,
     request: ActionRequest,
     context: ActionContext,
   ): Promise<RecordActionResponse> => {
     const { record } = context
-    const s3Key = record?.param(properties.key)
-    if (s3Key) {
-      await removeFile(s3Key, credentials.bucket)
+
+    const key = record?.param(properties.key)
+
+    if (record && key) {
+      const storedBucket = properties.bucket && record.param(properties.bucket)
+      await adapter.delete(key, storedBucket || adapter.bucket)
     }
     return response
   }
 
+  const fillRecordWithPath = async (record: RecordJSON): Promise<RecordJSON> => {
+    const key = record?.params[properties.key]
+    const storedBucket = properties.bucket && record?.params[properties.bucket]
+
+    if (key) {
+      // eslint-disable-next-line no-param-reassign
+      record.params[filePathProperty] = await adapter.path(key, storedBucket || adapter.bucket)
+    }
+
+    return record
+  }
+
+  const fillPath = async (response: RecordActionResponse): Promise<RecordActionResponse> => {
+    const { record } = response
+
+    return {
+      ...response,
+      record: await fillRecordWithPath(record),
+    }
+  }
+
+  const fillPaths = async (response: ListActionResponse): Promise<ListActionResponse> => {
+    const { records } = response
+
+    return {
+      ...response,
+      records: await Promise.all(records.map(fillRecordWithPath)),
+    }
+  }
+
+  const custom: PropertyCustom = {
+    fileProperty,
+    filePathProperty,
+    keyProperty: properties.key,
+    bucketProperty: properties.bucket,
+    mimeTypeProperty: properties.mimeType,
+    // bucket property can be empty so default bucket has to be passed
+    defaultBucket: adapter.bucket,
+    mimeTypes: validation?.mimeTypes,
+    maxSize: validation?.maxSize,
+  }
+
   const uploadFeature = buildFeature({
     properties: {
-      [properties.file]: {
-        position: 0,
-        custom: {
-          file: properties.file,
-          mimeTypes: validation?.mimeTypes || MIME_TYPES,
-          maxSize: validation?.maxSize || MAX_SIZE,
-        },
+      [fileProperty]: {
+        custom,
         isVisible: { show: true, edit: true, list: true },
         components: {
           edit: AdminBro.bundle(
@@ -136,20 +179,24 @@ const uploadFileFeature = (config: Config): FeatureType => {
           ),
         },
       },
-      [properties.bucket]: { isVisible: false },
-      ...properties.filename && { [properties.filename]: { isVisible: true } },
-      path: { isVisible: { show: true } },
-      [properties.key]: { isVisible: { show: true } },
-      ...properties.mimeType && { [properties.mimeType]: { isVisible: {
-        show: true,
-        edit: false,
-      } } },
-      ...properties.size && { [properties.size]: { isVisible: { show: true, edit: false } } },
     },
     actions: {
-      new: { before, after },
-      edit: { before, after },
-      delete: { after: afterDelete },
+      show: {
+        after: fillPath,
+      },
+      new: {
+        before: stripFileFromPayload,
+        after: [uploadFile, fillPath] },
+      edit: {
+        before: [stripFileFromPayload],
+        after: [uploadFile, fillPath],
+      },
+      delete: {
+        after: deleteFile,
+      },
+      list: {
+        after: fillPaths,
+      },
     },
   })
 

@@ -1,4 +1,4 @@
-import uploadFeature from '@admin-bro/upload-files'
+import uploadFeature from '@admin-bro/upload'
 import { CreateResourceResult } from '../create-resource-result.type'
 import credentials from '../../../credentials'
 import { User } from '../../../user/user.entity'
@@ -14,7 +14,7 @@ const createUserResource = (): CreateResourceResult<typeof User> => ({
     },
   },
   features: [uploadFeature({
-    credentials,
+    credentials: { aws: credentials },
     properties: {
       filename: 'name',
       file: 'test',

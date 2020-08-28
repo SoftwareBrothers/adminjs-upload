@@ -1,31 +1,45 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import {
   EditPropertyProps, DropZone, FormGroup, Label, DropZoneItem,
 } from 'admin-bro'
+import PropertyCustom from '../property-custom.type'
 
 const Edit: FC<EditPropertyProps> = ({ property, record, onChange }) => {
   const { params } = record
-  const fieldName = property.custom.file
-  const { mimeTypes } = property.custom
-  const { maxSize } = property.custom
+  const { custom } = property as unknown as { custom: PropertyCustom }
 
+  const path = params[custom.filePathProperty]
+  const key = params[custom.keyProperty]
+  const file = params[custom.fileProperty]
+
+  const [originalKey, setOriginalKey] = useState(key)
   const [filesToUpload, setFilesToUpload] = useState<Array<File>>([])
-  const [originalFilename] = useState(params.filename)
+
+  useEffect(() => {
+    // it means means that someone hit save and new file has been uploaded
+    // in this case fliesToUpload should be cleared.
+    // This happens when user turns off redirect after new/edit
+    if (key !== originalKey) {
+      setOriginalKey(key)
+      setFilesToUpload([])
+    }
+  }, [key, originalKey])
 
   const onUpload = (files: Array<File>): void => {
     setFilesToUpload(files)
-
-    const newRecord = { ...record }
-    const [file] = files
-    const { file: oldFile, filename, ...other } = newRecord.params
-    const newParams = file
-      ? { ...other, filename: file.name, [fieldName]: file }
-      : { ...other, ...(originalFilename ? { filename: originalFilename } : {}) }
+    const [fileToUpload] = files
 
     onChange({
-      ...newRecord,
-      params: newParams,
+      ...record,
+      params: {
+        ...params,
+        ...(fileToUpload && { [custom.fileProperty]: fileToUpload }),
+      },
     })
+  }
+
+  const handleRemove = () => {
+    onChange(custom.fileProperty, null)
   }
 
   return (
@@ -34,12 +48,12 @@ const Edit: FC<EditPropertyProps> = ({ property, record, onChange }) => {
       <DropZone
         onChange={onUpload}
         validate={{
-          mimeTypes,
-          maxSize,
+          mimeTypes: custom.mimeTypes as Array<string>,
+          maxSize: custom.maxSize,
         }}
       />
-      {params.path && !filesToUpload.length && (
-        <DropZoneItem filename={params.filename} src={params.path} />
+      {key && path && !filesToUpload.length && file !== null && (
+        <DropZoneItem filename={key} src={path} onRemove={handleRemove} />
       )}
     </FormGroup>
   )
