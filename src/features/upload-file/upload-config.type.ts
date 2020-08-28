@@ -1,18 +1,18 @@
-import { AWSCredentials } from './adapters/aws-adapter'
+import { AWSOptions } from './adapters/aws-adapter'
 import { MimeType } from './mime-types.type'
 
 /**
  * Configuration options for @admin-bro/upload feature
  *
- * @memberof @admin-bro/upload
+ * @memberof module:@admin-bro/upload
  */
-type UploadConfig = {
+type UploadOptions = {
   /**
-   * Credentials for the provider
+   * Options for the provider
    */
-  credentials: {
+  provider: {
     /** AWS Credentials */
-    aws: AWSCredentials
+    aws: AWSOptions
   },
   properties: {
     /**
@@ -63,4 +63,4 @@ type UploadConfig = {
   },
 }
 
-export default UploadConfig
+export default UploadOptions

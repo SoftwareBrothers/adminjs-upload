@@ -7,13 +7,19 @@ import BaseAdapter from './base-adapter'
  * environmental variables.
  * @memberof module:@admin-bro/upload
  */
-export type AWSCredentials = {
-  /** AWS IAM accessKeyId */
+export type AWSOptions = {
+  /**
+   * AWS IAM accessKeyId. By default its value is taken from AWS_ACCESS_KEY_ID env variable
+  */
   accessKeyId?: string;
-  /** AWS IAM secretAccessKey */
+  /**
+   * AWS IAM secretAccessKey. By default its value is taken from AWS_SECRET_ACCESS_KEY env variable
+   */
   secretAccessKey?: string;
-  /** AWS region */
-  region?: string;
+  /**
+   * AWS region where your bucket was created.
+  */
+  region: string;
   /**
    * S3 Bucket where files will be stored
    */
@@ -32,11 +38,11 @@ export default class AWSAdapter extends BaseAdapter {
 
   public expires: number
 
-  constructor(credentials: AWSCredentials) {
+  constructor(options: AWSOptions) {
     super()
-    this.bucket = credentials.bucket
-    this.expires = credentials.expires || 86400
-    this.s3 = new S3(credentials)
+    this.bucket = options.bucket
+    this.expires = options.expires || 86400
+    this.s3 = new S3(options)
   }
 
   public async upload(tmpFile: Buffer, key: string): Promise<S3.ManagedUpload.SendData> {

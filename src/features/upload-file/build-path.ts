@@ -1,5 +1,5 @@
 import { BaseRecord } from 'admin-bro'
-import UploadConfig from './upload-config.type'
+import UploadOptions from './upload-config.type'
 
 /**
  * Creates a path to the file. Related to the given provider. If it is an AWS
@@ -10,10 +10,11 @@ import UploadConfig from './upload-config.type'
  * @param   {string}      extension   file extension
  *
  * @return  {string}
+ * @private
  */
 const buildRemotePath = (
   record: BaseRecord,
-  properties: UploadConfig['properties'],
+  properties: UploadOptions['properties'],
   extension: string,
 ): string => {
   if (!record.params.id) {

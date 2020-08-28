@@ -1,5 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable import/first */
+import path from 'path'
+import { config } from 'dotenv'
+
+config({ path: path.join(__dirname, '../../.env') })
+
 import express from 'express'
 import AdminBro from 'admin-bro'
 import { buildRouter } from '@admin-bro/express'

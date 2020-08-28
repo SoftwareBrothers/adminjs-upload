@@ -14,7 +14,7 @@ const createPhotoResource = (): CreateResourceResult<typeof Photo> => ({
     },
   },
   features: [uploadFeature({
-    credentials: { aws: credentials },
+    provider: { aws: credentials },
     properties: { file: 'file', key: 's3Key', bucket: 'bucket' },
     validation: { mimeTypes: ['application/pdf'] },
   })],

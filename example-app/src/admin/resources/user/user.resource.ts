@@ -9,7 +9,7 @@ const createUserResource = (): CreateResourceResult<typeof User> => ({
     listProperties: ['id', 'avatar', 'email', 'test'],
   },
   features: [uploadFeature({
-    credentials: { aws: credentials },
+    provider: { aws: credentials },
     properties: {
       filename: 'name',
       file: 'test',

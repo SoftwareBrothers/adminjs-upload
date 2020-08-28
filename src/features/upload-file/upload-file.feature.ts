@@ -13,13 +13,13 @@ import AdminBro, {
 import { BulkActionResponse } from 'admin-bro/types/src/backend/actions/action.interface'
 import buildPath from './build-path'
 import AWSAdapter from './adapters/aws-adapter'
-import UploadConfig from './upload-config.type'
+import UploadOptions from './upload-config.type'
 import PropertyCustom from './property-custom.type'
 
-const uploadFileFeature = (config: UploadConfig): FeatureType => {
-  const { credentials, properties, validation } = config
+const uploadFileFeature = (config: UploadOptions): FeatureType => {
+  const { provider, properties, validation } = config
 
-  const adapter = new AWSAdapter(credentials.aws)
+  const adapter = new AWSAdapter(provider.aws)
 
   const fileProperty = properties.file || 'file'
   const filePathProperty = properties.filePath || 'filePath'
