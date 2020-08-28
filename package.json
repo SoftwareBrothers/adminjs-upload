@@ -1,5 +1,5 @@
 {
-  "name": "@admin-bro/upload-files",
+  "name": "@admin-bro/upload",
   "version": "1.0.1",
   "main": "build/index.js",
   "types": "types/index.d.ts",
@@ -9,19 +9,22 @@
   "scripts": {
     "release": "semantic-release",
     "build": "tsc",
-    "lint": "eslint './src/**/*' './example-app/**/*' --ignore-pattern '*.json' --ignore-pattern 'yarn.lock'"
+    "lint": "eslint './src/**/*' './example-app/**/*'",
+    "check:all": "yarn lint && yarn build"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
+  "dependencies": {
+    "aws-sdk": "^2.728.0"
+  },
   "peerDependencies": {
-    "admin-bro": ">=3.0.0-beta.12"
+    "admin-bro": ">=3.1.1"
   },
   "devDependencies": {
-    "admin-bro": ">=3.0.0-beta.12",
-    "aws-sdk": "^2.728.0",
+    "admin-bro": ">=3.1.1",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@semantic-release/git": "^9.0.0",

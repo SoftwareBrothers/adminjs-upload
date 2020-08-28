@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn build && node build/index.js",
-    "start:dev": "concurrently \"yarn build --watch\" \"nodemon --ext '.js' --watch ../build --watch ./build --ignore 'cypress/**/*.js' node build/src/index.js\"",
+    "start:dev": "yarn build && concurrently \"yarn build --watch\" \"nodemon --ext '.js' --watch ../build --watch ./build --ignore 'cypress/**/*.js' node build/src/index.js\"",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
@@ -19,10 +19,10 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@admin-bro/express": "^3.0.0-beta.3",
-    "@admin-bro/typeorm": "1.1.1",
-    "@admin-bro/upload-files": "../",
-    "admin-bro": "^3.0.0-beta.12",
+    "@admin-bro/express": "^3.0.0",
+    "@admin-bro/typeorm": "1.2.0",
+    "@admin-bro/upload": "../",
+    "admin-bro": "^3.1.1",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
     "express-session": "^1.17.1",
