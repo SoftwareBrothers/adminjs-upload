@@ -5,12 +5,24 @@ import BaseAdapter from './base-adapter'
  * AWS Credentials which can be set for S3 file upload.
  * If not given 'aws-sdk' will try to fetch them from
  * environmental variables.
+ * @memberof module:@admin-bro/upload
  */
 export type AWSCredentials = {
+  /** AWS IAM accessKeyId */
   accessKeyId?: string;
+  /** AWS IAM secretAccessKey */
   secretAccessKey?: string;
+  /** AWS region */
   region?: string;
+  /**
+   * S3 Bucket where files will be stored
+   */
   bucket: string;
+  /**
+   * indicates how long links should be available after page load (in minutes).
+   * Default to 24h
+   */
+  expires?: number;
 }
 
 export default class AWSAdapter extends BaseAdapter {
@@ -18,9 +30,12 @@ export default class AWSAdapter extends BaseAdapter {
 
   public bucket: string
 
+  public expires: number
+
   constructor(credentials: AWSCredentials) {
     super()
     this.bucket = credentials.bucket
+    this.expires = credentials.expires || 86400
     this.s3 = new S3(credentials)
   }
 
@@ -28,7 +43,6 @@ export default class AWSAdapter extends BaseAdapter {
     return this.s3.upload({
       Bucket: this.bucket,
       Key: key,
-      ACL: 'public-read',
       Body: tmpFile,
     }).promise()
   }
@@ -41,7 +55,7 @@ export default class AWSAdapter extends BaseAdapter {
     return this.s3.getSignedUrl('getObject', {
       Key: key,
       Bucket: bucket,
-      Expires: 86400,
+      Expires: this.expires,
     })
   }
 }
