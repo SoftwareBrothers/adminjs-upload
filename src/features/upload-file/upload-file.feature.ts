@@ -10,6 +10,7 @@ import AdminBro, {
   ListActionResponse,
   RecordJSON,
 } from 'admin-bro'
+import { BulkActionResponse } from 'admin-bro/types/src/backend/actions/action.interface'
 import buildPath from './build-path'
 import AWSAdapter from './adapters/aws-adapter'
 import UploadConfig from './upload-config.type'
@@ -33,7 +34,7 @@ const uploadFileFeature = (config: UploadConfig): FeatureType => {
     return request
   }
 
-  const uploadFile = async (
+  const updateRecord = async (
     response: RecordActionResponse,
     request: ActionRequest,
     context: ActionContext,
@@ -120,6 +121,24 @@ const uploadFileFeature = (config: UploadConfig): FeatureType => {
     return response
   }
 
+  const deleteFiles = async (
+    response: BulkActionResponse,
+    request: ActionRequest,
+    context: ActionContext,
+  ): Promise<BulkActionResponse> => {
+    const { records = [] } = context
+
+    await Promise.all(records.map(async (record) => {
+      const key = record?.param(properties.key)
+      if (record && key) {
+        const storedBucket = properties.bucket && record.param(properties.bucket)
+        await adapter.delete(key, storedBucket || adapter.bucket)
+      }
+    }))
+
+    return response
+  }
+
   const fillRecordWithPath = async (record: RecordJSON): Promise<RecordJSON> => {
     const key = record?.params[properties.key]
     const storedBucket = properties.bucket && record?.params[properties.bucket]
@@ -186,16 +205,19 @@ const uploadFileFeature = (config: UploadConfig): FeatureType => {
       },
       new: {
         before: stripFileFromPayload,
-        after: [uploadFile, fillPath] },
+        after: [updateRecord, fillPath] },
       edit: {
         before: [stripFileFromPayload],
-        after: [uploadFile, fillPath],
+        after: [updateRecord, fillPath],
       },
       delete: {
         after: deleteFile,
       },
       list: {
         after: fillPaths,
+      },
+      bulkDelete: {
+        after: deleteFiles,
       },
     },
   })

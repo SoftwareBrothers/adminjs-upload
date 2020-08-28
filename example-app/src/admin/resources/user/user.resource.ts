@@ -7,11 +7,6 @@ const createUserResource = (): CreateResourceResult<typeof User> => ({
   resource: User,
   options: {
     listProperties: ['id', 'avatar', 'email', 'test'],
-    actions: {
-      bulkDelete: {
-        isAccessible: (): boolean => false,
-      },
-    },
   },
   features: [uploadFeature({
     credentials: { aws: credentials },
