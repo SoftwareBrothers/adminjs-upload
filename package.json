@@ -11,7 +11,7 @@
     "build": "tsc",
     "test": "mocha -r ts-node/register ./src/**/*.spec.ts",
     "lint": "eslint './src/**/*' './example-app/**/*'",
-    "check:all": "yarn lint && yarn build"
+    "check:all": "yarn lint && yarn build && yarn test"
   },
   "husky": {
     "hooks": {
