@@ -11,6 +11,7 @@ module.exports = {
   ignorePatterns: [
     '*/build/**/*',
     '*.json',
+    '*.txt',
     'yarn.lock',
     '*.yaml',
   ],
@@ -48,7 +49,7 @@ module.exports = {
       'import/no-extraneous-dependencies': 'off',
     },
   }, {
-    files: ['./src/**/*.spec.ts'],
+    files: ['./src/**/*.spec.ts', '**/*/spec/**/*.ts'],
     rules: {
       'no-unused-expressions': 'off',
       'import/no-extraneous-dependencies': 'off',
