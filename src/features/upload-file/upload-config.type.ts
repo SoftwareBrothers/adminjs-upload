@@ -1,5 +1,6 @@
 import { AWSOptions } from './adapters/aws-adapter'
 import { MimeType } from './mime-types.type'
+import BaseAdapter from './adapters/base-adapter'
 
 /**
  * Configuration options for @admin-bro/upload feature
@@ -13,7 +14,7 @@ type UploadOptions = {
   provider: {
     /** AWS Credentials */
     aws: AWSOptions
-  },
+  } | BaseAdapter,
   properties: {
     /**
      * Property under which file key (path) will be stored

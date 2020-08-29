@@ -15,11 +15,23 @@ import buildPath from './build-path'
 import AWSAdapter from './adapters/aws-adapter'
 import UploadOptions from './upload-config.type'
 import PropertyCustom from './property-custom.type'
+import BaseAdapter from './adapters/base-adapter'
 
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
   const { provider, properties, validation } = config
 
-  const adapter = new AWSAdapter(provider.aws)
+  let adapter: BaseAdapter
+  if (provider && (provider as BaseAdapter).name === 'BaseAdapter') {
+    adapter = provider as BaseAdapter
+  } else if (provider && (provider as any).aws) {
+    adapter = new AWSAdapter((provider as any).aws)
+  } else {
+    throw new Error('You have to specify provider in options')
+  }
+
+  if (!properties.key) {
+    throw new Error('You have to define `key` property in options')
+  }
 
   const fileProperty = properties.file || 'file'
   const filePathProperty = properties.filePath || 'filePath'

@@ -77,3 +77,5 @@
 import uploadFileFeature from './features/upload-file/upload-file.feature'
 
 export default uploadFileFeature
+
+export { default as BaseAdapter } from './features/upload-file/adapters/base-adapter'
