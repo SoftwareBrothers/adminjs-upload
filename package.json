@@ -3,8 +3,8 @@
   "version": "1.0.1",
   "main": "build/index.js",
   "types": "types/index.d.ts",
-  "private": true,
-  "repository": "git@github.com:SoftwareBrothers/admin-bro-extension-template.git",
+  "private": false,
+  "repository": "git@github.com:SoftwareBrothers/admin-bro-upload.git",
   "license": "MIT",
   "scripts": {
     "release": "semantic-release",
