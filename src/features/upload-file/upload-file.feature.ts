@@ -84,10 +84,8 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
         }
       }
       if (file) {
-        const { ext } = path.parse(file.name)
         const oldRecord = { ...record }
-
-        const key = buildPath(record, properties, ext)
+        const key = buildPath(record, file.path)
         const tmpFile = fs.readFileSync(file.path)
 
         await adapter.upload(tmpFile, key)
@@ -102,9 +100,13 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
 
         await record.update(params)
 
-        if (oldRecord.params[properties.key] && oldRecord.params[properties.key] !== key) {
-          const storedBucket = properties.bucket && oldRecord[properties.bucket]
-          await adapter.delete(key, storedBucket || adapter.bucket)
+        const oldKey = oldRecord.params[properties.key] && oldRecord.params[properties.key]
+        const oldBucket = (
+          properties.bucket && oldRecord.params[properties.bucket]
+        ) || adapter.bucket
+
+        if (oldKey && oldBucket && (oldKey !== key || oldBucket !== adapter.bucket)) {
+          await adapter.delete(oldKey, oldBucket)
         }
 
         return {

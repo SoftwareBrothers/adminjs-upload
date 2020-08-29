@@ -1,30 +1,26 @@
+import path from 'path'
 import { BaseRecord } from 'admin-bro'
-import UploadOptions from './upload-config.type'
 
 /**
  * Creates a path to the file. Related to the given provider. If it is an AWS
  * path is related to the bucket.
  *
  * @param   {BaseRecord}  record
- * @param   {Properties}  properties
- * @param   {string}      extension   file extension
+ * @param   {string}      path        file path
  *
  * @return  {string}
  * @private
  */
 const buildRemotePath = (
   record: BaseRecord,
-  properties: UploadOptions['properties'],
-  extension: string,
+  filePath: string,
 ): string => {
-  if (!record.params.id) {
+  if (!record.id()) {
     throw new Error('you cannot upload file for not persisted record. Save record first')
   }
-  const filename = properties.filename && record.params[properties.filename]
-    ? record.params[properties.filename]
-    : properties.file
+  const { ext, name } = path.parse(filePath)
 
-  return `${record.params.id}/${filename}${extension}`
+  return `${record.id()}/${name}${ext}`
 }
 
 export default buildRemotePath
