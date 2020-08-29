@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-expressions */
 import chai, { expect } from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import { ResourceOptions, After, RecordActionResponse, ActionRequest, ActionContext } from 'admin-bro'
+import { After, RecordActionResponse, ActionRequest, ActionContext } from 'admin-bro'
 import BaseAdapter from './adapters/base-adapter'
 import UploadOptions from './upload-config.type'
 
