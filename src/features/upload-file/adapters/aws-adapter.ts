@@ -26,7 +26,7 @@ export type AWSOptions = {
   bucket: string;
   /**
    * indicates how long links should be available after page load (in minutes).
-   * Default to 24h
+   * Default to 24h. If set to 0 adapter will mark uploaded files as PUBLIC ACL.
    */
   expires?: number;
 }
@@ -34,23 +34,24 @@ export type AWSOptions = {
 export default class AWSAdapter extends BaseAdapter {
   private s3: S3
 
-  public bucket: string
-
   public expires: number
 
   constructor(options: AWSOptions) {
-    super()
-    this.bucket = options.bucket
+    super(options.bucket)
     this.expires = options.expires || 86400
     this.s3 = new S3(options)
   }
 
   public async upload(tmpFile: Buffer, key: string): Promise<S3.ManagedUpload.SendData> {
-    return this.s3.upload({
+    const params: S3.PutObjectRequest = {
       Bucket: this.bucket,
       Key: key,
       Body: tmpFile,
-    }).promise()
+    }
+    if (!this.expires) {
+      params.ACL = 'public-read'
+    }
+    return this.s3.upload(params).promise()
   }
 
   public async delete(key: string, bucket: string): Promise<S3.DeleteObjectOutput> {
@@ -58,10 +59,14 @@ export default class AWSAdapter extends BaseAdapter {
   }
 
   public async path(key: string, bucket: string): Promise<string> {
-    return this.s3.getSignedUrl('getObject', {
-      Key: key,
-      Bucket: bucket,
-      Expires: this.expires,
-    })
+    if (this.expires) {
+      return this.s3.getSignedUrl('getObject', {
+        Key: key,
+        Bucket: bucket,
+        Expires: this.expires,
+      })
+    }
+    // https://bucket.s3.amazonaws.com/key
+    return `https://${bucket}.s3.amazonaws.com/${key}`
   }
 }
