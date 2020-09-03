@@ -16,14 +16,17 @@ import UploadOptions from './upload-config.type'
 import PropertyCustom from './property-custom.type'
 import BaseAdapter from './adapters/base-adapter'
 
+type ProviderOptions = Exclude<UploadOptions['provider'], BaseAdapter>
+
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
   const { provider, properties, validation } = config
 
   let adapter: BaseAdapter
   if (provider && (provider as BaseAdapter).name === 'BaseAdapter') {
     adapter = provider as BaseAdapter
-  } else if (provider && (provider as any).aws) {
-    adapter = new AWSAdapter((provider as any).aws)
+  } else if (provider && (provider as ProviderOptions).aws) {
+    const options = (provider as ProviderOptions).aws
+    adapter = new AWSAdapter(options)
   } else {
     throw new Error('You have to specify provider in options')
   }

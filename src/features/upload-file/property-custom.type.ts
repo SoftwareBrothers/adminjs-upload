@@ -1,5 +1,10 @@
 import { MimeType } from './mime-types.type'
 
+/**
+ * @private
+ *
+ * Custom ({@link PropertyOptions#custom}) properties passed down to the component.
+ */
 type PropertyCustom = {
   filePathProperty: string,
   fileProperty: string,
