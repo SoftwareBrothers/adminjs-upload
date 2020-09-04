@@ -177,3 +177,7 @@ import uploadFileFeature from './features/upload-file/upload-file.feature'
 export default uploadFileFeature
 
 export { default as BaseProvider } from './features/upload-file/providers/base-provider'
+
+export { default as UploadOptions } from './features/upload-file/upload-options.type'
+export { AWSOptions } from './features/upload-file/providers/aws-provider'
+export { LocalUploadOptions } from './features/upload-file/providers/local-provider'

@@ -16,20 +16,24 @@ import PropertyCustom from './property-custom.type'
 import BaseProvider from './providers/base-provider'
 import LocalProvider from './providers/local-provider'
 
-type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
+export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
 
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
   const { provider, properties, validation } = config
 
   let adapter: BaseProvider
+  let providerName: keyof ProviderOptions | 'base'
   if (provider && (provider as BaseProvider).name === 'BaseAdapter') {
     adapter = provider as BaseProvider
+    providerName = 'base'
   } else if (provider && (provider as ProviderOptions).aws) {
     const options = (provider as ProviderOptions).aws
     adapter = new AWSProvider(options)
+    providerName = 'aws'
   } else if (provider && (provider as ProviderOptions).local) {
     const options = (provider as ProviderOptions).local
     adapter = new LocalProvider(options)
+    providerName = 'local'
   } else {
     throw new Error('You have to specify provider in options')
   }
@@ -192,6 +196,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
   const custom: PropertyCustom = {
     fileProperty,
     filePathProperty,
+    provider: providerName,
     keyProperty: properties.key,
     bucketProperty: properties.bucket,
     mimeTypeProperty: properties.mimeType,
