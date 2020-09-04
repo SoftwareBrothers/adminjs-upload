@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { UploadedFile } from 'admin-bro'
 
@@ -7,9 +7,49 @@ import { UploadedFile } from 'admin-bro'
  * Abstract class which is a base for every @admin-bro/upload Adapter.
  *
  * In order to implement your own - you have to override all of its methods.
- * Next, you can pass it with: {@link UploadOptions#provider}
+ * Next, you can pass it with: {@link UploadOptions.provider}
+ *
+ * ### Extending {@link BaseProvider}
+ *
+ * ```
+ * const { BaseProvider } = require('@admin-bro/upload')
+ *
+ * class MyProvider extends BaseProvider {
+ *   constructor() {
+ *     // you have to pass bucket name to the constructor
+ *     super('bucketName')
+ *   }
+ *
+ *   public async upload() {
+ *     console.log('uploaded')
+ *     return true
+ *   }
+ *
+ *   public async delete() {
+ *     console.log('deleted')
+ *     return true
+ *   }
+ *
+ *   public async path() {
+ *     return '/fle-url'
+ *   }
+ * }
+ *
+ * const options = {
+ *   resources: [
+ *     resource: YourResource,
+ *     features: [uploadFeature({
+ *       provider: new MyProvider(),
+ *       properties: { ... },
+ *     })],
+ *   ]
+ * }
+ * ```
+ *
  * @memberof module:@admin-bro/upload
  * @alias BaseProvider
+ * @hide
+ * @private
  */
 abstract class BaseProvider {
   /**
@@ -26,8 +66,7 @@ abstract class BaseProvider {
 
   /**
    *
-   * @param bucket place where files should be stored
-   * @param options adapter options
+   * @param {string }bucket place where files should be stored
    */
   constructor(bucket: string) {
     this.name = 'BaseAdapter'
@@ -37,28 +76,37 @@ abstract class BaseProvider {
   /**
    * Uploads file to given bucket
    *
-   * @param tmpFile buffer holding file to upload
-   * @param key file path
+   * @param {UploadedFile} file uploaded by AdminBro file
+   * @param {string} key file path
+   * @abstract
    */
-  public abstract async upload (file: UploadedFile, key: string): Promise<any>
+  public async upload(file: UploadedFile, key: string): Promise<any> {
+    throw new Error('you have to implement `BaseProvider#upload` method')
+  }
 
   /**
    * Deletes given file
    *
-   * @param key file path
-   * @param bucket where file should be uploaded
+   * @param {string} key file path
+   * @param {string} bucket where file should be uploaded
+   * @abstract
    */
-  public abstract async delete (key: string, bucket: string): Promise<any>
+  public async delete(key: string, bucket: string): Promise<any> {
+    throw new Error('you have to implement `BaseProvider#delete` method')
+  }
 
   /**
    * Returns path for the file from where it can be downloaded. It is dynamic in case of
    * time based paths: i.e. link valid in the next 24h
    *
-   * @param key file path
-   * @param bucket where file should be put
+   * @param {string} key file path
+   * @param {string} bucket where file should be put
    * @async
+   * @abstract
    */
-  public abstract path (key: string, bucket: string): Promise<string> | string
+  public path(key: string, bucket: string): Promise<string> | string {
+    throw new Error('you have to implement `BaseProvider#path` method')
+  }
 }
 
 export default BaseProvider
