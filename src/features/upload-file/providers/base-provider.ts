@@ -8,8 +8,10 @@ import { UploadedFile } from 'admin-bro'
  *
  * In order to implement your own - you have to override all of its methods.
  * Next, you can pass it with: {@link UploadOptions#provider}
+ * @memberof module:@admin-bro/upload
+ * @alias BaseProvider
  */
-abstract class BaseAdapter {
+abstract class BaseProvider {
   /**
    * Name is used to verify if the object passed by {@link UploadOptions#provider} is
    * this type. We cannot check typeof because there could be a different versions of
@@ -59,4 +61,4 @@ abstract class BaseAdapter {
   public abstract path (key: string, bucket: string): Promise<string> | string
 }
 
-export default BaseAdapter
+export default BaseProvider

@@ -1,7 +1,7 @@
-import { AWSOptions } from './adapters/aws-adapter'
+import { AWSOptions } from './providers/aws-provider'
 import { MimeType } from './mime-types.type'
-import BaseAdapter from './adapters/base-adapter'
-import { LocalUploadOptions } from './adapters/local-adapter'
+import BaseProvider from './providers/base-provider'
+import { LocalUploadOptions } from './providers/local-provider'
 
 /**
  * Configuration options for @admin-bro/upload feature
@@ -17,7 +17,7 @@ type UploadOptions = {
     aws?: AWSOptions,
     /** Storage on the local drive */
     local?: LocalUploadOptions
-  } | BaseAdapter,
+  } | BaseProvider,
   properties: {
     /**
      * Property under which file key (path) will be stored

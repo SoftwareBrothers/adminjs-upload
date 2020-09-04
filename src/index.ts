@@ -27,9 +27,10 @@
  *   resources: [{
  *     resource: User,
  *     features: [uploadFeature({
- *       credentials: { aws: { region, bucket, secretAccessKey ... } },
+ *       provider: { aws: { region, bucket, secretAccessKey ... } },
  *       properties: {
  *         key: 'fileUrl' // to this db field feature will safe S3 key
+ *         mimeType: 'mimeType' // this property is important because allows to have previews
  *       },
  *       validation: {
  *         mimeTypes: 'application/pdf'
@@ -40,6 +41,29 @@
  *
  * const adminBro = new AdminBro(options)
  * // and the rest of your app
+ * ```
+ *
+ * ## Previews
+ *
+ * Feature support previews for both **audio** and **images**.
+ * In order to make it work you have to have `mimeType` property mapped in the options.
+ *
+ * Here we define that mime type will be save under a property `mimeType`:
+ *
+ * ```
+ * const options = {
+ *   resources: [{
+ *     resource: User,
+ *     options: { properties: { mimeType: { n} }},
+ *     features: [uploadFeature({
+ *       provider: {},
+ *       properties: {
+ *         key: 'fileUrl'
+ *         mimeType: 'mimeType'
+ *       },
+ *     })]
+ *   }]
+ * }
  * ```
  *
  * ## Providers
@@ -65,6 +89,68 @@
  * By default upload plugin generates urls valid for 24h, if you want them to be public always,
  * you need to create `public` bucket. Then set `expires` to `0`.
  *
+ * ### Local Storage setup
+ *
+ * Local storage will save files to the local folder.
+ *
+ * There are 2 things which you have to do before using this Provider.
+ *
+ * 1. create folder for the files (i.e. `public`)
+ *
+ * ```
+ * cd your-app
+ * mkdir public
+ * ```
+ *
+ * 2. tell your http framework to host this folder
+ *
+ * This is an example for a [express](https://expressjs.com) server
+ *
+ * ```
+ * app.use('/uploads', express.static('uploads'));
+ * ```
+ *
+ * Next you have to add @admin-bro/upload to given resource:
+ *
+ * ```
+ * * const options = {
+ *   resources: [{
+ *     resource: User,
+ *     features: [uploadFeature({
+ *       provider: { local: { bucket: 'public' } },
+ *     })]
+ *   }]
+ * }
+ * ```
+ *
+ * ### Custom Provider
+ *
+ * Plugin allows you also to pass your own provider. In such case you have to pass to the `provider`
+ * option an instance of the class extended from {@link module:@admin-bro/upload.BaseProvider}.
+ *
+ * ```
+ * const { BaseProvider } = require('@admin-bro/upload')
+ *
+ * class MyProvider extends BaseProvider {
+ *   constructor() {
+ *      // it requires bucket as a parameter to properly pass it to other methods
+ *      super('public')
+ *   }
+ *   // your implementation goes here
+ * }
+ *
+ * const provider = new MyProvider()
+ *
+ * const options = {
+ *   resources: [{
+ *     resource: User,
+ *     features: [uploadFeature({ provider })]
+ *   }]
+ * }
+ * ```
+ *
+ * ```
+ *
  * ## Storing data
  *
  * @admin-bro/upload feature require just the one field in the database to store the
@@ -87,4 +173,4 @@ import uploadFileFeature from './features/upload-file/upload-file.feature'
 
 export default uploadFileFeature
 
-export { default as BaseAdapter } from './features/upload-file/adapters/base-adapter'
+export { default as BaseProvider } from './features/upload-file/providers/base-provider'

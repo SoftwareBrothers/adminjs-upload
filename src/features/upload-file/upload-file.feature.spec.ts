@@ -3,7 +3,7 @@ import chai, { expect } from 'chai'
 import sinon, { createStubInstance } from 'sinon'
 import sinonChai from 'sinon-chai'
 import { After, RecordActionResponse, ActionRequest, ActionContext, BaseRecord, UploadedFile } from 'admin-bro'
-import BaseAdapter from './adapters/base-adapter'
+import BaseProvider from './providers/base-provider'
 import UploadOptions from './upload-options.type'
 
 import uploadFile from './upload-file.feature'
@@ -12,7 +12,7 @@ import stubProvider from './spec/stub-provider'
 chai.use(sinonChai)
 
 describe('uploadFileFeature', () => {
-  let provider: BaseAdapter
+  let provider: BaseProvider
   let recordStub: BaseRecord
   let properties: UploadOptions['properties']
   let expectedKey: string

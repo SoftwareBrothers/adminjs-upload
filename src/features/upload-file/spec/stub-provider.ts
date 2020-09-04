@@ -1,7 +1,7 @@
 import sinon from 'sinon'
 import { UploadedFile } from 'admin-bro'
 
-import BaseAdapter from '../adapters/base-adapter'
+import BaseAdapter from '../providers/base-provider'
 
 const stubProvider = (resolvedS3Path: string): BaseAdapter => {
   class StubProvider extends BaseAdapter {

@@ -23,9 +23,11 @@
   resolved "https://registry.yarnpkg.com/@admin-bro/typeorm/-/typeorm-1.2.0.tgz#e5e0ee76869aa364c24ffc25cb95a25886887944"
   integrity sha512-wpEWnRZ68jfScH5F3/iyG37Z73UcsbAlJzvAnuo3wuMX/IBjZU9JCp4bJFVoZTCg2m7h5/vw0ayr1BJLpgPuEA==
 
-"@admin-bro/upload@../":
-  version "1.0.0-beta.1"
-  dependencies:
+"@admin-bro/upload@v1.0.0-beta.3":
+  version "1.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@admin-bro/upload/-/upload-1.0.0-beta.3.tgz#9250dd0b36f7d84ee069b05fd4cc1d20a54f7315"
+  integrity sha512-646VqlWkPYLwuOfczZQ8ZUmT5mNyK/BASAsus5LC9qvcVoiwIbDFY4R7A8VDaanwLLHWkQP2H7d/i1FzN4mLFw==
+  optionalDependencies:
     aws-sdk "^2.728.0"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.8.3":

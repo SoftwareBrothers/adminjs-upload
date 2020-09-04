@@ -2,7 +2,7 @@ import fs, { existsSync } from 'fs'
 import path from 'path'
 import { UploadedFile } from 'admin-bro'
 
-import BaseAdapter from './base-adapter'
+import BaseAdapter from './base-provider'
 
 /**
  * Options required by the LocalAdapter
@@ -16,7 +16,7 @@ export type LocalUploadOptions = {
   bucket: string;
 }
 
-export default class LocalAdapter extends BaseAdapter {
+export default class LocalProvider extends BaseAdapter {
   constructor(options: LocalUploadOptions) {
     super(options.bucket)
     if (!existsSync(options.bucket)) {

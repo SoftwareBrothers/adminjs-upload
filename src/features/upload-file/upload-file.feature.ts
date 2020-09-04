@@ -10,26 +10,26 @@ import AdminBro, {
 } from 'admin-bro'
 import { BulkActionResponse } from 'admin-bro/types/src/backend/actions/action.interface'
 import buildPath from './build-path'
-import AWSAdapter from './adapters/aws-adapter'
+import AWSProvider from './providers/aws-provider'
 import UploadOptions from './upload-options.type'
 import PropertyCustom from './property-custom.type'
-import BaseAdapter from './adapters/base-adapter'
-import LocalAdapter from './adapters/local-adapter'
+import BaseProvider from './providers/base-provider'
+import LocalProvider from './providers/local-provider'
 
-type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseAdapter>>
+type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
 
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
   const { provider, properties, validation } = config
 
-  let adapter: BaseAdapter
-  if (provider && (provider as BaseAdapter).name === 'BaseAdapter') {
-    adapter = provider as BaseAdapter
+  let adapter: BaseProvider
+  if (provider && (provider as BaseProvider).name === 'BaseAdapter') {
+    adapter = provider as BaseProvider
   } else if (provider && (provider as ProviderOptions).aws) {
     const options = (provider as ProviderOptions).aws
-    adapter = new AWSAdapter(options)
+    adapter = new AWSProvider(options)
   } else if (provider && (provider as ProviderOptions).local) {
     const options = (provider as ProviderOptions).local
-    adapter = new LocalAdapter(options)
+    adapter = new LocalProvider(options)
   } else {
     throw new Error('You have to specify provider in options')
   }

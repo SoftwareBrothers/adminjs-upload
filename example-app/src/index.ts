@@ -24,6 +24,15 @@ const run = async () => {
       createPhotoResource(),
       createUserResource(),
     ],
+    locale: {
+      language: 'en',
+      translations: {
+        labels: {
+          Photo: ' photos (Local)',
+          User: ' users (AWS)',
+        },
+      },
+    },
   })
 
   admin.watch()
