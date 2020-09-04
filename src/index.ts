@@ -49,6 +49,12 @@
  *
  * ### AWS setup
  *
+ * Make sure you have AWS-SDK installed
+ *
+ * ```
+ * yarn add aws-sdk
+ * ```
+ *
  * In order to upload files to AWS S3, you have to
  * - [create a S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html)
  * - [get your access keys](https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html)
@@ -56,9 +62,12 @@
  * Then fill all these data in {@link module:@admin-bro/upload.AWSOptions AWSOptions}
  * and you are ready to go.
  *
+ * By default upload plugin generates urls valid for 24h, if you want them to be public always,
+ * you need to create `public` bucket. Then set `expires` to `0`.
+ *
  * ## Storing data
  *
- * By default, @admin-bro/upload feature require just the one field in the database to store the
+ * @admin-bro/upload feature require just the one field in the database to store the
  * path (S3 key) of the uploaded file.
  *
  * But it also can store more data like `bucket`, 'mimeType', 'size' etc.

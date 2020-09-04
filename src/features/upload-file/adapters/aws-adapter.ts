@@ -1,4 +1,5 @@
 import fs from 'fs'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { S3 } from 'aws-sdk'
 import { UploadedFile } from 'admin-bro'
 
@@ -41,8 +42,17 @@ export default class AWSAdapter extends BaseAdapter {
 
   constructor(options: AWSOptions) {
     super(options.bucket)
+
+    let AWS_S3: typeof S3
+    try {
+      // eslint-disable-next-line
+      const AWS = require('aws-sdk')
+      AWS_S3 = AWS.S3
+    } catch (error) {
+      throw new Error('You have to install `aws-sdk` in order to run this plugin with AWS')
+    }
     this.expires = options.expires || 86400
-    this.s3 = new S3(options)
+    this.s3 = new AWS_S3(options)
   }
 
   public async upload(file: UploadedFile, key: string): Promise<S3.ManagedUpload.SendData> {

@@ -150,6 +150,7 @@ describe('uploadFileFeature', () => {
         properties.size = 'sizeProp'
         properties.mimeType = 'mimeTypeProp'
         properties.filename = 'filenameProp'
+        File.name = expectedKey
         context = { [properties.file]: File, record: recordStub } as ActionContext
         updateRecord = getAfterHook({ provider, properties })
       })
