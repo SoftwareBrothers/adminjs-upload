@@ -36,6 +36,6 @@ export default class LocalProvider extends BaseAdapter {
 
   // eslint-disable-next-line class-methods-use-this
   public path(key: string, bucket?: string): string {
-    return path.join(bucket || this.bucket, key)
+    return `/${path.join(bucket || this.bucket, key)}`
   }
 }

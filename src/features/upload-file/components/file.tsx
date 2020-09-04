@@ -12,17 +12,10 @@ type Props = ShowPropertyProps & {
 
 const File: FC<Props> = ({ width, record, property }) => {
   const { custom } = property as unknown as { custom: PropertyCustom }
-  const { provider } = custom
 
-  let path = record?.params[custom.filePathProperty]
+  const path = record?.params[custom.filePathProperty]
   if (!path) {
     return null
-  }
-
-  if (provider === 'local' && typeof path === 'string' && !path.startsWith('/')) {
-    // append / to the path when bucket is defined as a relative path
-    // which is in the case of Local adapter when bucket is 'public'
-    path = `/${path}`
   }
 
   const name = custom.fileNameProperty
