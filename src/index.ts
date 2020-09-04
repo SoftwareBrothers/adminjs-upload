@@ -18,7 +18,7 @@
  *
  * ```
  * const AdminBro = require('admin-bro')
- * const uploadFeature = require('@admin-bro/upload')
+ * const AdminBroExpress = require('@admin-bro/express')
  *
  * // part where you load adapter and models
  * const User = require('./user')
@@ -86,28 +86,28 @@
  * - [create a S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html)
  * - [get your access keys](https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html)
  *
- * Then fill all these data in {@link module:@admin-bro/upload.AWSOptions AWSOptions}
+ * Then, fill all these data in {@link module:@admin-bro/upload.AWSOptions AWSOptions}
  * and you are ready to go.
  *
- * By default upload plugin generates urls valid for 24h, if you want them to be public always,
- * you need to create `public` bucket. Then set `expires` to `0`.
+ * By default upload plugin generates urls valid for 24h, if you want them to be always `public`
+ * (`public-acl`), you need to create a `public` bucket. Then set `expires` to `0`.
  *
  * ### Local Storage setup
  *
  * Local storage will save files to the local folder.
  *
- * There are 2 things which you have to do before using this Provider.
+ * There are 2 things you have to do before using this Provider.
  *
- * 1. create folder for the files (i.e. `public`)
+ * #### 1. create the **folder88 (`bucket`) for the files (i.e. `public`)
  *
  * ```
  * cd your-app
  * mkdir public
  * ```
  *
- * 2. tell your http framework to host this folder
+ * #### 2. tell your http framework to host this folder
  *
- * This is an example for a [express](https://expressjs.com) server
+ * This is an example for the [express](https://expressjs.com) server
  *
  * ```
  * app.use('/uploads', express.static('uploads'));
@@ -129,7 +129,7 @@
  * ### Custom Provider
  *
  * Plugin allows you also to pass your own provider. In such case you have to pass to the `provider`
- * option an instance of the class extended from {@link module:@admin-bro/upload.BaseProvider}.
+ * option an instance of the class extended from {@link BaseProvider}.
  *
  * ```
  * const { BaseProvider } = require('@admin-bro/upload')
