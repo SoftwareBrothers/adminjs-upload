@@ -22,7 +22,7 @@
     "@admin-bro/express": "^3.0.0",
     "@admin-bro/typeorm": "1.2.0",
     "@admin-bro/upload": "../",
-    "admin-bro": "^3.2.4",
+    "admin-bro": "^3.2.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",

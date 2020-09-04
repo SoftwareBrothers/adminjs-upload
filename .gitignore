@@ -161,3 +161,4 @@ build
 .adminbro
 
 example-app/cypress/videos
+example-app/public

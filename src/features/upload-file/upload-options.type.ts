@@ -1,6 +1,7 @@
 import { AWSOptions } from './adapters/aws-adapter'
 import { MimeType } from './mime-types.type'
 import BaseAdapter from './adapters/base-adapter'
+import { LocalUploadOptions } from './adapters/local-adapter'
 
 /**
  * Configuration options for @admin-bro/upload feature
@@ -13,7 +14,9 @@ type UploadOptions = {
    */
   provider: {
     /** AWS Credentials */
-    aws: AWSOptions
+    aws?: AWSOptions,
+    /** Storage on the local drive */
+    local?: LocalUploadOptions
   } | BaseAdapter,
   properties: {
     /**

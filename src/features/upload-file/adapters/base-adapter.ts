@@ -1,6 +1,8 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { UploadedFile } from 'admin-bro'
+
 /**
  * Abstract class which is a base for every @admin-bro/upload Adapter.
  *
@@ -36,7 +38,7 @@ abstract class BaseAdapter {
    * @param tmpFile buffer holding file to upload
    * @param key file path
    */
-  public abstract async upload (tmpFile: Buffer, key: string): Promise<any>
+  public abstract async upload (file: UploadedFile, key: string): Promise<any>
 
   /**
    * Deletes given file
@@ -52,8 +54,9 @@ abstract class BaseAdapter {
    *
    * @param key file path
    * @param bucket where file should be put
+   * @async
    */
-  public abstract async path (key: string, bucket: string): Promise<any>
+  public abstract path (key: string, bucket: string): Promise<string> | string
 }
 
 export default BaseAdapter

@@ -1,5 +1,3 @@
-import fs from 'fs'
-
 import AdminBro, {
   buildFeature,
   ActionRequest,
@@ -8,15 +6,17 @@ import AdminBro, {
   FeatureType,
   ListActionResponse,
   RecordJSON,
+  UploadedFile,
 } from 'admin-bro'
 import { BulkActionResponse } from 'admin-bro/types/src/backend/actions/action.interface'
 import buildPath from './build-path'
 import AWSAdapter from './adapters/aws-adapter'
-import UploadOptions from './upload-config.type'
+import UploadOptions from './upload-options.type'
 import PropertyCustom from './property-custom.type'
 import BaseAdapter from './adapters/base-adapter'
+import LocalAdapter from './adapters/local-adapter'
 
-type ProviderOptions = Exclude<UploadOptions['provider'], BaseAdapter>
+type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseAdapter>>
 
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
   const { provider, properties, validation } = config
@@ -27,6 +27,9 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
   } else if (provider && (provider as ProviderOptions).aws) {
     const options = (provider as ProviderOptions).aws
     adapter = new AWSAdapter(options)
+  } else if (provider && (provider as ProviderOptions).local) {
+    const options = (provider as ProviderOptions).local
+    adapter = new LocalAdapter(options)
   } else {
     throw new Error('You have to specify provider in options')
   }
@@ -86,18 +89,19 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
         }
       }
       if (file) {
-        const oldRecord = { ...record }
-        const key = buildPath(record, file.path)
-        const tmpFile = fs.readFileSync(file.path)
+        const uploadedFile: UploadedFile = file
 
-        await adapter.upload(tmpFile, key)
+        const oldRecord = { ...record }
+        const key = buildPath(record, uploadedFile)
+
+        await adapter.upload(uploadedFile, key)
 
         const params = {
           [properties.key]: key,
           ...properties.bucket && { [properties.bucket]: adapter.bucket },
-          ...properties.size && { [properties.size]: file.size },
-          ...properties.mimeType && { [properties.mimeType]: file.type },
-          ...properties.filename && { [properties.filename]: file.filename },
+          ...properties.size && { [properties.size]: uploadedFile.size.toString() },
+          ...properties.mimeType && { [properties.mimeType]: uploadedFile.type },
+          ...properties.filename && { [properties.filename]: uploadedFile.name },
         }
 
         await record.update(params)

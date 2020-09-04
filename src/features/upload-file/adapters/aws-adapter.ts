@@ -1,4 +1,7 @@
+import fs from 'fs'
 import { S3 } from 'aws-sdk'
+import { UploadedFile } from 'admin-bro'
+
 import BaseAdapter from './base-adapter'
 
 /**
@@ -42,7 +45,8 @@ export default class AWSAdapter extends BaseAdapter {
     this.s3 = new S3(options)
   }
 
-  public async upload(tmpFile: Buffer, key: string): Promise<S3.ManagedUpload.SendData> {
+  public async upload(file: UploadedFile, key: string): Promise<S3.ManagedUpload.SendData> {
+    const tmpFile = fs.readFileSync(file.path)
     const params: S3.PutObjectRequest = {
       Bucket: this.bucket,
       Key: key,

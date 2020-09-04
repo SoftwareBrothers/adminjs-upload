@@ -1,11 +1,10 @@
 import path from 'path'
-import fs from 'fs'
 import chai, { expect } from 'chai'
 import sinon, { createStubInstance } from 'sinon'
 import sinonChai from 'sinon-chai'
-import { After, RecordActionResponse, ActionRequest, ActionContext, BaseRecord } from 'admin-bro'
+import { After, RecordActionResponse, ActionRequest, ActionContext, BaseRecord, UploadedFile } from 'admin-bro'
 import BaseAdapter from './adapters/base-adapter'
-import UploadOptions from './upload-config.type'
+import UploadOptions from './upload-options.type'
 
 import uploadFile from './upload-file.feature'
 import stubProvider from './spec/stub-provider'
@@ -19,10 +18,9 @@ describe('uploadFileFeature', () => {
   let expectedKey: string
   const resolvedS3Path = 'resolvedS3Path'
   const filePath = path.join(__dirname, 'spec/file-fixture.txt')
-  const File = {
-    filename: 'some-name.pdf',
+  const File: UploadedFile = {
+    name: 'some-name.pdf',
     path: filePath,
-    buffer: fs.readFileSync(filePath),
     size: 111,
     type: 'txt',
   }
@@ -159,7 +157,7 @@ describe('uploadFileFeature', () => {
       it('uploads file with adapter', async () => {
         await updateRecord(response, request, context)
 
-        expect(provider.upload).to.have.been.calledWith(File.buffer)
+        expect(provider.upload).to.have.been.calledWith(File)
       })
 
       it('updates all fields in the record', async () => {
@@ -168,9 +166,9 @@ describe('uploadFileFeature', () => {
         expect(recordStub.update).to.have.been.calledWith(sinon.match({
           [properties.key]: expectedKey,
           [properties.bucket as string]: provider.bucket,
-          [properties.size as string]: File.size,
+          [properties.size as string]: File.size.toString(),
           [properties.mimeType as string]: File.type,
-          [properties.filename as string]: File.filename,
+          [properties.filename as string]: File.name,
         }))
       })
 
