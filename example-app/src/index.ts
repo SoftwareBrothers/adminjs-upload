@@ -12,6 +12,7 @@ import { createConnection } from 'typeorm'
 
 import createPhotoResource from './admin/resources/photo/photo.resource'
 import createUserResource from './admin/resources/user/user.resource'
+import createCustomResource from './admin/resources/custom/custom.resource'
 
 const PORT = 3000
 
@@ -19,17 +20,20 @@ AdminBro.registerAdapter({ Resource, Database })
 const run = async () => {
   await createConnection()
   const app = express()
+  app.use('/public', express.static('public'))
   const admin = new AdminBro({
     resources: [
       createPhotoResource(),
       createUserResource(),
+      createCustomResource(),
     ],
     locale: {
       language: 'en',
       translations: {
         labels: {
-          Photo: ' photos (Local)',
-          User: ' users (AWS)',
+          Photo: 'photos (Local)',
+          User: 'users (AWS)',
+          Custom: 'custom provider',
         },
       },
     },

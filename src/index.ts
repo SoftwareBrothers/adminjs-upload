@@ -26,6 +26,9 @@
  * const options = {
  *   resources: [{
  *     resource: User,
+ *     options: {
+ *       listProperties: ['fileUrl', 'mimeType'],
+ *     },
  *     features: [uploadFeature({
  *       provider: { aws: { region, bucket, secretAccessKey ... } },
  *       properties: {

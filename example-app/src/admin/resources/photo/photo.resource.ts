@@ -10,7 +10,7 @@ const createPhotoResource = (): CreateResourceResult<typeof Photo> => ({
   },
   features: [uploadFeature({
     provider: { local: { bucket: 'public' } },
-    properties: { file: 'file', key: 's3Key', bucket: 'bucket' },
+    properties: { file: 'file', key: 's3Key', bucket: 'bucket', mimeType: 'mime' },
     validation: { mimeTypes: ['image/png'] },
   })],
 })

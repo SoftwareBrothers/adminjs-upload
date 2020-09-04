@@ -205,7 +205,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     properties: {
       [fileProperty]: {
         custom,
-        isVisible: { show: true, edit: true, list: true },
+        isVisible: { show: true, edit: true, list: true, filter: false },
         components: {
           edit: AdminBro.bundle(
             '../../../src/features/upload-file/components/edit',
