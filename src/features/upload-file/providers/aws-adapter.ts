@@ -30,15 +30,15 @@ export type AWSOptions = {
   bucket: string;
   /**
    * indicates how long links should be available after page load (in minutes).
-   * Default to 24h. If set to 0 adapter will mark uploaded files as PUBLIC ACL.
+   * Default to 24h. If set to `0` or `null` adapter will mark uploaded files as PUBLIC ACL.
    */
-  expires?: number;
+  expires?: number | null;
 }
 
 export default class AWSProvider extends BaseAdapter {
   private s3: S3
 
-  public expires: number
+  public expires: number | null
 
   constructor(options: AWSOptions) {
     super(options.bucket)
@@ -51,7 +51,10 @@ export default class AWSProvider extends BaseAdapter {
     } catch (error) {
       throw new Error('You have to install `aws-sdk` in order to run this plugin with AWS')
     }
-    this.expires = options.expires || 86400
+    // this check is needed because option expires can be `0`
+    this.expires = typeof options.expires === 'undefined'
+      ? 86400
+      : options.expires
     this.s3 = new AWS_S3(options)
   }
 
