@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable class-methods-use-this */
 
-import { UploadedFile } from 'admin-bro'
+import { BaseResource, UploadedFile, BaseRecord, ActionContext } from 'admin-bro'
+import { UploadOptions } from 'src'
 
 /**
  * Abstract class which is a base for every @admin-bro/upload Adapter.
@@ -66,8 +67,7 @@ abstract class BaseProvider {
   public bucket: string
 
   /**
-   *
-   * @param {string }bucket place where files should be stored
+   * @param { string } bucket     place where files should be stored
    */
   constructor(bucket: string) {
     this.name = 'BaseAdapter'
@@ -81,7 +81,7 @@ abstract class BaseProvider {
    * @param {string} key file path
    * @abstract
    */
-  public async upload(file: UploadedFile, key: string): Promise<any> {
+  public async upload(file: UploadedFile, key: string, context: ActionContext): Promise<any> {
     throw new Error('you have to implement `BaseProvider#upload` method')
   }
 
@@ -92,7 +92,7 @@ abstract class BaseProvider {
    * @param {string} bucket where file should be uploaded
    * @abstract
    */
-  public async delete(key: string, bucket: string): Promise<any> {
+  public async delete(key: string, bucket: string, context: ActionContext): Promise<any> {
     throw new Error('you have to implement `BaseProvider#delete` method')
   }
 
@@ -105,7 +105,7 @@ abstract class BaseProvider {
    * @async
    * @abstract
    */
-  public path(key: string, bucket: string): Promise<string> | string {
+  public path(key: string, bucket: string, context: ActionContext): Promise<string> | string {
     throw new Error('you have to implement `BaseProvider#path` method')
   }
 }

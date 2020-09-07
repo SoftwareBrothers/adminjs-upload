@@ -16,7 +16,7 @@ const buildRemotePath = (
   file: UploadedFile,
 ): string => {
   if (!record.id()) {
-    throw new Error('you cannot upload file for not persisted record. Save record first')
+    throw new Error('You cannot upload file for not persisted record. Save record first')
   }
   const { ext, name } = path.parse(file.name)
 

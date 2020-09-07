@@ -8,7 +8,7 @@ import AdminBro, {
   RecordJSON,
   UploadedFile,
 } from 'admin-bro'
-import { BulkActionResponse } from 'admin-bro/types/src/backend/actions/action.interface'
+import { BulkActionResponse, After } from 'admin-bro/types/src/backend/actions/action.interface'
 import buildPath from './build-path'
 import AWSProvider from './providers/aws-provider'
 import UploadOptions from './upload-options.type'
@@ -84,7 +84,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
           }
 
           await record.update(params)
-          await adapter.delete(key, bucket)
+          await adapter.delete(key, bucket, context)
 
           return {
             ...response,
@@ -98,7 +98,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
         const oldRecord = { ...record }
         const key = buildPath(record, uploadedFile)
 
-        await adapter.upload(uploadedFile, key)
+        await adapter.upload(uploadedFile, key, context)
 
         const params = {
           [properties.key]: key,
@@ -116,7 +116,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
         ) || adapter.bucket
 
         if (oldKey && oldBucket && (oldKey !== key || oldBucket !== adapter.bucket)) {
-          await adapter.delete(oldKey, oldBucket)
+          await adapter.delete(oldKey, oldBucket, context)
         }
 
         return {
@@ -140,7 +140,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
 
     if (record && key) {
       const storedBucket = properties.bucket && record.param(properties.bucket)
-      await adapter.delete(key, storedBucket || adapter.bucket)
+      await adapter.delete(key, storedBucket || adapter.bucket, context)
     }
     return response
   }
@@ -156,40 +156,44 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
       const key = record?.param(properties.key)
       if (record && key) {
         const storedBucket = properties.bucket && record.param(properties.bucket)
-        await adapter.delete(key, storedBucket || adapter.bucket)
+        await adapter.delete(key, storedBucket || adapter.bucket, context)
       }
     }))
 
     return response
   }
 
-  const fillRecordWithPath = async (record: RecordJSON): Promise<RecordJSON> => {
+  const fillRecordWithPath = async (
+    record: RecordJSON, context: ActionContext,
+  ): Promise<RecordJSON> => {
     const key = record?.params[properties.key]
     const storedBucket = properties.bucket && record?.params[properties.bucket]
 
     if (key) {
       // eslint-disable-next-line no-param-reassign
-      record.params[filePathProperty] = await adapter.path(key, storedBucket || adapter.bucket)
+      record.params[filePathProperty] = await adapter.path(
+        key, storedBucket || adapter.bucket, context,
+      )
     }
 
     return record
   }
 
-  const fillPath = async (response: RecordActionResponse): Promise<RecordActionResponse> => {
+  const fillPath: After<RecordActionResponse> = async (response, request, context) => {
     const { record } = response
 
     return {
       ...response,
-      record: await fillRecordWithPath(record),
+      record: await fillRecordWithPath(record, context),
     }
   }
 
-  const fillPaths = async (response: ListActionResponse): Promise<ListActionResponse> => {
+  const fillPaths: After<ListActionResponse> = async (response, request, context) => {
     const { records } = response
 
     return {
       ...response,
-      records: await Promise.all(records.map(fillRecordWithPath)),
+      records: await Promise.all(records.map((record) => fillRecordWithPath(record, context))),
     }
   }
 

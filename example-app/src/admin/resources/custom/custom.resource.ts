@@ -7,7 +7,7 @@ import { Custom } from '../../../custom/custom.entity'
 
 class MyProvider extends BaseProvider {
   constructor() {
-    super('test')
+    super('bucketName')
   }
 
   public async upload() {
