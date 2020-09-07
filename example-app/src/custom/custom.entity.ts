@@ -8,31 +8,22 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToMany,
 } from 'typeorm'
 
-import { RawFile } from '../utils/types'
-
-@Entity({ name: 'photos' })
-export class Photo extends BaseEntity {
+@Entity({ name: 'custom' })
+export class Custom extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
 
-  @Column({ nullable: true, name: 'key' })
-  public s3Key: string;
+  @Column({ nullable: true })
+  public filePath: string;
 
   @Column({ nullable: true })
   public bucket: string;
 
-  @Column({ nullable: true })
-  public path: string;
-
-  @Column({ nullable: true })
-  public mime: string;
-
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn()
   public createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn()
   public updatedAt: Date;
 }
