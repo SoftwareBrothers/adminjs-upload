@@ -34,6 +34,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'react/jsx-filename-extension': 'off',
+    'import/prefer-default-export': 'off',
     indent: [
       'error',
       2,
