@@ -1,5 +1,8 @@
 /**
  * @module @admin-bro/upload
+ * @subcategory Features
+ * @section modules
+ *
  * @classdesc
  * AdminBro feature allowing you to upload files to a given resource.
  *
@@ -98,7 +101,7 @@
  *
  * There are 2 things you have to do before using this Provider.
  *
- * #### 1. create the **folder88 (`bucket`) for the files (i.e. `public`)
+ * #### 1. create the **folder** (`bucket`) for the files (i.e. `public`)
  *
  * ```
  * cd your-app
@@ -152,11 +155,9 @@
  * }
  * ```
  *
- * ```
- *
  * ## Storing data
  *
- * @admin-bro/upload feature require just the one field in the database to store the
+ * This feature require just the one field in the database to store the
  * path (S3 key) of the uploaded file.
  *
  * But it also can store more data like `bucket`, 'mimeType', 'size' etc.

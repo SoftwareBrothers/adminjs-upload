@@ -79,6 +79,7 @@ abstract class BaseProvider {
    *
    * @param {UploadedFile} file uploaded by AdminBro file
    * @param {string} key file path
+   * @param {ActionContext} context
    * @abstract
    */
   public async upload(file: UploadedFile, key: string, context: ActionContext): Promise<any> {
@@ -90,6 +91,7 @@ abstract class BaseProvider {
    *
    * @param {string} key file path
    * @param {string} bucket where file should be uploaded
+   * @param {ActionContext} context
    * @abstract
    */
   public async delete(key: string, bucket: string, context: ActionContext): Promise<any> {
@@ -102,6 +104,7 @@ abstract class BaseProvider {
    *
    * @param {string} key file path
    * @param {string} bucket where file should be put
+   * @param {ActionContext} context
    * @async
    * @abstract
    */
