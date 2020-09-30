@@ -3,11 +3,11 @@ import fs from 'fs'
 import { S3 } from 'aws-sdk'
 import { UploadedFile } from 'admin-bro'
 
-import BaseAdapter from './base-provider'
+import { BaseProvider } from './base-provider'
 
 /**
  * AWS Credentials which can be set for S3 file upload.
- * If not given 'aws-sdk' will try to fetch them from
+ * If not given, 'aws-sdk' will try to fetch them from
  * environmental variables.
  * @memberof module:@admin-bro/upload
  */
@@ -35,7 +35,7 @@ export type AWSOptions = {
   expires?: number;
 }
 
-export default class AWSProvider extends BaseAdapter {
+export class AWSProvider extends BaseProvider {
   private s3: S3
 
   public expires: number

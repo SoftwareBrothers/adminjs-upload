@@ -10,11 +10,9 @@ import AdminBro, {
 } from 'admin-bro'
 import { BulkActionResponse, After } from 'admin-bro/types/src/backend/actions/action.interface'
 import buildPath from './build-path'
-import AWSProvider from './providers/aws-provider'
+import { AWSProvider, GCPProvider, BaseProvider, LocalProvider } from './providers'
 import UploadOptions from './upload-options.type'
 import PropertyCustom from './property-custom.type'
-import BaseProvider from './providers/base-provider'
-import LocalProvider from './providers/local-provider'
 
 export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
 
@@ -30,6 +28,10 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     const options = (provider as ProviderOptions).aws
     adapter = new AWSProvider(options)
     providerName = 'aws'
+  } else if (provider && (provider as ProviderOptions).gcp) {
+    const options = (provider as ProviderOptions).gcp
+    adapter = new GCPProvider(options)
+    providerName = 'gcp'
   } else if (provider && (provider as ProviderOptions).local) {
     const options = (provider as ProviderOptions).local
     adapter = new LocalProvider(options)
@@ -105,7 +107,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
           ...properties.bucket && { [properties.bucket]: adapter.bucket },
           ...properties.size && { [properties.size]: uploadedFile.size.toString() },
           ...properties.mimeType && { [properties.mimeType]: uploadedFile.type },
-          ...properties.filename && { [properties.filename]: uploadedFile.name },
+          ...properties.filename && { [properties.filename]: uploadedFile.name as string },
         }
 
         await record.update(params)

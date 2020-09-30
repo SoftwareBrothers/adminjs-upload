@@ -18,6 +18,9 @@ const buildRemotePath = (
   if (!record.id()) {
     throw new Error('You cannot upload file for not persisted record. Save record first')
   }
+  if (!file.name) {
+    throw new Error('Server could not have verified the file name')
+  }
   const { ext, name } = path.parse(file.name)
 
   return `${record.id()}/${name}${ext}`

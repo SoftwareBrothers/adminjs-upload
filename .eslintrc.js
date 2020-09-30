@@ -14,6 +14,7 @@ module.exports = {
     '*.txt',
     'yarn.lock',
     '*.yaml',
+    '*.md',
     '*/public/**/*',
   ],
   parser: '@typescript-eslint/parser',

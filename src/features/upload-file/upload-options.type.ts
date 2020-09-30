@@ -1,7 +1,8 @@
 import { AWSOptions } from './providers/aws-provider'
 import { MimeType } from './mime-types.type'
-import BaseProvider from './providers/base-provider'
+import { BaseProvider } from './providers/base-provider'
 import { LocalUploadOptions } from './providers/local-provider'
+import { GCPOptions } from './providers/gcp-provider'
 
 /**
  * Configuration options for @admin-bro/upload feature
@@ -15,6 +16,8 @@ type UploadOptions = {
   provider: {
     /** AWS Credentials */
     aws?: AWSOptions,
+    /** AWS Credentials */
+    gcp?: GCPOptions,
     /** Storage on the local drive */
     local?: LocalUploadOptions
   } | BaseProvider,

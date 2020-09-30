@@ -2,8 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable class-methods-use-this */
 
-import { BaseResource, UploadedFile, BaseRecord, ActionContext } from 'admin-bro'
-import { UploadOptions } from 'src'
+import { UploadedFile, ActionContext } from 'admin-bro'
 
 /**
  * Abstract class which is a base for every @admin-bro/upload Adapter.
@@ -113,4 +112,4 @@ abstract class BaseProvider {
   }
 }
 
-export default BaseProvider
+export { BaseProvider }

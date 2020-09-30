@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
-import { ShowPropertyProps, FormGroup, Label } from 'admin-bro'
+import { ShowPropertyProps } from 'admin-bro'
+import { FormGroup, Label } from '@admin-bro/design-system'
 
 import File from './file'
 
