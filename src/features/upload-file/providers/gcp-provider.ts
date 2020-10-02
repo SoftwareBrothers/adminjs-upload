@@ -2,6 +2,7 @@ import { UploadedFile } from 'admin-bro'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UploadResponse, DeleteFileResponse } from '@google-cloud/storage'
 import { BaseProvider } from './base-provider'
+import { DAY_IN_MINUTES } from '../constants'
 
 /**
  * Google Storage options which can be set for GCP file upload.
@@ -42,7 +43,7 @@ export class GCPProvider extends BaseProvider {
     }
     // // this check is needed because option expires can be `0`
     this.expires = typeof options.expires === 'undefined'
-      ? 86400
+      ? DAY_IN_MINUTES
       : options.expires
     this.storage = new GCPStorage()
   }

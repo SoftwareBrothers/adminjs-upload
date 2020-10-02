@@ -9,7 +9,7 @@
   "scripts": {
     "release": "semantic-release",
     "build": "yarn tsc",
-    "clean": "rm -rf build && mkdir build && rm -fR types && mkdir types",
+    "clean": "rm -fr build && mkdir build && rm -fr types && mkdir types",
     "dev": "yarn clean && tsc --watch",
     "test": "mocha -r ts-node/register ./src/**/*.spec.ts",
     "lint": "eslint './src/**/*' './example-app/**/*'",

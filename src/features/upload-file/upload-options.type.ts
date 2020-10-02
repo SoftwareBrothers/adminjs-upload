@@ -9,14 +9,14 @@ import { GCPOptions } from './providers/gcp-provider'
  *
  * @memberof module:@admin-bro/upload
  */
-type UploadOptions = {
+export type UploadOptions = {
   /**
    * Options for the provider
    */
   provider: {
     /** AWS Credentials */
     aws?: AWSOptions,
-    /** AWS Credentials */
+    /** GCP Credentials */
     gcp?: GCPOptions,
     /** Storage on the local drive */
     local?: LocalUploadOptions
@@ -69,5 +69,9 @@ type UploadOptions = {
     maxSize?: number,
   },
 }
+
+export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
+
+export type AvailableDefaultProviders = keyof ProviderOptions | 'base'
 
 export default UploadOptions
