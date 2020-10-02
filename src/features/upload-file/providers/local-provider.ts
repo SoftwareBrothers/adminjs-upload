@@ -1,8 +1,9 @@
 import fs, { existsSync } from 'fs'
 import path from 'path'
 import { UploadedFile } from 'admin-bro'
+import { ERROR_MESSAGES } from '../constants'
 
-import BaseAdapter from './base-provider'
+import { BaseProvider } from './base-provider'
 
 /**
  * Options required by the LocalAdapter
@@ -16,11 +17,11 @@ export type LocalUploadOptions = {
   bucket: string;
 }
 
-export default class LocalProvider extends BaseAdapter {
+export class LocalProvider extends BaseProvider {
   constructor(options: LocalUploadOptions) {
     super(options.bucket)
     if (!existsSync(options.bucket)) {
-      throw new Error(`directory: "${options.bucket}" does not exists. Create it before running LocalAdapter`)
+      throw new Error(ERROR_MESSAGES.NO_DIRECTORY(options.bucket))
     }
   }
 

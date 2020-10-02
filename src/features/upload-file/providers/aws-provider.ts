@@ -2,12 +2,13 @@ import fs from 'fs'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { S3 } from 'aws-sdk'
 import { UploadedFile } from 'admin-bro'
+import { ERROR_MESSAGES, DAY_IN_MINUTES } from '../constants'
 
-import BaseAdapter from './base-provider'
+import { BaseProvider } from './base-provider'
 
 /**
  * AWS Credentials which can be set for S3 file upload.
- * If not given 'aws-sdk' will try to fetch them from
+ * If not given, 'aws-sdk' will try to fetch them from
  * environmental variables.
  * @memberof module:@admin-bro/upload
  */
@@ -35,7 +36,7 @@ export type AWSOptions = {
   expires?: number;
 }
 
-export default class AWSProvider extends BaseAdapter {
+export class AWSProvider extends BaseProvider {
   private s3: S3
 
   public expires: number
@@ -49,9 +50,9 @@ export default class AWSProvider extends BaseAdapter {
       const AWS = require('aws-sdk')
       AWS_S3 = AWS.S3
     } catch (error) {
-      throw new Error('You have to install `aws-sdk` in order to run this plugin with AWS')
+      throw new Error(ERROR_MESSAGES.NO_AWS_SDK)
     }
-    this.expires = options.expires || 86400
+    this.expires = options.expires || DAY_IN_MINUTES
     this.s3 = new AWS_S3(options)
   }
 

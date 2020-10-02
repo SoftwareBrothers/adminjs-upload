@@ -8,7 +8,9 @@
   "license": "MIT",
   "scripts": {
     "release": "semantic-release",
-    "build": "tsc",
+    "build": "yarn tsc",
+    "clean": "rm -fr build && mkdir build && rm -fr types && mkdir types",
+    "dev": "yarn clean && tsc --watch",
     "test": "mocha -r ts-node/register ./src/**/*.spec.ts",
     "lint": "eslint './src/**/*' './example-app/**/*'",
     "check:all": "yarn lint && yarn build && yarn test"
@@ -22,11 +24,13 @@
     "admin-bro": ">=3.2.5"
   },
   "optionalDependencies": {
-    "aws-sdk": "^2.728.0"
+    "aws-sdk": "^2.728.0",
+    "@google-cloud/storage": "^5.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@google-cloud/storage": "^5.3.0",
     "@semantic-release/git": "^9.0.0",
     "@types/chai": "^4.2.12",
     "@types/mocha": "^8.0.3",
@@ -35,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
     "admin-bro": ">=3.2.5",
+    "aws-sdk": "^2.728.0",
     "chai": "^4.2.0",
     "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -49,7 +54,6 @@
     "sinon": "^9.0.3",
     "sinon-chai": "^3.5.0",
     "ts-node": "^9.0.0",
-    "aws-sdk": "^2.728.0",
     "typescript": "^3.9.7"
   }
 }

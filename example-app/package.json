@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn build && node build/index.js",
-    "start:dev": "concurrently \"yarn build --watch\" \"nodemon --ext '.js' --watch ../build --watch ./build --ignore 'cypress/**/*.js' node build/src/index.js\"",
+    "clean": "rm -rf build && mkdir build",
+    "dev": "yarn clean && concurrently \"wait-on build/src/index.js && nodemon --ext '.js' --watch ../build --watch ./build --ignore 'cypress/**/*.js' node build/src/index.js\" \"yarn build --watch\"",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
@@ -16,12 +17,14 @@
     "cypress": "^4.11.0",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "wait-on": "^5.2.0"
   },
   "dependencies": {
     "@admin-bro/express": "^3.0.0",
     "@admin-bro/typeorm": "1.2.0",
-    "@admin-bro/upload": "v1.0.0-beta.3",
+    "@admin-bro/upload": "../",
+    "@google-cloud/storage": "^5.3.0",
     "admin-bro": "^3.2.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

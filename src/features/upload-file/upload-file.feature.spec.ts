@@ -3,7 +3,7 @@ import chai, { expect } from 'chai'
 import sinon, { createStubInstance } from 'sinon'
 import sinonChai from 'sinon-chai'
 import { After, RecordActionResponse, ActionRequest, ActionContext, BaseRecord, UploadedFile } from 'admin-bro'
-import BaseProvider from './providers/base-provider'
+import { BaseProvider } from './providers/base-provider'
 import UploadOptions from './upload-options.type'
 
 import uploadFile from './upload-file.feature'

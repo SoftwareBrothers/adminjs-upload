@@ -13,6 +13,7 @@ import { createConnection } from 'typeorm'
 import createPhotoResource from './admin/resources/photo/photo.resource'
 import createUserResource from './admin/resources/user/user.resource'
 import createCustomResource from './admin/resources/custom/custom.resource'
+import createPostResource from './admin/resources/post/post.resource'
 
 const PORT = 3000
 
@@ -26,6 +27,7 @@ const run = async () => {
       createPhotoResource(),
       createUserResource(),
       createCustomResource(),
+      createPostResource(),
     ],
     locale: {
       language: 'en',
@@ -34,6 +36,7 @@ const run = async () => {
           Photo: 'photos (Local)',
           User: 'users (AWS)',
           Custom: 'custom provider',
+          Post: 'posts (GCP)',
         },
       },
     },

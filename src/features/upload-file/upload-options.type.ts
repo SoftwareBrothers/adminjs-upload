@@ -1,20 +1,23 @@
 import { AWSOptions } from './providers/aws-provider'
 import { MimeType } from './mime-types.type'
-import BaseProvider from './providers/base-provider'
+import { BaseProvider } from './providers/base-provider'
 import { LocalUploadOptions } from './providers/local-provider'
+import { GCPOptions } from './providers/gcp-provider'
 
 /**
  * Configuration options for @admin-bro/upload feature
  *
  * @memberof module:@admin-bro/upload
  */
-type UploadOptions = {
+export type UploadOptions = {
   /**
    * Options for the provider
    */
   provider: {
     /** AWS Credentials */
     aws?: AWSOptions,
+    /** GCP Credentials */
+    gcp?: GCPOptions,
     /** Storage on the local drive */
     local?: LocalUploadOptions
   } | BaseProvider,
@@ -66,5 +69,9 @@ type UploadOptions = {
     maxSize?: number,
   },
 }
+
+export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
+
+export type AvailableDefaultProviders = keyof ProviderOptions | 'base'
 
 export default UploadOptions

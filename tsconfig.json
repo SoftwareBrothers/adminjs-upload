@@ -13,7 +13,10 @@
     "noImplicitThis": true,
     "moduleResolution": "node",
     "module": "commonjs",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "react": ["node_modules/@types/react"]
+    }
   },
   "include": [
     "./src/**/*",
