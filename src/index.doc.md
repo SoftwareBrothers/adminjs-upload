@@ -16,6 +16,7 @@ property:
 ```javascript
 const AdminBro = require('admin-bro')
 const AdminBroExpress = require('@admin-bro/express')
+const uploadFeature = require('@admin-bro/upload')
 
 // part where you load adapter and models
 const User = require('./user')
