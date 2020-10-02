@@ -9,39 +9,22 @@ import AdminBro, {
   UploadedFile,
 } from 'admin-bro'
 import { BulkActionResponse, After } from 'admin-bro/types/src/backend/actions/action.interface'
+import { ERROR_MESSAGES } from './constants'
+import { getProvider } from './get-provider'
 import buildPath from './build-path'
-import { AWSProvider, GCPProvider, BaseProvider, LocalProvider } from './providers'
+import { BaseProvider } from './providers'
 import UploadOptions from './upload-options.type'
 import PropertyCustom from './property-custom.type'
 
 export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
 
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
-  const { provider, properties, validation } = config
+  const { provider: providerOptions, properties, validation } = config
 
-  let adapter: BaseProvider
-  let providerName: keyof ProviderOptions | 'base'
-  if (provider && (provider as BaseProvider).name === 'BaseAdapter') {
-    adapter = provider as BaseProvider
-    providerName = 'base'
-  } else if (provider && (provider as ProviderOptions).aws) {
-    const options = (provider as ProviderOptions).aws
-    adapter = new AWSProvider(options)
-    providerName = 'aws'
-  } else if (provider && (provider as ProviderOptions).gcp) {
-    const options = (provider as ProviderOptions).gcp
-    adapter = new GCPProvider(options)
-    providerName = 'gcp'
-  } else if (provider && (provider as ProviderOptions).local) {
-    const options = (provider as ProviderOptions).local
-    adapter = new LocalProvider(options)
-    providerName = 'local'
-  } else {
-    throw new Error('You have to specify provider in options')
-  }
+  const { provider, name: providerName } = getProvider(providerOptions)
 
   if (!properties.key) {
-    throw new Error('You have to define `key` property in options')
+    throw new Error(ERROR_MESSAGES.NO_KEY_PROPERTY)
   }
 
   const fileProperty = properties.file || 'file'
@@ -72,7 +55,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     if (record && record.isValid()) {
       // someone wants to remove file
       if (file === null) {
-        const bucket = (properties.bucket && record[properties.bucket]) || adapter.bucket
+        const bucket = (properties.bucket && record[properties.bucket]) || provider.bucket
         const key = record.params[properties.key]
 
         // and file exists
@@ -86,7 +69,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
           }
 
           await record.update(params)
-          await adapter.delete(key, bucket, context)
+          await provider.delete(key, bucket, context)
 
           return {
             ...response,
@@ -100,11 +83,11 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
         const oldRecord = { ...record }
         const key = buildPath(record, uploadedFile)
 
-        await adapter.upload(uploadedFile, key, context)
+        await provider.upload(uploadedFile, key, context)
 
         const params = {
           [properties.key]: key,
-          ...properties.bucket && { [properties.bucket]: adapter.bucket },
+          ...properties.bucket && { [properties.bucket]: provider.bucket },
           ...properties.size && { [properties.size]: uploadedFile.size.toString() },
           ...properties.mimeType && { [properties.mimeType]: uploadedFile.type },
           ...properties.filename && { [properties.filename]: uploadedFile.name as string },
@@ -115,10 +98,10 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
         const oldKey = oldRecord.params[properties.key] && oldRecord.params[properties.key]
         const oldBucket = (
           properties.bucket && oldRecord.params[properties.bucket]
-        ) || adapter.bucket
+        ) || provider.bucket
 
-        if (oldKey && oldBucket && (oldKey !== key || oldBucket !== adapter.bucket)) {
-          await adapter.delete(oldKey, oldBucket, context)
+        if (oldKey && oldBucket && (oldKey !== key || oldBucket !== provider.bucket)) {
+          await provider.delete(oldKey, oldBucket, context)
         }
 
         return {
@@ -142,7 +125,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
 
     if (record && key) {
       const storedBucket = properties.bucket && record.param(properties.bucket)
-      await adapter.delete(key, storedBucket || adapter.bucket, context)
+      await provider.delete(key, storedBucket || provider.bucket, context)
     }
     return response
   }
@@ -158,7 +141,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
       const key = record?.param(properties.key)
       if (record && key) {
         const storedBucket = properties.bucket && record.param(properties.bucket)
-        await adapter.delete(key, storedBucket || adapter.bucket, context)
+        await provider.delete(key, storedBucket || provider.bucket, context)
       }
     }))
 
@@ -173,8 +156,8 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
 
     if (key) {
       // eslint-disable-next-line no-param-reassign
-      record.params[filePathProperty] = await adapter.path(
-        key, storedBucket || adapter.bucket, context,
+      record.params[filePathProperty] = await provider.path(
+        key, storedBucket || provider.bucket, context,
       )
     }
 
@@ -207,7 +190,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     bucketProperty: properties.bucket,
     mimeTypeProperty: properties.mimeType,
     // bucket property can be empty so default bucket has to be passed
-    defaultBucket: adapter.bucket,
+    defaultBucket: provider.bucket,
     mimeTypes: validation?.mimeTypes,
     maxSize: validation?.maxSize,
   }

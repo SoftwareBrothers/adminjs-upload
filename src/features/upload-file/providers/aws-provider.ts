@@ -2,6 +2,7 @@ import fs from 'fs'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { S3 } from 'aws-sdk'
 import { UploadedFile } from 'admin-bro'
+import { ERROR_MESSAGES, DAY_IN_MINUTES } from '../constants'
 
 import { BaseProvider } from './base-provider'
 
@@ -49,9 +50,9 @@ export class AWSProvider extends BaseProvider {
       const AWS = require('aws-sdk')
       AWS_S3 = AWS.S3
     } catch (error) {
-      throw new Error('You have to install `aws-sdk` in order to run this plugin with AWS')
+      throw new Error(ERROR_MESSAGES.NO_AWS_SDK)
     }
-    this.expires = options.expires || 86400
+    this.expires = options.expires || DAY_IN_MINUTES
     this.s3 = new AWS_S3(options)
   }
 

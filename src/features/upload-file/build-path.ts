@@ -1,5 +1,6 @@
 import path from 'path'
 import { BaseRecord, UploadedFile } from 'admin-bro'
+import { ERROR_MESSAGES } from './constants'
 
 /**
  * Creates a path to the file. Related to the given provider. If it is an AWS
@@ -16,10 +17,10 @@ const buildRemotePath = (
   file: UploadedFile,
 ): string => {
   if (!record.id()) {
-    throw new Error('You cannot upload file for not persisted record. Save record first')
+    throw new Error(ERROR_MESSAGES.NO_PERSISTENT_RECORD_UPLOAD)
   }
   if (!file.name) {
-    throw new Error('Server could not have verified the file name')
+    throw new Error(ERROR_MESSAGES.NO_FILENAME)
   }
   const { ext, name } = path.parse(file.name)
 

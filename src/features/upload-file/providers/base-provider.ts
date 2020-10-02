@@ -1,8 +1,8 @@
+import { UploadedFile, ActionContext } from 'admin-bro'
+import { ERROR_MESSAGES } from '../constants'
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable class-methods-use-this */
-
-import { UploadedFile, ActionContext } from 'admin-bro'
 
 /**
  * Abstract class which is a base for every @admin-bro/upload Adapter.
@@ -69,7 +69,7 @@ abstract class BaseProvider {
    * @param { string } bucket     place where files should be stored
    */
   constructor(bucket: string) {
-    this.name = 'BaseAdapter'
+    this.name = 'BaseProvider'
     this.bucket = bucket
   }
 
@@ -82,7 +82,7 @@ abstract class BaseProvider {
    * @abstract
    */
   public async upload(file: UploadedFile, key: string, context: ActionContext): Promise<any> {
-    throw new Error('you have to implement `BaseProvider#upload` method')
+    throw new Error(ERROR_MESSAGES.METHOD_NOT_IMPLEMENTED('BaseProvider#upload'))
   }
 
   /**
@@ -94,7 +94,7 @@ abstract class BaseProvider {
    * @abstract
    */
   public async delete(key: string, bucket: string, context: ActionContext): Promise<any> {
-    throw new Error('you have to implement `BaseProvider#delete` method')
+    throw new Error(ERROR_MESSAGES.METHOD_NOT_IMPLEMENTED('BaseProvider#delete'))
   }
 
   /**
@@ -108,7 +108,7 @@ abstract class BaseProvider {
    * @abstract
    */
   public path(key: string, bucket: string, context: ActionContext): Promise<string> | string {
-    throw new Error('you have to implement `BaseProvider#path` method')
+    throw new Error(ERROR_MESSAGES.METHOD_NOT_IMPLEMENTED('BaseProvider#path'))
   }
 }
 
