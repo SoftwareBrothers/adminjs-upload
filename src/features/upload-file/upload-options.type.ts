@@ -1,3 +1,4 @@
+import { BaseRecord } from 'admin-bro'
 import { AWSOptions } from './providers/aws-provider'
 import { MimeType } from './mime-types.type'
 import { BaseProvider } from './providers/base-provider'
@@ -57,6 +58,11 @@ export type UploadOptions = {
      */
     filename?: string;
   },
+  /**
+   * Function which defines where the file should be placed inside the bucket.
+   * Default to `${record.id()}/${filename}`.
+   */
+  uploadPath?: UploadPathFunction;
   /** Validation rules */
   validation?: {
     /**
@@ -69,6 +75,27 @@ export type UploadOptions = {
     maxSize?: number,
   },
 }
+
+/**
+ * Function which defines where in the bucket file should be stored.
+ * If we have 2 uploads in one resource we might need to set them to
+ * - `${record.id()}/upload1/${filename}`
+ * - `${record.id()}/upload2/${filename}`
+ *
+ * By default system uploads files to: `${record.id()}/${filename}`
+ *
+ * @memberof module:@admin-bro/upload
+ */
+export type UploadPathFunction = (
+  /**
+   * Record for which file is uploaded
+   */
+  record: BaseRecord,
+  /**
+   * filename with extension
+   */
+  filename: string,
+) => string
 
 export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
 

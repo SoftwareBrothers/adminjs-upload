@@ -13,17 +13,20 @@ import AdminBro, {
 
 import { ERROR_MESSAGES } from './constants'
 import { getProvider } from './get-provider'
-import buildPath from './build-path'
+import { buildRemotePath } from './build-remote-path'
 import { BaseProvider } from './providers'
 import UploadOptions from './upload-options.type'
 import PropertyCustom from './property-custom.type'
+import { validateProperties } from './validate-properties'
 
 export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
 
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
-  const { provider: providerOptions, properties, validation } = config
+  const { provider: providerOptions, properties, validation, uploadPath } = config
 
   const { provider, name: providerName } = getProvider(providerOptions)
+
+  validateProperties(properties)
 
   if (!properties.key) {
     throw new Error(ERROR_MESSAGES.NO_KEY_PROPERTY)
@@ -83,7 +86,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
         const uploadedFile: UploadedFile = file
 
         const oldRecordParams = { ...record.params }
-        const key = buildPath(record, uploadedFile)
+        const key = buildRemotePath(record, uploadedFile, uploadPath)
 
         await provider.upload(uploadedFile, key, context)
 

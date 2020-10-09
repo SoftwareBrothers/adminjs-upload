@@ -118,7 +118,7 @@ There are 2 things you have to do before using this Provider.
 
 #### 1. create the*folder** (`bucket`) for the files (i.e. `public`)
 
-```
+```sh
 cd your-app
 mkdir public
 ```
@@ -133,7 +133,7 @@ app.use('/uploads', express.static('uploads'));
 
 Next you have to add @admin-bro/upload to given resource:
 
-```
+```javascript
 * const options = {
   resources: [{
     resource: User,
@@ -170,14 +170,50 @@ const options = {
 }
 ```
 
-## Storing data
+## Options
 
 This feature requires just one field in the database to store the
-path (S3 key) of the uploaded file.
+path (Bucket key) of the uploaded file.
 
-But it also can store more data like `bucket`, 'mimeType', 'size' etc.
-For the list of all available properties take a look at
+But it also can store more data like `bucket`, 'mimeType', 'size' etc. Fields mapping can be done
+in `options.properties` like this:
+
+```javascript
+uploadFeature({
+  provider: {},
+  properties: {
+    // virtual properties, created by this plugin on the go. They are not stored in the database
+    // this is where frontend will send info to the backend
+    file: `uploadedFile.file`,
+    // here is where backend will send path to the file to the frontend [virtual property]
+    filePath: `uploadedFile.file`,
+
+    // DB properties: have to be in your schema
+    // where bucket key will be stored
+    key: `uploadedFile.key`,
+    // where mime type will be stored
+    mimeType: `uploadedFile.mime`,
+    // where bucket name will be stored
+    bucket: `uploadedFile.bucket`,
+    // where size will be stored
+    size: `uploadedFile.size`,
+  },
+})
+```
+
+In the example above we nest all the properties under `uploadedFile`, `mixed` property.
+This convention is a convenient way of storing multiple files in one record.
+
+For the list of all options take a look at
 {@link module:@admin-bro/upload.UploadOptions UploadOptions}
+
+## Storing multiple files in one model
+
+Since you can pass an array of features to AdminBro it allows you to define uploads multiple times for
+one model. In order to make it work you have to:
+
+* make sure to map at least `file` and `filePath` properties to different values in each upload.
+* define {@link UploadPathFunction} for each upload so that files does not override each other.
 
 ## Validation
 

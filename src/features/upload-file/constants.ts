@@ -1,5 +1,10 @@
 export const DAY_IN_MINUTES = 86400
 
+export type DuplicateOccurrence = {
+  keys: Array<string>,
+  value: string
+}
+
 export const ERROR_MESSAGES = {
   NO_PROVIDER: 'You have to specify provider in options',
   WRONG_PROVIDER_OPTIONS: [
@@ -16,4 +21,14 @@ export const ERROR_MESSAGES = {
   METHOD_NOT_IMPLEMENTED: (method: string): string => (
     `you have to implement "${method}" method`
   ),
+  DUPLICATED_KEYS: (keys: Array<DuplicateOccurrence>): string => {
+    const mergedKeys = keys.map((duplicate) => (
+      ` - "keys: ${duplicate.keys
+        .map((k) => `"${k}"`)
+        .join(', ')
+      }" have the same value: "${duplicate.value}",`
+    )).join('\n')
+
+    return `The same value for properties:\n${mergedKeys}`
+  },
 }
