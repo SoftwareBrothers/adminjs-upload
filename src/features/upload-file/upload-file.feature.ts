@@ -7,8 +7,10 @@ import AdminBro, {
   ListActionResponse,
   RecordJSON,
   UploadedFile,
+  BulkActionResponse,
+  After,
 } from 'admin-bro'
-import { BulkActionResponse, After } from 'admin-bro/types/src/backend/actions/action.interface'
+
 import { ERROR_MESSAGES } from './constants'
 import { getProvider } from './get-provider'
 import buildPath from './build-path'
@@ -80,7 +82,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
       if (file) {
         const uploadedFile: UploadedFile = file
 
-        const oldRecord = { ...record }
+        const oldRecordParams = { ...record.params }
         const key = buildPath(record, uploadedFile)
 
         await provider.upload(uploadedFile, key, context)
@@ -95,9 +97,9 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
 
         await record.update(params)
 
-        const oldKey = oldRecord.params[properties.key] && oldRecord.params[properties.key]
+        const oldKey = oldRecordParams[properties.key] && oldRecordParams[properties.key]
         const oldBucket = (
-          properties.bucket && oldRecord.params[properties.bucket]
+          properties.bucket && oldRecordParams[properties.bucket]
         ) || provider.bucket
 
         if (oldKey && oldBucket && (oldKey !== key || oldBucket !== provider.bucket)) {
