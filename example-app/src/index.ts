@@ -14,6 +14,7 @@ import createPhotoResource from './admin/resources/photo/photo.resource'
 import createUserResource from './admin/resources/user/user.resource'
 import createCustomResource from './admin/resources/custom/custom.resource'
 import createPostResource from './admin/resources/post/post.resource'
+import createMultiResource from './admin/resources/multi/multi.resource'
 
 const PORT = 3000
 
@@ -28,7 +29,9 @@ const run = async () => {
       createUserResource(),
       createCustomResource(),
       createPostResource(),
+      createMultiResource(),
     ],
+    version: { admin: true },
     locale: {
       language: 'en',
       translations: {
