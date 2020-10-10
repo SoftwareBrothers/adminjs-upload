@@ -32,7 +32,7 @@ const createPhotoResource = (): CreateResourceResult<typeof Custom> => ({
   },
   features: [uploadFeature({
     provider: new MyProvider(),
-    properties: { file: 'file', key: 'filePath', bucket: 'bucket' },
+    properties: { file: 'file', key: 'filePath', bucket: 'bucket', filePath: 'path' },
     validation: { mimeTypes: ['image/png'] },
   })],
 })

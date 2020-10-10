@@ -1,5 +1,5 @@
-import { DuplicateOccurrence, ERROR_MESSAGES } from './constants'
-import { UploadOptions } from './upload-options.type'
+import { DuplicateOccurrence, ERROR_MESSAGES } from '../constants'
+import { UploadOptions } from '../types/upload-options.type'
 
 /**
  * Checks if values for properties given by the user are different

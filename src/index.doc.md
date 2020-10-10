@@ -188,6 +188,9 @@ uploadFeature({
     file: `uploadedFile.file`,
     // here is where backend will send path to the file to the frontend [virtual property]
     filePath: `uploadedFile.file`,
+    // here backend will send information which files has to be deleted
+    // It is required only in `multiple` mode, but cannot overlap any other property
+    filesToDelete: `uploadedFile.filesToDelete`,
 
     // DB properties: have to be in your schema
     // where bucket key will be stored

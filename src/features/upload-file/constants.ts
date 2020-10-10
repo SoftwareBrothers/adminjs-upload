@@ -23,10 +23,10 @@ export const ERROR_MESSAGES = {
   ),
   DUPLICATED_KEYS: (keys: Array<DuplicateOccurrence>): string => {
     const mergedKeys = keys.map((duplicate) => (
-      ` - "keys: ${duplicate.keys
+      ` - keys: ${duplicate.keys
         .map((k) => `"${k}"`)
         .join(', ')
-      }" have the same value: "${duplicate.value}",`
+      }" have the same value: "${duplicate.value},`
     )).join('\n')
 
     return `The same value for properties:\n${mergedKeys}`

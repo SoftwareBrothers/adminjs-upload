@@ -1,14 +1,14 @@
 import path from 'path'
 import { BaseRecord, UploadedFile } from 'admin-bro'
-import { ERROR_MESSAGES } from './constants'
-import { UploadPathFunction } from './upload-options.type'
+import { ERROR_MESSAGES } from '../constants'
+import { UploadPathFunction } from '../types/upload-options.type'
 
 /**
  * Creates a path to the file. Related to the given provider. If it is an AWS
  * path is related to the bucket.
  *
  * @param   {BaseRecord}  record
- * @param   {string}      path        file path
+ * @param   {UploadedFile} file  uploaded file
  * @param   {UploadPathFunction}      [pathFunction]
  *
  * @return  {string}

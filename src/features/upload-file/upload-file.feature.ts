@@ -5,25 +5,41 @@ import AdminBro, {
   RecordActionResponse,
   FeatureType,
   ListActionResponse,
-  RecordJSON,
-  UploadedFile,
-  BulkActionResponse,
   After,
+  flat,
 } from 'admin-bro'
 
 import { ERROR_MESSAGES } from './constants'
-import { getProvider } from './get-provider'
-import { buildRemotePath } from './build-remote-path'
+import { getProvider } from './utils/get-provider'
 import { BaseProvider } from './providers'
-import UploadOptions from './upload-options.type'
-import PropertyCustom from './property-custom.type'
-import { validateProperties } from './validate-properties'
+import UploadOptions, { UploadOptionsWithDefault } from './types/upload-options.type'
+import PropertyCustom from './types/property-custom.type'
+import { validateProperties } from './utils/validate-properties'
+import { updateRecordFactory } from './factories/update-record-factory'
+import { fillRecordWithPath } from './utils/fill-record-with-path'
+import { deleteFileFactory } from './factories/delete-file-factory'
+import { deleteFilesFactory } from './factories/delete-files-factory'
 
 export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
 
-const uploadFileFeature = (config: UploadOptions): FeatureType => {
-  const { provider: providerOptions, properties, validation, uploadPath } = config
+const DEFAULT_FILE_PROPERTY = 'file'
+const DEFAULT_FILE_PATH_PROPERTY = 'filePath'
+const DEFAULT_FILES_TO_DELETE_PROPERTY = 'filesToDelete'
 
+const uploadFileFeature = (config: UploadOptions): FeatureType => {
+  const { provider: providerOptions, validation, multiple } = config
+
+  const configWithDefault: UploadOptionsWithDefault = {
+    ...config,
+    properties: {
+      ...config.properties,
+      file: config.properties?.file || DEFAULT_FILE_PROPERTY,
+      filePath: config.properties?.filePath || DEFAULT_FILE_PATH_PROPERTY,
+      filesToDelete: config.properties?.filesToDelete || DEFAULT_FILES_TO_DELETE_PROPERTY,
+    },
+  }
+
+  const { properties } = configWithDefault
   const { provider, name: providerName } = getProvider(providerOptions)
 
   validateProperties(properties)
@@ -32,149 +48,37 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     throw new Error(ERROR_MESSAGES.NO_KEY_PROPERTY)
   }
 
-  const fileProperty = properties.file || 'file'
-  const filePathProperty = properties.filePath || 'filePath'
-
   const stripFileFromPayload = async (
     request: ActionRequest,
     context: ActionContext,
   ): Promise<ActionRequest> => {
-    context[fileProperty] = request?.payload?.[fileProperty]
-    delete (request?.payload?.[fileProperty])
+    if (request?.payload) {
+      context[properties.file] = flat.get(request.payload, properties.file)
+      context[properties.filesToDelete] = flat.get(request.payload, properties.filesToDelete)
+
+      let filteredPayload = flat.filterOutParams(request.payload, properties.file)
+      filteredPayload = flat.filterOutParams(request.payload, properties.filesToDelete)
+      filteredPayload = flat.filterOutParams(filteredPayload, properties.filePath)
+
+      return {
+        ...request,
+        payload: filteredPayload,
+      }
+    }
 
     return request
   }
 
-  const updateRecord = async (
-    response: RecordActionResponse,
-    request: ActionRequest,
-    context: ActionContext,
-  ): Promise<RecordActionResponse> => {
-    const { record, [fileProperty]: file } = context
-    const { method } = request
-
-    if (method !== 'post') {
-      return response
-    }
-
-    if (record && record.isValid()) {
-      // someone wants to remove file
-      if (file === null) {
-        const bucket = (properties.bucket && record[properties.bucket]) || provider.bucket
-        const key = record.params[properties.key]
-
-        // and file exists
-        if (key && bucket) {
-          const params = {
-            [properties.key]: null,
-            ...properties.bucket && { [properties.bucket]: null },
-            ...properties.size && { [properties.size]: null },
-            ...properties.mimeType && { [properties.mimeType]: null },
-            ...properties.filename && { [properties.filename]: null },
-          }
-
-          await record.update(params)
-          await provider.delete(key, bucket, context)
-
-          return {
-            ...response,
-            record: record.toJSON(context.currentAdmin),
-          }
-        }
-      }
-      if (file) {
-        const uploadedFile: UploadedFile = file
-
-        const oldRecordParams = { ...record.params }
-        const key = buildRemotePath(record, uploadedFile, uploadPath)
-
-        await provider.upload(uploadedFile, key, context)
-
-        const params = {
-          [properties.key]: key,
-          ...properties.bucket && { [properties.bucket]: provider.bucket },
-          ...properties.size && { [properties.size]: uploadedFile.size.toString() },
-          ...properties.mimeType && { [properties.mimeType]: uploadedFile.type },
-          ...properties.filename && { [properties.filename]: uploadedFile.name as string },
-        }
-
-        await record.update(params)
-
-        const oldKey = oldRecordParams[properties.key] && oldRecordParams[properties.key]
-        const oldBucket = (
-          properties.bucket && oldRecordParams[properties.bucket]
-        ) || provider.bucket
-
-        if (oldKey && oldBucket && (oldKey !== key || oldBucket !== provider.bucket)) {
-          await provider.delete(oldKey, oldBucket, context)
-        }
-
-        return {
-          ...response,
-          record: record.toJSON(context.currentAdmin),
-        }
-      }
-    }
-
-    return response
-  }
-
-  const deleteFile = async (
-    response: RecordActionResponse,
-    request: ActionRequest,
-    context: ActionContext,
-  ): Promise<RecordActionResponse> => {
-    const { record } = context
-
-    const key = record?.param(properties.key)
-
-    if (record && key) {
-      const storedBucket = properties.bucket && record.param(properties.bucket)
-      await provider.delete(key, storedBucket || provider.bucket, context)
-    }
-    return response
-  }
-
-  const deleteFiles = async (
-    response: BulkActionResponse,
-    request: ActionRequest,
-    context: ActionContext,
-  ): Promise<BulkActionResponse> => {
-    const { records = [] } = context
-
-    await Promise.all(records.map(async (record) => {
-      const key = record?.param(properties.key)
-      if (record && key) {
-        const storedBucket = properties.bucket && record.param(properties.bucket)
-        await provider.delete(key, storedBucket || provider.bucket, context)
-      }
-    }))
-
-    return response
-  }
-
-  const fillRecordWithPath = async (
-    record: RecordJSON, context: ActionContext,
-  ): Promise<RecordJSON> => {
-    const key = record?.params[properties.key]
-    const storedBucket = properties.bucket && record?.params[properties.bucket]
-
-    if (key) {
-      // eslint-disable-next-line no-param-reassign
-      record.params[filePathProperty] = await provider.path(
-        key, storedBucket || provider.bucket, context,
-      )
-    }
-
-    return record
-  }
+  const updateRecord = updateRecordFactory(configWithDefault, provider)
+  const deleteFile = deleteFileFactory(configWithDefault, provider)
+  const deleteFiles = deleteFilesFactory(configWithDefault, provider)
 
   const fillPath: After<RecordActionResponse> = async (response, request, context) => {
     const { record } = response
 
     return {
       ...response,
-      record: await fillRecordWithPath(record, context),
+      record: await fillRecordWithPath(record, context, configWithDefault, provider),
     }
   }
 
@@ -183,13 +87,16 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
 
     return {
       ...response,
-      records: await Promise.all(records.map((record) => fillRecordWithPath(record, context))),
+      records: await Promise.all(records.map((record) => (
+        fillRecordWithPath(record, context, configWithDefault, provider)
+      ))),
     }
   }
 
   const custom: PropertyCustom = {
-    fileProperty,
-    filePathProperty,
+    fileProperty: properties.file,
+    filePathProperty: properties.filePath,
+    filesToDeleteProperty: properties.filesToDelete,
     provider: providerName,
     keyProperty: properties.key,
     bucketProperty: properties.bucket,
@@ -198,11 +105,12 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     defaultBucket: provider.bucket,
     mimeTypes: validation?.mimeTypes,
     maxSize: validation?.maxSize,
+    multiple: !!multiple,
   }
 
   const uploadFeature = buildFeature({
     properties: {
-      [fileProperty]: {
+      [properties.file]: {
         custom,
         isVisible: { show: true, edit: true, list: true, filter: false },
         components: {

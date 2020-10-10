@@ -24,8 +24,8 @@
     "admin-bro": ">=3.3.0-beta.20"
   },
   "optionalDependencies": {
-    "aws-sdk": "^2.728.0",
-    "@google-cloud/storage": "^5.3.0"
+    "@google-cloud/storage": "^5.3.0",
+    "aws-sdk": "^2.728.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",

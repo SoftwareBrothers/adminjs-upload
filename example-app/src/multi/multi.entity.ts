@@ -43,6 +43,9 @@ export class Multi extends BaseEntity {
   @Column({ nullable: true, type: 'jsonb' })
   public bottomPhoto: any;
 
+  @Column({ nullable: true, type: 'jsonb' })
+  public images: any;
+
   @CreateDateColumn({ name: 'created_at' })
   public createdAt: Date;
 

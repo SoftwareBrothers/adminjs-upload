@@ -3,13 +3,15 @@ import { UploadedFile } from 'admin-bro'
 
 import { BaseProvider } from '../providers/base-provider'
 
-const stubProvider = (resolvedS3Path: string): BaseProvider => {
+const stubProvider = (resolvedS3Path?: string): BaseProvider => {
+  const resolvedPath = resolvedS3Path || '/someS3Path.png'
+
   class StubProvider extends BaseProvider {
-    public path = sinon.stub<[string, string], Promise<string>>().resolves(resolvedS3Path)
+    public path = sinon.stub<[string, string], Promise<string>>().resolves(resolvedPath)
 
-    public upload = sinon.stub<[UploadedFile, string], Promise<string>>().resolves(resolvedS3Path)
+    public upload = sinon.stub<[UploadedFile, string], Promise<string>>().resolves(resolvedPath)
 
-    public delete = sinon.stub<[string, string], Promise<string>>().resolves(resolvedS3Path)
+    public delete = sinon.stub<[string, string], Promise<string>>().resolves(resolvedPath)
   }
   return new StubProvider('bucketName')
 }

@@ -3,26 +3,30 @@ import uploadFeature from '@admin-bro/upload'
 import { CreateResourceResult } from '../create-resource-result.type'
 import { Multi } from '../../../multi/multi.entity'
 
-const photoProperties = {
+const photoProperties = (options = {}) => ({
   bucket: {
     type: 'string',
     isVisible: false,
+    ...options,
   },
   mime: {
     type: 'string',
     isVisible: false,
+    ...options,
   },
   key: {
     type: 'string',
     isVisible: false,
+    ...options,
   },
   size: {
     type: 'number',
     isVisible: false,
+    ...options,
   },
-}
+})
 
-const uploadFeatureFor = (name?: string) => (
+const uploadFeatureFor = (name?: string, multiple = false) => (
   uploadFeature({
     provider: {
       gcp: {
@@ -30,6 +34,7 @@ const uploadFeatureFor = (name?: string) => (
         expires: 0,
       },
     },
+    multiple,
     properties: {
       file: name ? `${name}.file` : 'file',
       filePath: name ? `${name}.filePath` : 'filePath',
@@ -44,11 +49,12 @@ const uploadFeatureFor = (name?: string) => (
   })
 )
 
-const photoPropertiesFor = (name) => (
-  Object.keys(photoProperties).reduce((memo, key) => ({
-    ...memo, [`${name}.${key}`]: photoProperties[key],
+const photoPropertiesFor = (name, options = {}) => {
+  const properties = photoProperties(options)
+  return Object.keys(properties).reduce((memo, key) => ({
+    ...memo, [`${name}.${key}`]: properties[key],
   }), {})
-)
+}
 
 const createMultiResource = (): CreateResourceResult<typeof Multi> => ({
   resource: Multi,
@@ -60,14 +66,19 @@ const createMultiResource = (): CreateResourceResult<typeof Multi> => ({
       bottomPhoto: {
         type: 'mixed',
       },
+      images: {
+        type: 'mixed',
+      },
       ...photoPropertiesFor('topPhoto'),
       ...photoPropertiesFor('bottomPhoto'),
+      ...photoPropertiesFor('images', { isArray: true }),
     },
   },
   features: [
-    uploadFeatureFor(),
-    uploadFeatureFor('topPhoto'),
-    uploadFeatureFor('bottomPhoto'),
+    // uploadFeatureFor(),
+    // uploadFeatureFor('topPhoto'),
+    // uploadFeatureFor('bottomPhoto'),
+    uploadFeatureFor('images', true),
   ],
 })
 

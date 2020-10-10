@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { ERROR_MESSAGES } from './constants'
+import { ERROR_MESSAGES } from '../constants'
 import { validateProperties } from './validate-properties'
 
 describe('validateProperties', () => {
