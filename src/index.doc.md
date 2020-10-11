@@ -211,13 +211,24 @@ This convention is a convenient way of storing multiple files in one record.
 For the list of all options take a look at
 {@link module:@admin-bro/upload.UploadOptions UploadOptions}
 
-## Storing multiple files in one model
+## Storing multiple files in one model by invoking `uploadFeature` multiple times
 
 Since you can pass an array of features to AdminBro it allows you to define uploads multiple times for
-one model. In order to make it work you have to:
+one model. To make it work you have to:
 
-* make sure to map at least `file` and `filePath` properties to different values in each upload.
-* define {@link UploadPathFunction} for each upload so that files does not override each other.
+* make sure to map at least `file`, `filePath` and `filesToDelete` properties to different values 
+  in each upload.
+* define {@link UploadPathFunction} for each upload so that files do not override each other.
+
+## Storing multiple files in one model by using `multiple` option
+
+The feature allows you to store multiple files as an array. To do this you have to:
+
+* set `multiple` option to true
+* make sure that all your mapped properties are arrays of strings.
+
+If you use let say sequelize adapter you can set the type of the property to JSONB and, in admin-bro
+options, define that this property is an array with {@link PropertyOptions.isArray}
 
 ## Validation
 
@@ -226,3 +237,7 @@ The feature can validate both:
 - available mime types
 
 Take a look at {@link module:@admin-bro/upload.UploadOptions UploadOptions} here as well.
+
+## Example
+
+in the repository there is an `example-app` folder - check it out if you need more information.

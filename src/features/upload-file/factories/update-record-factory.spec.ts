@@ -1,12 +1,12 @@
-import { After, RecordActionResponse, ActionContext, BaseRecord, ActionRequest, UploadedFile } from 'admin-bro'
+import { After, RecordActionResponse, ActionContext, BaseRecord, ActionRequest, UploadedFile, BaseResource } from 'admin-bro'
 import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
-
 import { expect } from 'chai'
-import { BaseResource } from 'admin-bro/types/src'
+
 import { updateRecordFactory } from './update-record-factory'
 import stubProvider from '../spec/stub-provider'
 import { BaseProvider } from '../providers'
 import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type'
+import { CONTEXT_NAMESPACE } from '../constants'
 
 describe('updateRecordFactory', () => {
   const request: ActionRequest = { method: 'post' } as ActionRequest
@@ -75,9 +75,11 @@ describe('updateRecordFactory', () => {
       uploadOptions.properties.filename = 'filenameProp'
       File.name = expectedKey
       actionContext = {
-        [uploadOptions.properties.file]: [File],
         record: recordStub as BaseRecord,
-      } as ActionContext
+        [CONTEXT_NAMESPACE]: {
+          [uploadOptions.properties.file]: [File],
+        },
+      } as unknown as ActionContext
       updateRecord = updateRecordFactory(uploadOptions, provider)
     })
 
@@ -128,7 +130,7 @@ describe('updateRecordFactory', () => {
       const storedBucket = 'bucketProp'
       recordStub.get.onCall(0).returns(storedBucket)
       recordStub.get.onCall(1).returns(expectedKey)
-      actionContext[uploadOptions.properties.file as string] = null
+      actionContext[CONTEXT_NAMESPACE][uploadOptions.properties.file as string] = null
 
       await updateRecord(response, request, actionContext)
 
@@ -161,9 +163,11 @@ describe('updateRecordFactory', () => {
       uploadOptions.properties.mimeType = 'media.mimeType'
       uploadOptions.properties.filename = 'media.filename'
       actionContext = {
-        [uploadOptions.properties.file]: Files,
+        [CONTEXT_NAMESPACE]: {
+          [uploadOptions.properties.file]: Files,
+        },
         record: recordStub as BaseRecord,
-      } as ActionContext
+      } as unknown as ActionContext
       updateRecord = updateRecordFactory(uploadOptions, provider)
     })
 
@@ -217,9 +221,11 @@ describe('updateRecordFactory', () => {
         filePath: 'media.filePath',
       }
       actionContext = {
-        [uploadOptions.properties.filesToDelete]: fileIndexesToDelete,
+        [CONTEXT_NAMESPACE]: {
+          [uploadOptions.properties.filesToDelete]: fileIndexesToDelete,
+        },
         record: new BaseRecord(oldParams, {} as BaseResource),
-      } as ActionContext
+      } as unknown as ActionContext
       sinon.stub(BaseRecord.prototype, 'update')
 
       updateRecord = updateRecordFactory(uploadOptions, provider)

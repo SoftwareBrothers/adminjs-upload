@@ -10,8 +10,8 @@ import {
 import { buildRemotePath } from '../utils/build-remote-path'
 import { BaseProvider } from '../providers'
 import { UploadOptionsWithDefault } from '../types/upload-options.type'
-
-const DB_PROPERTIES = ['key', 'bucket', 'size', 'mimeType', 'filename'] as const
+import { DB_PROPERTIES } from '../constants'
+import { getNamespaceFromContext } from './strip-payload-factory'
 
 export const updateRecordFactory = (
   uploadOptionsWithDefault: UploadOptionsWithDefault,
@@ -24,11 +24,13 @@ export const updateRecordFactory = (
     request: ActionRequest,
     context: ActionContext,
   ): Promise<RecordActionResponse> => {
+    const { record } = context
+
     const {
-      record,
       [properties.file]: files,
       [properties.filesToDelete]: filesToDelete,
-    } = context
+    } = getNamespaceFromContext(context)
+
     const { method } = request
 
     if (method !== 'post') {

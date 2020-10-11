@@ -1,12 +1,9 @@
 import AdminBro, {
   buildFeature,
-  ActionRequest,
-  ActionContext,
   RecordActionResponse,
   FeatureType,
   ListActionResponse,
   After,
-  flat,
 } from 'admin-bro'
 
 import { ERROR_MESSAGES } from './constants'
@@ -14,11 +11,11 @@ import { getProvider } from './utils/get-provider'
 import { BaseProvider } from './providers'
 import UploadOptions, { UploadOptionsWithDefault } from './types/upload-options.type'
 import PropertyCustom from './types/property-custom.type'
-import { validateProperties } from './utils/validate-properties'
 import { updateRecordFactory } from './factories/update-record-factory'
 import { fillRecordWithPath } from './utils/fill-record-with-path'
 import { deleteFileFactory } from './factories/delete-file-factory'
 import { deleteFilesFactory } from './factories/delete-files-factory'
+import { stripPayloadFactory } from './factories/strip-payload-factory'
 
 export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
 
@@ -42,33 +39,11 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
   const { properties } = configWithDefault
   const { provider, name: providerName } = getProvider(providerOptions)
 
-  validateProperties(properties)
-
   if (!properties.key) {
     throw new Error(ERROR_MESSAGES.NO_KEY_PROPERTY)
   }
 
-  const stripFileFromPayload = async (
-    request: ActionRequest,
-    context: ActionContext,
-  ): Promise<ActionRequest> => {
-    if (request?.payload) {
-      context[properties.file] = flat.get(request.payload, properties.file)
-      context[properties.filesToDelete] = flat.get(request.payload, properties.filesToDelete)
-
-      let filteredPayload = flat.filterOutParams(request.payload, properties.file)
-      filteredPayload = flat.filterOutParams(request.payload, properties.filesToDelete)
-      filteredPayload = flat.filterOutParams(filteredPayload, properties.filePath)
-
-      return {
-        ...request,
-        payload: filteredPayload,
-      }
-    }
-
-    return request
-  }
-
+  const stripFileFromPayload = stripPayloadFactory(configWithDefault)
   const updateRecord = updateRecordFactory(configWithDefault, provider)
   const deleteFile = deleteFileFactory(configWithDefault, provider)
   const deleteFiles = deleteFilesFactory(configWithDefault, provider)

@@ -1,26 +1,32 @@
 import { expect } from 'chai'
-import { ERROR_MESSAGES } from '../constants'
-import { validateProperties } from './validate-properties'
+import { FeatureInvocation } from '../types/upload-options.type'
+import { hasDuplicatedProperties, validatePropertiesGlobally } from './validate-properties'
 
-describe('validateProperties', () => {
+describe('hasDuplicatedProperties', () => {
   it('does not throw an all properties have different values', () => {
-    expect(() => {
-      validateProperties({
-        key: 'sameValue',
-        file: 'otherValue',
-      })
-    }).not.to.throw()
+    expect(hasDuplicatedProperties({
+      key: 'sameValue',
+      file: 'otherValue',
+    })).to.be.false
   })
 
   it('throws an error when 2 properties have the same values', () => {
-    expect(() => {
-      validateProperties({
-        key: 'sameValue',
-        file: 'sameValue',
-      })
-    }).to.throw(ERROR_MESSAGES.DUPLICATED_KEYS([{
-      keys: ['key', 'file'],
-      value: 'sameValue',
-    }]))
+    const duplicates = hasDuplicatedProperties({
+      key: 'sameValue',
+      file: 'sameValue',
+    })
+    expect(duplicates).not.to.be.false
+  })
+})
+
+describe('validatePropertiesGlobally', () => {
+  it('shows errors for a second invocation', () => {
+    const context = [
+      { properties: { key: 'sameValue', file: 'otherValue' } },
+      { properties: { key: 'sameValue', file: 'otherValue' } },
+    ] as Array<FeatureInvocation>
+
+    const duplicates = validatePropertiesGlobally(context)
+    expect(duplicates).to.have.lengthOf(2)
   })
 })

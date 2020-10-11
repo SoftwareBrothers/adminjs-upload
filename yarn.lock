@@ -1814,10 +1814,10 @@ acorn@^7.3.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.3.1.tgz#85010754db53c3fbaf3b9ea3e083aa5c5d147ffd"
   integrity sha512-tLc0wSnatxAQHVHUapaHdz72pi9KUyHjq5KyHjGg9Y8Ifdc79pTh2XvI6I1/chZbnM7QtNKzh66ooDogPZSleA==
 
-admin-bro@>=3.3.0-beta.20:
-  version "3.3.0-beta.20"
-  resolved "https://registry.yarnpkg.com/admin-bro/-/admin-bro-3.3.0-beta.20.tgz#cc89300701243b78b0fe85adae35502dce156880"
-  integrity sha512-JPnUIdW8nDLK8Hjc3vY99GX7+gxgowjzuzECd/RuMxKZUqCkWgpUcaUfsCh3HJzu8fqMheplNoFdmOj9yJnn4g==
+admin-bro@>=3.3.0-beta.21:
+  version "3.3.0-beta.21"
+  resolved "https://registry.yarnpkg.com/admin-bro/-/admin-bro-3.3.0-beta.21.tgz#a635e1596cb7e0e052839da019485c7adfc010ea"
+  integrity sha512-UqovcS9ZZteSnPMw1ZsGyT0Qosfjdc6Qqu4k0ZnzzsccPa2bMdaij7IXgLPc+mrpS4+nKE4Bef8Q0Q71Ub+B7Q==
   dependencies:
     "@admin-bro/design-system" "^1.7.0-beta.17"
     "@babel/core" "^7.10.2"

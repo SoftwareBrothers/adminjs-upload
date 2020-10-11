@@ -24,7 +24,7 @@ const photoProperties = (options = {}) => ({
     isVisible: false,
     ...options,
   },
-})
+} as const)
 
 const uploadFeatureFor = (name?: string, multiple = false) => (
   uploadFeature({
@@ -38,13 +38,14 @@ const uploadFeatureFor = (name?: string, multiple = false) => (
     properties: {
       file: name ? `${name}.file` : 'file',
       filePath: name ? `${name}.filePath` : 'filePath',
+      filesToDelete: name ? `${name}.filesToDelete` : 'filesToDelete',
       key: name ? `${name}.key` : 'key',
       mimeType: name ? `${name}.mime` : 'mime',
       bucket: name ? `${name}.bucket` : 'bucket',
       size: name ? `${name}.size` : 'size',
     },
     uploadPath: (record, filename) => (
-      name ? `${record.id()}/${name}/${filename}` : `${record.id}/global/${filename}`
+      name ? `${record.id()}/${name}/${filename}` : `${record.id()}/global/${filename}`
     ),
   })
 )
@@ -69,15 +70,16 @@ const createMultiResource = (): CreateResourceResult<typeof Multi> => ({
       images: {
         type: 'mixed',
       },
+      ...photoProperties(),
       ...photoPropertiesFor('topPhoto'),
       ...photoPropertiesFor('bottomPhoto'),
       ...photoPropertiesFor('images', { isArray: true }),
     },
   },
   features: [
-    // uploadFeatureFor(),
-    // uploadFeatureFor('topPhoto'),
-    // uploadFeatureFor('bottomPhoto'),
+    uploadFeatureFor(),
+    uploadFeatureFor('topPhoto'),
+    uploadFeatureFor('bottomPhoto'),
     uploadFeatureFor('images', true),
   ],
 })

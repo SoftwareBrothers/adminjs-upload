@@ -22,7 +22,7 @@ export class Multi extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   public name: string;
 
   @Column({ nullable: true })

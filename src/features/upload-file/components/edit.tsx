@@ -20,6 +20,7 @@ const Edit: FC<EditPropertyProps> = ({ property, record, onChange }) => {
     // This happens when user turns off redirect after new/edit
     if (
       (typeof key === 'string' && key !== originalKey)
+      || (typeof key !== 'string' && !originalKey)
       || (typeof key !== 'string' && Array.isArray(key) && key.length !== originalKey.length)
     ) {
       setOriginalKey(key)
@@ -55,6 +56,7 @@ const Edit: FC<EditPropertyProps> = ({ property, record, onChange }) => {
         params: newParams,
       })
     } else {
+      // eslint-disable-next-line no-console
       console.log('You cannot remove file when there are no uploaded files yet')
     }
   }
