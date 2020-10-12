@@ -100,7 +100,10 @@ export const updateRecordFactory = (
 
         await record.update(params)
 
-        return response
+        return {
+          ...response,
+          record: record.toJSON(context.currentAdmin),
+        }
       }
 
       if (!multiple && files && files.length) {
