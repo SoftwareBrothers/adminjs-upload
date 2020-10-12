@@ -38,7 +38,7 @@ export const stripPayloadFactory = (
       context[CONTEXT_NAMESPACE] = data
 
       let filteredPayload = flat.filterOutParams(request.payload, properties.file)
-      filteredPayload = flat.filterOutParams(request.payload, properties.filesToDelete)
+      filteredPayload = flat.filterOutParams(filteredPayload, properties.filesToDelete)
       filteredPayload = flat.filterOutParams(filteredPayload, properties.filePath)
 
       const duplicatedOccurrences = validatePropertiesGlobally(data.__invocations)
