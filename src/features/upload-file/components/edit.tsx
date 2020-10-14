@@ -71,6 +71,7 @@ const Edit: FC<EditPropertyProps> = ({ property, record, onChange }) => {
           mimeTypes: custom.mimeTypes as Array<string>,
           maxSize: custom.maxSize,
         }}
+        files={filesToUpload}
       />
       {!custom.multiple && key && path && !filesToUpload.length && file !== null && (
         <DropZoneItem filename={key} src={path} onRemove={handleRemove} />
