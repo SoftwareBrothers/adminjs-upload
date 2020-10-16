@@ -78,7 +78,7 @@ export type UploadOptions = {
     /**
      * Available mime types
      */
-    mimeTypes?: Array<MimeType>,
+    mimeTypes?: Array<string>,
     /**
      * Maximum size in bytes
      */
