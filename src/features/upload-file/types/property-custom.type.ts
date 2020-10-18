@@ -13,7 +13,7 @@ type PropertyCustom = {
   mimeTypeProperty?: string,
   bucketProperty?: string,
   defaultBucket: string,
-  mimeTypes?: Array<MimeType>,
+  mimeTypes?: Array<MimeType | string>,
   maxSize?: number,
   provider: string,
   multiple: boolean,

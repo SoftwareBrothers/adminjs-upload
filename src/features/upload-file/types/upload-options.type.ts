@@ -1,6 +1,5 @@
 import { BaseRecord } from 'admin-bro'
 import { AWSOptions } from '../providers/aws-provider'
-import { MimeType } from './mime-types.type'
 import { BaseProvider } from '../providers/base-provider'
 import { LocalUploadOptions } from '../providers/local-provider'
 import { GCPOptions } from '../providers/gcp-provider'
