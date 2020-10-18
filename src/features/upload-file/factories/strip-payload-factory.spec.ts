@@ -53,5 +53,31 @@ describe('stripPayloadFactory', () => {
         [uploadOptions.properties.filesToDelete]: payload[uploadOptions.properties.filesToDelete],
       })
     })
+
+    it('throws error when user wants to use the same properties twice', async () => {
+      try {
+        await stripPayload({ payload, method: 'post' } as ActionRequest, actionContext)
+      } catch (error) {
+        expect(error).not.to.be.undefined
+        return undefined
+      }
+      throw new Error()
+    })
+
+    it('fills context with invocations for each run', async () => {
+      uploadOptions = {
+        ...uploadOptions,
+        properties: {
+          key: 's3Key2',
+          filePath: 'resolvedPath2',
+          file: 'file2',
+          filesToDelete: 'fileToDelete2',
+        },
+      }
+      stripPayload = stripPayloadFactory(uploadOptions)
+      await stripPayload({ payload, method: 'post' } as ActionRequest, actionContext)
+
+      expect(actionContext[CONTEXT_NAMESPACE].__invocations).to.have.lengthOf(2)
+    })
   })
 })

@@ -37,7 +37,7 @@ export const hasDuplicatedProperties = (
 }
 
 /**
- * Checks if all properties
+ * Checks if all properties have uniq names
  */
 export const validatePropertiesGlobally = (
   globalContext: Array<FeatureInvocation>,

@@ -11,6 +11,11 @@ type ContextNamespace = {
    * `file` can be `myFile`
    */
   [key: string]: any,
+  /**
+   * When we strip payload for each upload we are also storing use properties under __invocations
+   * key. This is because in the next step we have to validate if all the properties are unique.
+   * Otherwise upload from one element will override the upload in another element.
+   */
   __invocations: Array<FeatureInvocation>
 }
 
@@ -30,7 +35,8 @@ export const stripPayloadFactory = (
         ...data,
         [properties.file]: flat.get(request.payload, properties.file),
         [properties.filesToDelete]: flat.get(request.payload, properties.filesToDelete),
-        __invocations: data.__invocations || [
+        __invocations: [
+          ...(data.__invocations || []),
           { properties },
         ],
       }
