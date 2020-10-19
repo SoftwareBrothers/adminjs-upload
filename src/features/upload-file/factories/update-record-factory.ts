@@ -117,7 +117,7 @@ export const updateRecordFactory = (
         const params = {
           [properties.key]: key,
           ...properties.bucket && { [properties.bucket]: provider.bucket },
-          ...properties.size && { [properties.size]: uploadedFile.size.toString() },
+          ...properties.size && { [properties.size]: uploadedFile.size?.toString() },
           ...properties.mimeType && { [properties.mimeType]: uploadedFile.type },
           ...properties.filename && { [properties.filename]: uploadedFile.name as string },
         }
