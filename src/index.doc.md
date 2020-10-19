@@ -238,6 +238,92 @@ The feature can validate both:
 
 Take a look at {@link module:@admin-bro/upload.UploadOptions UploadOptions} here as well.
 
-## Example
+## Example models and addon configurations
 
-in the repository there is an `example-app` folder - check it out if you need more information.
+### Sequelize database with Google Cloud
+
+Take a look at an example product upload schema:
+
+```javascript
+export const ProductModel = sequelize.define('Products', {
+  // Model attributes are defined here
+  id: {
+    primaryKey: true,
+    type: DataTypes.UUID,
+    defaultValue: UUIDV4,
+  },
+  name: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  images: {
+    type: DataTypes.JSONB,
+    allowNull: true,
+  },
+  mainImage: {
+    type: DataTypes.JSONB,
+    allowNull: true,
+  }
+}, {
+  // Other model options go here
+})
+```
+
+It has 2 fields `images` and `topImage`. Let's define that images will have a multi-upload
+feature and `topImage` single-upload feature.
+
+By setting them as JSONB type we ensure that the plugin will setup their sub-properties as regular
+strings (single-upload) or arrays (multi-upload).
+
+To setup upload for 2 files we have to invoke `uploadFeature` twice as well:
+
+```javascript
+
+const validation = {
+  mimeTypes: ['image/jpeg', 'image/png'],
+}
+
+const features = [
+  uploadFileFeature({
+    properties: {
+      file: 'images.file',
+      filePath: 'images.path',
+      filename: 'images.filename',
+      filesToDelete: 'images.toDelete',
+      key: 'images.key',
+      mimeType: 'images.mimeType',
+      bucket: 'images.bucket',
+    },
+    multiple: true,
+    provider: {
+      gcp: {
+        bucket: process.env.PRODUCTS_BUCKET as string,
+        expires: 0,
+      },
+    },
+    validation,
+  }),
+  uploadFeature({
+    properties: {
+      file: 'topImage.file',
+      filePath: 'topImage.path',
+      filename: 'topImage.filename',
+      filesToDelete: 'topImage.toDelete',
+      key: 'topImage.key',
+      mimeType: 'topImage.mimeType',
+      bucket: 'topImage.bucket',
+    },
+    provider: {
+      gcp: {
+        bucket: process.env.TOP_IMAGE_BUCKET as string,
+        expires: 0,
+      },
+    },
+    validation,
+  }),
+]
+```
