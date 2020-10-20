@@ -7,6 +7,7 @@ import { GCPOptions } from '../providers/gcp-provider'
 /**
  * Configuration options for @admin-bro/upload feature
  *
+ * @alias UploadOptions
  * @memberof module:@admin-bro/upload
  */
 export type UploadOptions = {
@@ -106,6 +107,7 @@ export type FeatureInvocation = {
  * By default system uploads files to: `${record.id()}/${filename}`
  *
  * @memberof module:@admin-bro/upload
+ * @alias UploadPathFunction
  */
 export type UploadPathFunction = (
   /**

@@ -1,5 +1,18 @@
 AdminBro feature allowing you to upload files to a given resource.
 
+## Features
+
+* Upload files by using different providers (all included):
+  * AWS S3
+  * Google Cloud Storage
+  * Local file system
+* You can create Upload Provider and handle saving on your own with 3 methods
+* Uploading more than one file to one resource to different fields
+* Uploading multiple files to an array
+* Configuration options allowing you to define which fields should be persisted and their names
+in the database
+* Previews of uploaded files
+
 ## Installation
 
 To install the upload feature run:
@@ -8,7 +21,36 @@ To install the upload feature run:
 yarn add @admin-bro/upload
 ```
 
+## Storing data
+
+The main concept of the upload plugin is that it sends uploaded files to an external source via
+the class called UploadProvider (we have 3 of them out of the box). And then it stores in the
+database path and folder name where the file was stored. Where:
+
+* **key** is the path of the stored file
+* **bucket** is the name of the folder.
+
+Next, base on the `expires` option, the system generates either a public URL or a time-constrained URL.
+
+> Example: for 
+> - `key: '927292/my-pinky-sweater.png'`
+> - `bucket: 'aee-products'` and
+> - `expires: 0`
+>
+> path for the file in AWS S3 will be 
+> `https://aee-product.s3.amazonaws.com/927292/my-pinky-sweater.png` and it will be
+> always available (not time-constrained)
+
+Usually, buckets are the same for all the files handled by the feature it is optional
+to store them in the database. But this might be handy if you want to change the bucket when the
+project grows and have a reference where the old files went.
+
+> To summarize: an important part is that **we don't store the actual URL** of the file - 
+> we store `key` and based on that we compute path on every request.
+
 ## Usage
+
+After that short introduction, let's go back to the feature itself.
 
 As any feature you have to pass it to the resource in {@link AdminBroOptions#resources}
 property:
@@ -46,8 +88,8 @@ const adminBro = new AdminBro(options)
 
 ## Previews
 
-Feature support previews for both*audio** and*images**.
-In order to make it work you have to have `mimeType` property mapped in the options.
+Feature support previews for both **audio** and 8*images**.
+To make it work you have to have `mimeType` property mapped in the options.
 
 Here we define that mime type will be save under a property `mimeType`:
 
@@ -80,7 +122,7 @@ Make sure you have AWS-SDK installed
 yarn add aws-sdk
 ```
 
-In order to upload files to AWS S3, you have to
+To upload files to AWS S3, you have to
 - [create a S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html)
 - [get your access keys](https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html)
 
@@ -177,7 +219,22 @@ This feature requires just one field in the database to store the
 path (Bucket key) of the uploaded file.
 
 But it also can store more data like `bucket`, 'mimeType', 'size' etc. Fields mapping can be done
-in `options.properties` like this:
+in `options.properties`.
+
+Mapping fields is a process of telling @admin-bro/upload that data from the field on the left
+should go to the database under the field on the right.
+
+> So below `key` property will be stored under the `mixed` property `uploadedFile` in its 
+> sub-property `key` (mixed properties are JSONB properties in SQL databases or nested
+> schemas in MongoDB).
+
+Some properties are stored in the database, but some of them serve as the couriers in the
+request/response cycle. So for example, `file` property is used to send actual File objects from
+the Fronted to the Backend. Then, the File is uploaded and its `key` (and `bucket`) are stored.
+But the value of property `file` itself is not being saved in the database, meaning you don't have
+to have it in your DB schema.
+
+### Example setup for mapping properties
 
 ```javascript
 uploadFeature({
@@ -209,16 +266,58 @@ In the example above we nest all the properties under `uploadedFile`, `mixed` pr
 This convention is a convenient way of storing multiple files in one record.
 
 For the list of all options take a look at
-{@link module:@admin-bro/upload.UploadOptions UploadOptions}
+{@link UploadOptions UploadOptions}
 
-## Storing multiple files in one model by invoking `uploadFeature` multiple times
+## Storing multiple files in one model by invoking `uploadFeature` more than once
 
-Since you can pass an array of features to AdminBro it allows you to define uploads multiple times for
-one model. To make it work you have to:
+You can pass an array of features to AdminBro so that it allows you to define uploads multiple times
+for one model. In other words you can have an `avatar` and `familyPhoto` in your User Resource.
 
+In order to make that work you have to make sure that all the properties passed by each
+`uploadFeature` invocation are different so they don't steal data from each other.
+
+So:
 * make sure to map at least `file`, `filePath` and `filesToDelete` properties to different values 
   in each upload.
-* define {@link UploadPathFunction} for each upload so that files do not override each other.
+* if you store other fields like `mimeType` they also should be stored under different paths.
+* define the {@link UploadPathFunction} for each upload so that files do not override each other.
+
+### Example:
+
+```javascript
+
+features = [
+  uploadFeature({
+    provider: {},
+    properties: {
+      file: `avatarFile`,
+      filePath: `avatarFilePath`,
+      filesToDelete: `avatarFilesToDelete`,
+      key: `avatarKey`,
+      mimeType: `avatarMime`,
+      bucket: `avatarBucket`,
+      size: `avatarSize`,
+    },
+  }),
+  uploadFeature({
+  provider: {},
+  properties: {
+    file: `familyPhoto.file`,
+    filePath: `familyPhoto.file`,
+    filesToDelete: `familyPhoto.filesToDelete`,
+    key: `familyPhoto.key`,
+    mimeType: `familyPhoto.mime`,
+    bucket: `familyPhoto.bucket`,
+    size: `familyPhoto.size`,
+  },
+  uploadPath: (record, filename) => (
+    `${record.id()}/family-photos/${filename}`
+  ),
+})]
+```
+
+In the example above, all the fields are stored under different paths so during the
+Frontend <-> Backend data transmission they don't overlap.
 
 ## Storing multiple files in one model by using `multiple` option
 
@@ -236,9 +335,11 @@ The feature can validate both:
 - maximum size of the file
 - available mime types
 
-Take a look at {@link module:@admin-bro/upload.UploadOptions UploadOptions} here as well.
+Take a look at {@link UploadOptions} here as well.
 
 ## Example models and addon configurations
+
+Take a look at this database model working with google cloud for a reference:
 
 ### Sequelize database with Google Cloud
 
@@ -327,3 +428,6 @@ const features = [
   }),
 ]
 ```
+
+
+To see more examples, you can take a look at the example_app inside the repository.
