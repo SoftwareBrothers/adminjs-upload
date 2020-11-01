@@ -1,9 +1,9 @@
-import { LocalProvider } from './providers/local-provider'
-import { GCPProvider } from './providers/gcp-provider'
-import { AWSProvider } from './providers/aws-provider'
-import { BaseProvider } from './providers'
-import { UploadOptions, AvailableDefaultProviders } from './upload-options.type'
-import { ERROR_MESSAGES } from './constants'
+import { LocalProvider } from '../providers/local-provider'
+import { GCPProvider } from '../providers/gcp-provider'
+import { AWSProvider } from '../providers/aws-provider'
+import { BaseProvider } from '../providers'
+import { UploadOptions, AvailableDefaultProviders } from '../types/upload-options.type'
+import { ERROR_MESSAGES } from '../constants'
 
 export type GetProviderReturn = {
   name: AvailableDefaultProviders,

@@ -1,11 +1,11 @@
 import { expect } from 'chai'
-import { ERROR_MESSAGES } from './constants'
-import { GCPProvider } from './providers/gcp-provider'
-import { AWSProvider } from './providers/aws-provider'
+import { ERROR_MESSAGES } from '../constants'
+import { GCPProvider } from '../providers/gcp-provider'
+import { AWSProvider } from '../providers/aws-provider'
 /* eslint-disable lines-between-class-members */
 /* eslint-disable class-methods-use-this */
 import { getProvider } from './get-provider'
-import { BaseProvider } from './providers'
+import { BaseProvider } from '../providers'
 
 class MyProvider extends BaseProvider {
   constructor() { super('bucketName') }

@@ -7,14 +7,16 @@ import { MimeType } from './mime-types.type'
 type PropertyCustom = {
   filePathProperty: string,
   fileProperty: string,
+  filesToDeleteProperty: string,
   keyProperty: string,
   fileNameProperty?: string,
   mimeTypeProperty?: string,
   bucketProperty?: string,
   defaultBucket: string,
-  mimeTypes?: Array<MimeType>,
+  mimeTypes?: Array<MimeType | string>,
   maxSize?: number,
-  provider: string
+  provider: string,
+  multiple: boolean,
 }
 
 export default PropertyCustom

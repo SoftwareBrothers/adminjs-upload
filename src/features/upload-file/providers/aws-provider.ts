@@ -57,7 +57,8 @@ export class AWSProvider extends BaseProvider {
   }
 
   public async upload(file: UploadedFile, key: string): Promise<S3.ManagedUpload.SendData> {
-    const tmpFile = fs.readFileSync(file.path)
+    const uploadOptions = { partSize: 5 * 1024 * 1024, queueSize: 10 }
+    const tmpFile = fs.createReadStream(file.path)
     const params: S3.PutObjectRequest = {
       Bucket: this.bucket,
       Key: key,
@@ -66,7 +67,7 @@ export class AWSProvider extends BaseProvider {
     if (!this.expires) {
       params.ACL = 'public-read'
     }
-    return this.s3.upload(params).promise()
+    return this.s3.upload(params, uploadOptions).promise()
   }
 
   public async delete(key: string, bucket: string): Promise<S3.DeleteObjectOutput> {

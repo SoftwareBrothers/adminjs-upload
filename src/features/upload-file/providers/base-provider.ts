@@ -5,48 +5,7 @@ import { ERROR_MESSAGES } from '../constants'
 /* eslint-disable class-methods-use-this */
 
 /**
- * Abstract class which is a base for every @admin-bro/upload Adapter.
- *
- * In order to implement your own - you have to override all of its methods.
- * Next, you can pass it with: {@link UploadOptions.provider}
- *
- * ### Extending {@link BaseProvider}
- *
- * ```
- * const { BaseProvider } = require('@admin-bro/upload')
- *
- * class MyProvider extends BaseProvider {
- *   constructor() {
- *     // you have to pass bucket name to the constructor
- *     super('bucketName')
- *   }
- *
- *   public async upload() {
- *     console.log('uploaded')
- *     return true
- *   }
- *
- *   public async delete() {
- *     console.log('deleted')
- *     return true
- *   }
- *
- *   public async path() {
- *     return '/fle-url'
- *   }
- * }
- *
- * const options = {
- *   resources: [
- *     resource: YourResource,
- *     features: [uploadFeature({
- *       provider: new MyProvider(),
- *       properties: { ... },
- *     })],
- *   ]
- * }
- * ```
- *
+ * @load ./base-provider.doc.md
  * @memberof module:@admin-bro/upload
  * @alias BaseProvider
  * @hide
