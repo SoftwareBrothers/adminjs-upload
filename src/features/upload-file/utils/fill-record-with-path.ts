@@ -17,12 +17,12 @@ export const fillRecordWithPath = async (
   if (multiple && key && key.length) {
     filePath = await Promise.all(key.map(async (singleKey, index) => (
       provider.path(
-        singleKey, storedBucket[index] || provider.bucket, context,
+        singleKey, storedBucket?.[index] ?? provider.bucket, context,
       )
     )))
   } else if (!multiple && key) {
     filePath = await provider.path(
-      key, storedBucket || provider.bucket, context,
+      key, storedBucket ?? provider.bucket, context,
     )
   }
 
