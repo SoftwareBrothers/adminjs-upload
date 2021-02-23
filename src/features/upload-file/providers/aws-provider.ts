@@ -52,7 +52,7 @@ export class AWSProvider extends BaseProvider {
     } catch (error) {
       throw new Error(ERROR_MESSAGES.NO_AWS_SDK)
     }
-    this.expires = options.expires || DAY_IN_MINUTES
+    this.expires = options.expires ?? DAY_IN_MINUTES
     this.s3 = new AWS_S3(options)
   }
 
