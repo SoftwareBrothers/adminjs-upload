@@ -45,7 +45,8 @@ describe('updateRecordFactory', () => {
     recordStub = createStubInstance(BaseRecord, {
       id: sinon.stub<any, string>().returns('1'),
       isValid: sinon.stub<any, boolean>().returns(true),
-      update: sinon.stub<any, Promise<BaseRecord>>().returnsThis(),
+      save: sinon.stub<[], Promise<BaseRecord>>().returnsThis(),
+      storeParams: sinon.stub<any, void>(),
     })
     recordStub.params = {}
   })
@@ -92,13 +93,14 @@ describe('updateRecordFactory', () => {
     it('updates all fields in the record', async () => {
       await updateRecord(response, request, actionContext)
 
-      expect(recordStub.update).to.have.been.calledWith(sinon.match({
+      expect(recordStub.storeParams).to.have.been.calledWith(sinon.match({
         [uploadOptions.properties.key]: expectedKey,
         [uploadOptions.properties.bucket as string]: provider.bucket,
         [uploadOptions.properties.size as string]: File.size.toString(),
         [uploadOptions.properties.mimeType as string]: File.type,
         [uploadOptions.properties.filename as string]: File.name,
       }))
+      expect(recordStub.save).to.have.been.calledWith()
     })
 
     it('does not delete any old file if there were not file before', async () => {
@@ -138,13 +140,14 @@ describe('updateRecordFactory', () => {
 
       expect(provider.delete).to.have.been.calledWith(expectedKey, storedBucket)
 
-      expect(recordStub.update).to.have.been.calledWith(sinon.match({
+      expect(recordStub.storeParams).to.have.been.calledWith(sinon.match({
         [uploadOptions.properties.key]: null,
         [uploadOptions.properties.bucket as string]: null,
         [uploadOptions.properties.size as string]: null,
         [uploadOptions.properties.mimeType as string]: null,
         [uploadOptions.properties.filename as string]: null,
       }))
+      expect(recordStub.save).to.have.been.calledWith()
     })
   })
 
@@ -188,11 +191,12 @@ describe('updateRecordFactory', () => {
         [`${uploadOptions.properties.filename}.${index}` as string]: Files[index].name,
       })
 
-      expect(recordStub.update).to.have.been.calledWith(sinon.match({
+      expect(recordStub.storeParams).to.have.been.calledWith(sinon.match({
         ...values(0),
         ...values(1),
         ...values(2),
       }))
+      expect(recordStub.save).to.have.been.calledWith()
     })
   })
 
@@ -226,7 +230,9 @@ describe('updateRecordFactory', () => {
         },
         record: new BaseRecord(oldParams, {} as BaseResource),
       } as unknown as ActionContext
-      sinon.stub(BaseRecord.prototype, 'update')
+      sinon.stub(BaseRecord.prototype, 'save')
+      sinon.stub(BaseRecord.prototype, 'storeParams')
+      sinon.stub(BaseRecord.prototype, 'toJSON')
 
       updateRecord = updateRecordFactory(uploadOptions, provider)
     })
@@ -234,11 +240,12 @@ describe('updateRecordFactory', () => {
     it('removes files from the database', async () => {
       await updateRecord(response, request, actionContext)
 
-      expect(BaseRecord.prototype.update).to.have.been.calledWith({
+      expect(BaseRecord.prototype.storeParams).to.have.been.calledWith({
         'media.key.0': 'key1',
         'media.bucket.0': 'bucket1',
         'media.type.0': 'mime1',
       })
+      expect(BaseRecord.prototype.save).to.have.been.calledWith()
     })
 
     it('removes files from the adapter store', async () => {

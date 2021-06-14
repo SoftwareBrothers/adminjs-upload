@@ -17,6 +17,7 @@ type PropertyCustom = {
   maxSize?: number,
   provider: string,
   multiple: boolean,
+  parentArray?: string,
 }
 
 export default PropertyCustom

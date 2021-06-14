@@ -5,6 +5,7 @@ import { Icon, Button, Box } from '@admin-bro/design-system'
 import { ShowPropertyProps, flat } from 'admin-bro'
 import { ImageMimeTypes, AudioMimeTypes } from '../types/mime-types.type'
 import PropertyCustom from '../types/property-custom.type'
+import buildCustom from '../utils/build-custom'
 
 type Props = ShowPropertyProps & {
   width?: number | string;
@@ -47,7 +48,7 @@ const SingleFile: FC<SingleFileProps> = (props) => {
 }
 
 const File: FC<Props> = ({ width, record, property }) => {
-  const { custom } = property as unknown as { custom: PropertyCustom }
+  const custom = buildCustom(property)
 
   const path = flat.get(record?.params, custom.filePathProperty)
 
