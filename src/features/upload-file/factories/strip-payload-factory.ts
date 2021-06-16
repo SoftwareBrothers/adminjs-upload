@@ -26,18 +26,40 @@ export const stripPayloadFactory = (
     request: ActionRequest,
     context: ActionContext,
   ): Promise<ActionRequest> => {
-    const { properties } = uploadOptionsWithDefault
+    const { properties, parentArray } = uploadOptionsWithDefault
 
     if (request?.payload) {
       let data: ContextNamespace = context[CONTEXT_NAMESPACE] || {}
 
+      if (parentArray) {
+        const parent = flat.get(request.payload, parentArray)
+        if (parent) {
+          for (let index = 0; index < parent.length; index += 1) {
+            data = {
+              ...data,
+              ...[properties.file, properties.filesToDelete].reduce((memo, prop) => {
+                const fullProp = [parentArray, index, prop].join(flat.DELIMITER)
+                return {
+                  ...memo,
+                  [fullProp]: flat.get(request.payload, fullProp),
+                }
+              }, {}),
+            }
+          }
+        }
+      } else {
+        data = {
+          ...data,
+          [properties.file]: flat.get(request.payload, properties.file),
+          [properties.filesToDelete]: flat.get(request.payload, properties.filesToDelete),
+        }
+      }
+
       data = {
         ...data,
-        [properties.file]: flat.get(request.payload, properties.file),
-        [properties.filesToDelete]: flat.get(request.payload, properties.filesToDelete),
         __invocations: [
           ...(data.__invocations || []),
-          { properties },
+          { properties, parentArray },
         ],
       }
 

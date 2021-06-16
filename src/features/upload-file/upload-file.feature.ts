@@ -24,7 +24,7 @@ const DEFAULT_FILE_PATH_PROPERTY = 'filePath'
 const DEFAULT_FILES_TO_DELETE_PROPERTY = 'filesToDelete'
 
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
-  const { provider: providerOptions, validation, multiple } = config
+  const { provider: providerOptions, validation, multiple, parentArray } = config
 
   const configWithDefault: UploadOptionsWithDefault = {
     ...config,
@@ -81,11 +81,13 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     mimeTypes: validation?.mimeTypes,
     maxSize: validation?.maxSize,
     multiple: !!multiple,
+    parentArray,
   }
+  const fileProperty = parentArray ? `${parentArray}.${properties.file}` : properties.file
 
   const uploadFeature = buildFeature({
     properties: {
-      [properties.file]: {
+      [fileProperty]: {
         custom,
         isVisible: { show: true, edit: true, list: true, filter: false },
         components: {

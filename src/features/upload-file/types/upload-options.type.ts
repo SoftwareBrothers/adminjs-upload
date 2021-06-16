@@ -73,6 +73,11 @@ export type UploadOptions = {
    */
   multiple?: boolean,
 
+  /**
+   * Array property that the properties are nested within.
+   */
+  parentArray?: string,
+
   /** Validation rules */
   validation?: {
     /**
@@ -96,6 +101,7 @@ export type UploadOptionsWithDefault = {
 
 export type FeatureInvocation = {
   properties: Partial<UploadOptions['properties']>
+  parentArray?: string
 }
 
 /**

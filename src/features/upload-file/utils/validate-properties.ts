@@ -5,6 +5,10 @@ const invocationPrefix = (index) => (
   `__invocation__${index}__`
 )
 
+const propertyPrefix = (invocation: FeatureInvocation) => (
+  invocation.parentArray ? `${invocation.parentArray}.` : ''
+)
+
 /**
  * Checks if values for properties given by the user are different
  *
@@ -51,7 +55,7 @@ export const validatePropertiesGlobally = (
       ...Object.keys(invocation.properties).reduce((props, key) => (
         {
           ...props,
-          [`${invocationPrefix(index)}${key}`]: invocation.properties[key],
+          [`${invocationPrefix(index)}${key}`]: `${propertyPrefix(invocation)}${invocation.properties[key]}`,
         }
       ), {}),
     }),

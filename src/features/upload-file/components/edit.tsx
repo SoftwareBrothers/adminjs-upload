@@ -1,18 +1,18 @@
 import React, { FC, useState, useEffect } from 'react'
 import { EditPropertyProps, flat } from 'admin-bro'
 import { DropZone, FormGroup, Label, DropZoneItem } from '@admin-bro/design-system'
-import PropertyCustom from '../types/property-custom.type'
+import buildCustom from '../utils/build-custom'
 
 const Edit: FC<EditPropertyProps> = ({ property, record, onChange }) => {
   const { params } = record
-  const { custom } = property as unknown as { custom: PropertyCustom }
+  const custom = buildCustom(property)
 
   const path = flat.get(params, custom.filePathProperty)
   const key = flat.get(params, custom.keyProperty)
   const file = flat.get(params, custom.fileProperty)
 
   const [originalKey, setOriginalKey] = useState(key)
-  const [filesToUpload, setFilesToUpload] = useState<Array<File>>([])
+  const [filesToUpload, setFilesToUpload] = useState<Array<File>>(file || [])
 
   useEffect(() => {
     // it means means that someone hit save and new file has been uploaded
