@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
-import uploadFeature, { BaseProvider } from '@admin-bro/upload'
+import uploadFeature, { BaseProvider } from '@adminjs/upload'
 
 import { CreateResourceResult } from '../create-resource-result.type'
 import { Custom } from '../../../custom/custom.entity'

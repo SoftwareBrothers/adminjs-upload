@@ -1,4 +1,4 @@
-import { RecordJSON, ActionContext, flat } from 'admin-bro'
+import { RecordJSON, ActionContext, flat } from 'adminjs'
 import { BaseProvider } from '../providers'
 import { UploadOptionsWithDefault } from '../types/upload-options.type'
 

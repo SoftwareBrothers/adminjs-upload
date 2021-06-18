@@ -1,14 +1,14 @@
-import { BaseRecord } from 'admin-bro'
+import { BaseRecord } from 'adminjs'
 import { AWSOptions } from '../providers/aws-provider'
 import { BaseProvider } from '../providers/base-provider'
 import { LocalUploadOptions } from '../providers/local-provider'
 import { GCPOptions } from '../providers/gcp-provider'
 
 /**
- * Configuration options for @admin-bro/upload feature
+ * Configuration options for @adminjs/upload feature
  *
  * @alias UploadOptions
- * @memberof module:@admin-bro/upload
+ * @memberof module:@adminjs/upload
  */
 export type UploadOptions = {
   /**
@@ -106,7 +106,7 @@ export type FeatureInvocation = {
  *
  * By default system uploads files to: `${record.id()}/${filename}`
  *
- * @memberof module:@admin-bro/upload
+ * @memberof module:@adminjs/upload
  * @alias UploadPathFunction
  */
 export type UploadPathFunction = (

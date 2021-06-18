@@ -5,7 +5,7 @@ import {
   ActionContext,
   UploadedFile,
   After,
-} from 'admin-bro'
+} from 'adminjs'
 
 import { buildRemotePath } from '../utils/build-remote-path'
 import { BaseProvider } from '../providers'

@@ -1,4 +1,4 @@
-import { UploadedFile } from 'admin-bro'
+import { UploadedFile } from 'adminjs'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UploadResponse, DeleteFileResponse } from '@google-cloud/storage'
 import { BaseProvider } from './base-provider'
@@ -10,7 +10,7 @@ import { DAY_IN_MINUTES } from '../constants'
  * {@link https://cloud.google.com/docs/authentication/getting-started tutorial}.
  * Basically it comes down to downloading service account and setting GOOGLE_APPLICATION_CREDENTIALS
  * env variable. After that you are ready to go.
- * @memberof module:@admin-bro/upload
+ * @memberof module:@adminjs/upload
  */
 export type GCPOptions = {
   /**

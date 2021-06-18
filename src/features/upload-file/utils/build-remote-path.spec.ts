@@ -1,4 +1,4 @@
-import { BaseRecord, UploadedFile } from 'admin-bro'
+import { BaseRecord, UploadedFile } from 'adminjs'
 import { expect } from 'chai'
 import sinon, { createStubInstance } from 'sinon'
 

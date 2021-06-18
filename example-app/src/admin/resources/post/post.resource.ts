@@ -1,4 +1,4 @@
-import uploadFeature from '@admin-bro/upload'
+import uploadFeature from '@adminjs/upload'
 
 import { CreateResourceResult } from '../create-resource-result.type'
 import { Post } from '../../../post/post.entity'
@@ -11,7 +11,7 @@ const createPostResource = (): CreateResourceResult<typeof Post> => ({
   features: [uploadFeature({
     provider: {
       gcp: {
-        bucket: 'admin-bro-demo-app-uploads',
+        bucket: process.env.GCP_STORAGE_BUCKET,
         expires: 0,
       },
     },

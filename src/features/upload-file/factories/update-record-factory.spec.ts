@@ -1,4 +1,4 @@
-import { After, RecordActionResponse, ActionContext, BaseRecord, ActionRequest, UploadedFile, BaseResource } from 'admin-bro'
+import { After, RecordActionResponse, ActionContext, BaseRecord, ActionRequest, UploadedFile, BaseResource } from 'adminjs'
 import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
 import { expect } from 'chai'
 

@@ -1,4 +1,4 @@
-import { UploadedFile, ActionContext } from 'admin-bro'
+import { UploadedFile, ActionContext } from 'adminjs'
 import { ERROR_MESSAGES } from '../constants'
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
@@ -6,7 +6,7 @@ import { ERROR_MESSAGES } from '../constants'
 
 /**
  * @load ./base-provider.doc.md
- * @memberof module:@admin-bro/upload
+ * @memberof module:@adminjs/upload
  * @alias BaseProvider
  * @hide
  * @private
@@ -35,7 +35,7 @@ abstract class BaseProvider {
   /**
    * Uploads file to given bucket
    *
-   * @param {UploadedFile} file uploaded by AdminBro file
+   * @param {UploadedFile} file uploaded by AdminJS file
    * @param {string} key file path
    * @param {ActionContext} context
    * @abstract

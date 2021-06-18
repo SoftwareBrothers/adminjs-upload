@@ -1,5 +1,5 @@
 import path from 'path'
-import { BaseRecord, UploadedFile } from 'admin-bro'
+import { BaseRecord, UploadedFile } from 'adminjs'
 import { ERROR_MESSAGES } from '../constants'
 import { UploadPathFunction } from '../types/upload-options.type'
 

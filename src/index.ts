@@ -1,5 +1,5 @@
 /**
- * @module @admin-bro/upload
+ * @module @adminjs/upload
  * @subcategory Features
  * @section modules
  * @load ./index.doc.md

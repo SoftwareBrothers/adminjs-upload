@@ -1,4 +1,4 @@
-import { ResourceOptions, FeatureType } from 'admin-bro'
+import { ResourceOptions, FeatureType } from 'adminjs'
 
 export type CreateResourceResult<T> = {
   resource: T;

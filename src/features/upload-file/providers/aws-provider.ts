@@ -1,7 +1,7 @@
 import fs from 'fs'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { S3 } from 'aws-sdk'
-import { UploadedFile } from 'admin-bro'
+import { UploadedFile } from 'adminjs'
 import { ERROR_MESSAGES, DAY_IN_MINUTES } from '../constants'
 
 import { BaseProvider } from './base-provider'
@@ -10,7 +10,7 @@ import { BaseProvider } from './base-provider'
  * AWS Credentials which can be set for S3 file upload.
  * If not given, 'aws-sdk' will try to fetch them from
  * environmental variables.
- * @memberof module:@admin-bro/upload
+ * @memberof module:@adminjs/upload
  */
 export type AWSOptions = {
   /**

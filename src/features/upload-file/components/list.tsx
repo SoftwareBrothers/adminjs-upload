@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ShowPropertyProps } from 'admin-bro'
+import { ShowPropertyProps } from 'adminjs'
 
 import File from './file'
 
