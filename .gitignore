@@ -158,7 +158,7 @@ dist
 
 /types/**/*
 build
-.adminbro
+.adminjs
 
 example-app/cypress/videos
 example-app/public

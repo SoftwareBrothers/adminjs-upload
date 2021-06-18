@@ -1,10 +1,10 @@
-import AdminBro, {
+import AdminJS, {
   buildFeature,
   RecordActionResponse,
   FeatureType,
   ListActionResponse,
   After,
-} from 'admin-bro'
+} from 'adminjs'
 
 import { ERROR_MESSAGES } from './constants'
 import { getProvider } from './utils/get-provider'
@@ -89,13 +89,13 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
         custom,
         isVisible: { show: true, edit: true, list: true, filter: false },
         components: {
-          edit: AdminBro.bundle(
+          edit: AdminJS.bundle(
             '../../../src/features/upload-file/components/edit',
           ),
-          list: AdminBro.bundle(
+          list: AdminJS.bundle(
             '../../../src/features/upload-file/components/list',
           ),
-          show: AdminBro.bundle(
+          show: AdminJS.bundle(
             '../../../src/features/upload-file/components/show',
           ),
         },

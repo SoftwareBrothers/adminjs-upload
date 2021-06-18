@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { ActionContext, ActionRequest, Before } from 'admin-bro'
+import { ActionContext, ActionRequest, Before } from 'adminjs'
 import { expect } from 'chai'
 import { CONTEXT_NAMESPACE } from '../constants'
 import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type'

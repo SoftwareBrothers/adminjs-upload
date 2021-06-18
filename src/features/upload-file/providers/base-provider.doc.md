@@ -1,4 +1,4 @@
-Abstract class which is a base for every @admin-bro/upload Adapter.
+Abstract class which is a base for every @adminjs/upload Adapter.
 
 To implement your own - you have to override all of its methods.
 Next, you can pass it with: {@link UploadOptions.provider UploadOptions.provider}
@@ -9,7 +9,7 @@ The following example shows how you can extend {@link BaseProvider} and pass it 
 {@link UploadOptions}:
 
 ```javascript
-const { BaseProvider } = require('@admin-bro/upload')
+const { BaseProvider } = require('@adminjs/upload')
 
 class MyProvider extends BaseProvider {
     constructor() {

@@ -1,5 +1,5 @@
 import sinon from 'sinon'
-import { UploadedFile } from 'admin-bro'
+import { UploadedFile } from 'adminjs'
 
 import { BaseProvider } from '../providers/base-provider'
 

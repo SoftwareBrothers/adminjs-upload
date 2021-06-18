@@ -1,4 +1,4 @@
-import { BaseRecord, ActionContext } from 'admin-bro'
+import { BaseRecord, ActionContext } from 'adminjs'
 
 import { BaseProvider } from '../providers'
 import { UploadOptionsWithDefault } from '../types/upload-options.type'

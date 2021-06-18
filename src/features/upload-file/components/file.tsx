@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Icon, Button, Box } from '@admin-bro/design-system'
+import { Icon, Button, Box } from '@adminjs/design-system'
 
-import { ShowPropertyProps, flat } from 'admin-bro'
+import { ShowPropertyProps, flat } from 'adminjs'
 import { ImageMimeTypes, AudioMimeTypes } from '../types/mime-types.type'
 import PropertyCustom from '../types/property-custom.type'
 

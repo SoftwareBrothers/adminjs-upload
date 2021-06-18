@@ -1,6 +1,6 @@
 import fs, { existsSync } from 'fs'
 import path from 'path'
-import { UploadedFile } from 'admin-bro'
+import { UploadedFile } from 'adminjs'
 import { ERROR_MESSAGES } from '../constants'
 
 import { BaseProvider } from './base-provider'
@@ -8,7 +8,7 @@ import { BaseProvider } from './base-provider'
 /**
  * Options required by the LocalAdapter
  *
- * @memberof module:@admin-bro/upload
+ * @memberof module:@adminjs/upload
  */
 export type LocalUploadOptions = {
   /**

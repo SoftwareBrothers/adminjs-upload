@@ -1,4 +1,4 @@
-AdminBro feature allowing you to upload files to a given resource.
+AdminJS feature allowing you to upload files to a given resource.
 
 ## Features
 
@@ -18,7 +18,7 @@ in the database
 To install the upload feature run:
 
 ```bash
-yarn add @admin-bro/upload
+yarn add @adminjs/upload
 ```
 
 ## Storing data
@@ -52,13 +52,13 @@ project grows and have a reference where the old files went.
 
 After that short introduction, let's go back to the feature itself.
 
-As any feature you have to pass it to the resource in {@link AdminBroOptions#resources}
+As any feature you have to pass it to the resource in {@link AdminJsOptions#resources}
 property:
 
 ```javascript
-const AdminBro = require('admin-bro')
-const AdminBroExpress = require('@admin-bro/express')
-const uploadFeature = require('@admin-bro/upload')
+const AdminJS = require('adminjs')
+const AdminJSExpress = require('@adminjs/express')
+const uploadFeature = require('@adminjs/upload')
 
 // part where you load adapter and models
 const User = require('./user')
@@ -82,7 +82,7 @@ const options = {
   }]
 }
 
-const adminBro = new AdminBro(options)
+const adminBro = new AdminJS(options)
 // and the rest of your app
 ```
 
@@ -126,7 +126,7 @@ To upload files to AWS S3, you have to
 - [create a S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html)
 - [get your access keys](https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html)
 
-Then, fill all these data in {@link module:@admin-bro/upload.AWSOptions AWSOptions}
+Then, fill all these data in {@link module:@adminjs/upload.AWSOptions AWSOptions}
 and you are ready to go.
 
 By default upload plugin generates a URL which is valid for 24h, if you want them to be always
@@ -147,7 +147,7 @@ and you are authenticated. follow {@link https://cloud.google.com/docs/authentic
 To upload files to AWS Google Storage, you have to follow all the instructions from:
 {@link https://github.com/googleapis/nodejs-storage#before-you-begin}
 
-Then, fill the bucket you created in {@link module:@admin-bro/upload.GCPOptions GCPOptions}
+Then, fill the bucket you created in {@link module:@adminjs/upload.GCPOptions GCPOptions}
 and you are ready to go.
 
 By default upload plugin generates a URL which is valid for 24h, if you want them to be always
@@ -174,7 +174,7 @@ This is an example for the [express](https://expressjs.com) server
 app.use('/uploads', express.static('uploads'));
 ```
 
-Next you have to add @admin-bro/upload to given resource:
+Next you have to add @adminjs/upload to given resource:
 
 ```javascript
 * const options = {
@@ -193,7 +193,7 @@ The plugin allows you also to pass your provider. In such a case, you have to pa
 option an instance of the class extended from {@link BaseProvider}.
 
 ```
-const { BaseProvider } = require('@admin-bro/upload')
+const { BaseProvider } = require('@adminjs/upload')
 
 class MyProvider extends BaseProvider {
   constructor() {
@@ -221,7 +221,7 @@ path (Bucket key) of the uploaded file.
 But it also can store more data like `bucket`, 'mimeType', 'size' etc. Fields mapping can be done
 in `options.properties`.
 
-Mapping fields is a process of telling @admin-bro/upload that data from the field on the left
+Mapping fields is a process of telling @adminjs/upload that data from the field on the left
 should go to the database under the field on the right.
 
 > So below `key` property will be stored under the `mixed` property `uploadedFile` in its 
@@ -270,7 +270,7 @@ For the list of all options take a look at
 
 ## Storing multiple files in one model by invoking `uploadFeature` more than once
 
-You can pass an array of features to AdminBro so that it allows you to define uploads multiple times
+You can pass an array of features to AdminJS so that it allows you to define uploads multiple times
 for one model. In other words you can have an `avatar` and `familyPhoto` in your User Resource.
 
 In order to make that work you have to make sure that all the properties passed by each
@@ -326,7 +326,7 @@ The feature allows you to store multiple files as an array. To do this you have 
 * set `multiple` option to true
 * make sure that all your mapped properties are arrays of strings.
 
-If you use let say sequelize adapter you can set the type of the property to JSONB and, in admin-bro
+If you use let say sequelize adapter you can set the type of the property to JSONB and, in adminJs
 options, define that this property is an array with {@link PropertyOptions.isArray}
 
 ## Validation

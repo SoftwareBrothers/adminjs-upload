@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Before, ActionContext, ActionRequest, flat } from 'admin-bro'
+import { Before, ActionContext, ActionRequest, flat } from 'adminjs'
 
 import { FeatureInvocation, UploadOptionsWithDefault } from '../types/upload-options.type'
 import { CONTEXT_NAMESPACE, ERROR_MESSAGES } from '../constants'

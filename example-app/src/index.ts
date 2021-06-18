@@ -5,9 +5,9 @@ import { config } from 'dotenv'
 config({ path: path.join(__dirname, '../../.env') })
 
 import express from 'express'
-import AdminBro from 'admin-bro'
-import { buildRouter } from '@admin-bro/express'
-import { Database, Resource } from '@admin-bro/typeorm'
+import AdminJS from 'adminjs'
+import { buildRouter } from '@adminjs/express'
+import { Database, Resource } from '@adminjs/typeorm'
 import { createConnection } from 'typeorm'
 
 import createPhotoResource from './admin/resources/photo/photo.resource'
@@ -18,12 +18,12 @@ import createMultiResource from './admin/resources/multi/multi.resource'
 
 const PORT = 3000
 
-AdminBro.registerAdapter({ Resource, Database })
+AdminJS.registerAdapter({ Resource, Database })
 const run = async () => {
   await createConnection()
   const app = express()
   app.use('/public', express.static('public'))
-  const admin = new AdminBro({
+  const admin = new AdminJS({
     resources: [
       createPhotoResource(),
       createUserResource(),

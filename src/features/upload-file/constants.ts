@@ -19,7 +19,7 @@ export const DB_PROPERTIES = ['key', 'bucket', 'size', 'mimeType', 'filename'] a
  *
  * @private
  */
-export const CONTEXT_NAMESPACE = 'admin-bro-upload'
+export const CONTEXT_NAMESPACE = 'adminjs-upload'
 
 export const ERROR_MESSAGES = {
   NO_PROVIDER: 'You have to specify provider in options',
@@ -49,7 +49,7 @@ export const ERROR_MESSAGES = {
       '\n',
       'Upload Options Error:',
       'You have at least 2 different `UploadOptions.properties` defined for storing the same value',
-      'This might be the issue if you use @admin-bro/upload multiple times in one resource',
+      'This might be the issue if you use @adminjs/upload multiple times in one resource',
       'with a default values. Make sure that all of them are assigned to a different database',
       `columns like this { properties: {${keys[0].keys[0]}: "myPropertyName"} }. And this has`,
       'to be done for all `uploadFeature` invocations.',

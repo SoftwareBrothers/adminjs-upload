@@ -1,4 +1,4 @@
-import { ActionRequest, RecordActionResponse, ActionContext, BaseRecord } from 'admin-bro'
+import { ActionRequest, RecordActionResponse, ActionContext, BaseRecord } from 'adminjs'
 import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
 import chai, { expect } from 'chai'
 import sinonChai from 'sinon-chai'

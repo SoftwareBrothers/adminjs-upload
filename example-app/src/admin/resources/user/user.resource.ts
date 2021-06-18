@@ -1,4 +1,4 @@
-import uploadFeature from '@admin-bro/upload'
+import uploadFeature from '@adminjs/upload'
 import { CreateResourceResult } from '../create-resource-result.type'
 import credentials from '../../../credentials'
 import { User } from '../../../user/user.entity'
