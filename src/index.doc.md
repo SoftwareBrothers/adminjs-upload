@@ -82,7 +82,7 @@ const options = {
   }]
 }
 
-const adminBro = new AdminJS(options)
+const adminJs = new AdminJS(options)
 // and the rest of your app
 ```
 
