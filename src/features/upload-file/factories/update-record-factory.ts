@@ -60,7 +60,7 @@ export const updateRecordFactory = (
 
         await record.update(newParams)
       }
-      if (multiple && files) {
+      if (multiple && files && files.length) {
         const uploadedFiles = files as Array<UploadedFile>
 
         const keys = await Promise.all<string>(uploadedFiles.map(async (uploadedFile) => {
