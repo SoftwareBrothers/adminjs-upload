@@ -26,17 +26,22 @@ export class LocalProvider extends BaseProvider {
   }
 
   public async upload(file: UploadedFile, key: string): Promise<any> {
-    const filePath = this.path(key)
-    await fs.promises.mkdir(path.dirname(filePath), { recursive: true })
-    await fs.promises.rename(file.path, filePath)
+    const filePath = process.platform === 'win32'
+        ? this.path(key) : this.path(key).slice(1); // adjusting file path according to OS
+
+    await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.promises.rename(file.path, filePath);
   }
 
   public async delete(key: string, bucket: string): Promise<any> {
-    await fs.promises.unlink(this.path(key, bucket))
+    await fs.promises.unlink(process.platform === 'win32'
+        ? this.path(key, bucket) : this.path(key, bucket).slice(1)); // adjusting file path according to OS
   }
 
   // eslint-disable-next-line class-methods-use-this
   public path(key: string, bucket?: string): string {
-    return `/${path.join(bucket || this.bucket, key)}`
+    // Windows doesn't requires the '/' in path, while UNIX system does
+    return process.platform === 'win32' ? `${path.join(bucket || this.bucket, key)}`
+        : `/${path.join(bucket || this.bucket, key)}`;
   }
 }
