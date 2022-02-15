@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "release": "semantic-release",
-    "build": "yarn tsc",
+    "build": "tsc",
     "clean": "rm -fr build && mkdir build && rm -fr types && mkdir types",
     "dev": "yarn clean && tsc --watch",
     "test": "TS_NODE_FILES=true mocha -r ts-node/register ./src/**/*.spec.ts",
