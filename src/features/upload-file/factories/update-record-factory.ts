@@ -17,7 +17,7 @@ export const updateRecordFactory = (
   uploadOptionsWithDefault: UploadOptionsWithDefault,
   provider: BaseProvider,
 ): After<RecordActionResponse> => {
-  const { properties, uploadPath, multiple } = uploadOptionsWithDefault
+  const { properties, uploadPath, recordPath, multiple } = uploadOptionsWithDefault
 
   const updateRecord = async (
     response: RecordActionResponse,
@@ -110,12 +110,13 @@ export const updateRecordFactory = (
         const uploadedFile: UploadedFile = files[0]
 
         const oldRecordParams = { ...record.params }
-        const key = buildRemotePath(record, uploadedFile, uploadPath)
+        const remoteKey = buildRemotePath(record, uploadedFile, uploadPath)
+        const recordKey = recordPath ? buildRemotePath(record, uploadedFile, recordPath) : remoteKey
 
-        await provider.upload(uploadedFile, key, context)
+        await provider.upload(uploadedFile, remoteKey, context)
 
         const params = {
-          [properties.key]: key,
+          [properties.key]: recordKey,
           ...properties.bucket && { [properties.bucket]: provider.bucket },
           ...properties.size && { [properties.size]: uploadedFile.size?.toString() },
           ...properties.mimeType && { [properties.mimeType]: uploadedFile.type },
@@ -129,7 +130,7 @@ export const updateRecordFactory = (
           properties.bucket && oldRecordParams[properties.bucket]
         ) || provider.bucket
 
-        if (oldKey && oldBucket && (oldKey !== key || oldBucket !== provider.bucket)) {
+        if (oldKey && oldBucket && (oldKey !== remoteKey || oldBucket !== provider.bucket)) {
           await provider.delete(oldKey, oldBucket, context)
         }
 

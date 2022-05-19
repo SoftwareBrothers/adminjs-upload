@@ -67,7 +67,12 @@ export type UploadOptions = {
    * Function which defines where the file should be placed inside the bucket.
    * Default to `${record.id()}/${filename}`.
    */
-  uploadPath?: UploadPathFunction;
+  uploadPath?: UploadOrRecordPathFunction;
+  /**
+   * Function which defines what the path should be inside of the record.
+   * Default to `${record.id()}/${filename}`.
+   */
+  recordPath?: UploadOrRecordPathFunction;
   /**
    * Indicates if feature should handle uploading multiple files
    */
@@ -109,7 +114,7 @@ export type FeatureInvocation = {
  * @memberof module:@adminjs/upload
  * @alias UploadPathFunction
  */
-export type UploadPathFunction = (
+export type UploadOrRecordPathFunction = (
   /**
    * Record for which file is uploaded
    */

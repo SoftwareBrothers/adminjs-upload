@@ -1,7 +1,7 @@
 import path from 'path'
 import { BaseRecord, UploadedFile } from 'adminjs'
 import { ERROR_MESSAGES } from '../constants'
-import { UploadPathFunction } from '../types/upload-options.type'
+import { UploadOrRecordPathFunction } from '../types/upload-options.type'
 
 /**
  * Creates a path to the file. Related to the given provider. If it is an AWS
@@ -9,7 +9,7 @@ import { UploadPathFunction } from '../types/upload-options.type'
  *
  * @param   {BaseRecord}  record
  * @param   {UploadedFile} file  uploaded file
- * @param   {UploadPathFunction}      [pathFunction]
+ * @param   {UploadOrRecordPathFunction}      [pathFunction]
  *
  * @return  {string}
  * @private
@@ -17,7 +17,7 @@ import { UploadPathFunction } from '../types/upload-options.type'
 export const buildRemotePath = (
   record: BaseRecord,
   file: UploadedFile,
-  uploadPathFunction?: UploadPathFunction,
+  uploadPathFunction?: UploadOrRecordPathFunction,
 ): string => {
   if (!record.id()) {
     throw new Error(ERROR_MESSAGES.NO_PERSISTENT_RECORD_UPLOAD)
