@@ -32,6 +32,7 @@ export type AWSOptions = {
   /**
    * The endpoint URI to send requests to.
    * The default endpoint is built from the configured region.
+   * Note that `bucket` should not appear in `endpoint`.
    */
   endpoint?: string | Endpoint;
   /**
@@ -102,7 +103,8 @@ export class AWSProvider extends BaseProvider {
     let keyedPath: string
 
     if (this.endpoint) {
-      keyedPath = `${this.endpoint.protocol}://${this.endpoint.host}/${key}`
+      // NOTE: protocal contains a trailing ':' !
+      keyedPath = `${this.endpoint.protocol}//${bucket}.${this.endpoint.host}/${key}`
     } else {
       // https://bucket.s3.amazonaws.com/key
       keyedPath = `https://${bucket}.s3.amazonaws.com/${key}`
