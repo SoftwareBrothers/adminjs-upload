@@ -1,6 +1,6 @@
 import fs from 'fs'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { S3 } from 'aws-sdk'
+import { S3, Endpoint } from 'aws-sdk'
 import { UploadedFile } from 'adminjs'
 import { ERROR_MESSAGES, DAY_IN_MINUTES } from '../constants'
 
@@ -30,16 +30,27 @@ export type AWSOptions = {
    */
   bucket: string;
   /**
+   * The endpoint URI to send requests to.
+   * The default endpoint is built from the configured region.
+   * Note that `bucket` should not appear in `endpoint`.
+   */
+  endpoint?: string | Endpoint;
+  /**
    * indicates how long links should be available after page load (in minutes).
    * Default to 24h. If set to 0 adapter will mark uploaded files as PUBLIC ACL.
    */
   expires?: number;
 }
 
+/**
+ * Generic S3 Provider for S3-compatible Object Storage Services, like Tencent Cloud COS.
+ */
 export class AWSProvider extends BaseProvider {
   private s3: S3
 
   public expires: number
+
+  public endpoint?: Endpoint
 
   constructor(options: AWSOptions) {
     super(options.bucket)
@@ -52,8 +63,14 @@ export class AWSProvider extends BaseProvider {
     } catch (error) {
       throw new Error(ERROR_MESSAGES.NO_AWS_SDK)
     }
-    this.expires = options.expires ?? DAY_IN_MINUTES
-    this.s3 = new AWS_S3(options)
+    const newOptions = options
+    if (typeof newOptions.endpoint === 'string') {
+      // convert into Endpoint object
+      newOptions.endpoint = new Endpoint(newOptions.endpoint)
+    }
+    this.expires = newOptions.expires ?? DAY_IN_MINUTES
+    this.endpoint = newOptions.endpoint
+    this.s3 = new AWS_S3(newOptions)
   }
 
   public async upload(file: UploadedFile, key: string): Promise<S3.ManagedUpload.SendData> {
@@ -82,7 +99,16 @@ export class AWSProvider extends BaseProvider {
         Expires: this.expires,
       })
     }
-    // https://bucket.s3.amazonaws.com/key
-    return `https://${bucket}.s3.amazonaws.com/${key}`
+
+    let keyedPath: string
+
+    if (this.endpoint) {
+      // NOTE: protocal contains a trailing ':' !
+      keyedPath = `${this.endpoint.protocol}//${bucket}.${this.endpoint.host}/${key}`
+    } else {
+      // https://bucket.s3.amazonaws.com/key
+      keyedPath = `https://${bucket}.s3.amazonaws.com/${key}`
+    }
+    return keyedPath
   }
 }
