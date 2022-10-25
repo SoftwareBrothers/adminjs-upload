@@ -1,23 +1,24 @@
 import AdminJS, {
+  After,
   buildFeature,
-  RecordActionResponse,
   FeatureType,
   ListActionResponse,
-  After,
+  RecordActionResponse,
 } from 'adminjs'
-
 import { ERROR_MESSAGES } from './constants'
-import { getProvider } from './utils/get-provider'
-import { BaseProvider } from './providers'
-import UploadOptions, { UploadOptionsWithDefault } from './types/upload-options.type'
-import PropertyCustom from './types/property-custom.type'
-import { updateRecordFactory } from './factories/update-record-factory'
-import { fillRecordWithPath } from './utils/fill-record-with-path'
 import { deleteFileFactory } from './factories/delete-file-factory'
 import { deleteFilesFactory } from './factories/delete-files-factory'
 import { stripPayloadFactory } from './factories/strip-payload-factory'
+import { updateRecordFactory } from './factories/update-record-factory'
+import { BaseProvider } from './providers'
+import PropertyCustom from './types/property-custom.type'
+import UploadOptions, { UploadOptionsWithDefault } from './types/upload-options.type'
+import { fillRecordWithPath } from './utils/fill-record-with-path'
+import { getProvider } from './utils/get-provider'
 
-export type ProviderOptions = Required<Exclude<UploadOptions['provider'], BaseProvider>>
+export type ProviderOptions = Required<
+  Exclude<UploadOptions['provider'], BaseProvider>
+>;
 
 const DEFAULT_FILE_PROPERTY = 'file'
 const DEFAULT_FILE_PATH_PROPERTY = 'filePath'
@@ -32,7 +33,8 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
       ...config.properties,
       file: config.properties?.file || DEFAULT_FILE_PROPERTY,
       filePath: config.properties?.filePath || DEFAULT_FILE_PATH_PROPERTY,
-      filesToDelete: config.properties?.filesToDelete || DEFAULT_FILES_TO_DELETE_PROPERTY,
+      filesToDelete:
+        config.properties?.filesToDelete || DEFAULT_FILES_TO_DELETE_PROPERTY,
     },
   }
 
@@ -48,23 +50,36 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
   const deleteFile = deleteFileFactory(configWithDefault, provider)
   const deleteFiles = deleteFilesFactory(configWithDefault, provider)
 
-  const fillPath: After<RecordActionResponse> = async (response, request, context) => {
+  const fillPath: After<RecordActionResponse> = async (
+    response,
+    request,
+    context,
+  ) => {
     const { record } = response
 
     return {
       ...response,
-      record: await fillRecordWithPath(record, context, configWithDefault, provider),
+      record: await fillRecordWithPath(
+        record,
+        context,
+        configWithDefault,
+        provider,
+      ),
     }
   }
 
-  const fillPaths: After<ListActionResponse> = async (response, request, context) => {
+  const fillPaths: After<ListActionResponse> = async (
+    response,
+    request,
+    context,
+  ) => {
     const { records } = response
 
     return {
       ...response,
-      records: await Promise.all(records.map((record) => (
-        fillRecordWithPath(record, context, configWithDefault, provider)
-      ))),
+      records: await Promise.all(
+        records.map((record) => fillRecordWithPath(record, context, configWithDefault, provider)),
+      ),
     }
   }
 
@@ -81,6 +96,7 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     mimeTypes: validation?.mimeTypes,
     maxSize: validation?.maxSize,
     multiple: !!multiple,
+    opts: provider?.opts,
   }
 
   const uploadFeature = buildFeature({
@@ -107,7 +123,8 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
       },
       new: {
         before: stripFileFromPayload,
-        after: [updateRecord, fillPath] },
+        after: [updateRecord, fillPath],
+      },
       edit: {
         before: [stripFileFromPayload],
         after: [updateRecord, fillPath],
