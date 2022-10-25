@@ -1,9 +1,8 @@
-import React, { FC } from 'react'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Icon, Button, Box } from '@adminjs/design-system'
-
-import { ShowPropertyProps, flat } from 'adminjs'
-import { ImageMimeTypes, AudioMimeTypes } from '../types/mime-types.type'
+import { Box, Button, Icon } from '@adminjs/design-system'
+import { flat, ShowPropertyProps } from 'adminjs'
+import React, { FC } from 'react'
+import { AudioMimeTypes, ImageMimeTypes } from '../types/mime-types.type'
 import PropertyCustom from '../types/property-custom.type'
 
 type Props = ShowPropertyProps & {
@@ -11,24 +10,28 @@ type Props = ShowPropertyProps & {
 };
 
 type SingleFileProps = {
-  name: string,
-  path?: string,
-  mimeType?: string,
+  name: string;
+  path?: string;
+  mimeType?: string;
   width?: number | string;
-}
+};
 
 const SingleFile: FC<SingleFileProps> = (props) => {
   const { name, path, mimeType, width } = props
+
   if (path && path.length) {
     if (mimeType && ImageMimeTypes.includes(mimeType as any)) {
-      return <img src={path} style={{ maxHeight: width, maxWidth: width }} alt={name} />
+      return (
+        <img
+          src={path}
+          style={{ maxHeight: width, maxWidth: width }}
+          alt={name}
+        />
+      )
     }
     if (mimeType && AudioMimeTypes.includes(mimeType as any)) {
       return (
-        <audio
-          controls
-          src={path}
-        >
+        <audio controls src={path}>
           Your browser does not support the
           <code>audio</code>
           <track kind="captions" />
@@ -49,7 +52,7 @@ const SingleFile: FC<SingleFileProps> = (props) => {
 const File: FC<Props> = ({ width, record, property }) => {
   const { custom } = property as unknown as { custom: PropertyCustom }
 
-  const path = flat.get(record?.params, custom.filePathProperty)
+  let path = flat.get(record?.params, custom.filePathProperty)
 
   if (!path) {
     return null
@@ -59,10 +62,21 @@ const File: FC<Props> = ({ width, record, property }) => {
     record?.params,
     custom.fileNameProperty ? custom.fileNameProperty : custom.keyProperty,
   )
-  const mimeType = custom.mimeTypeProperty && flat.get(record?.params, custom.mimeTypeProperty)
+
+  const mimeType = custom.mimeTypeProperty
+    && flat.get(record?.params, custom.mimeTypeProperty)
 
   if (!property.custom.multiple) {
-    return <SingleFile path={path} name={name} width={width} mimeType={mimeType} />
+    if (custom.opts && custom.opts.baseUrl) {
+      path = `${custom.opts.baseUrl}/${name}`
+    }
+    return (
+      <SingleFile path={path} name={name} width={width} mimeType={mimeType} />
+    )
+  }
+  if (custom.opts && custom.opts.baseUrl) {
+    const baseUrl = custom.opts.baseUrl || ''
+    path = path.map((singlePath, index) => `${baseUrl}/${name[index]}`)
   }
 
   return (
