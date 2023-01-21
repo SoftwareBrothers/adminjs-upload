@@ -1,6 +1,7 @@
 import { LocalProvider } from '../providers/local-provider'
 import { GCPProvider } from '../providers/gcp-provider'
 import { AWSProvider } from '../providers/aws-provider'
+import { MinIoProvider } from '../providers/minio-provider'
 import { BaseProvider } from '../providers'
 import { UploadOptions, AvailableDefaultProviders } from '../types/upload-options.type'
 import { ERROR_MESSAGES } from '../constants'
@@ -33,6 +34,7 @@ export const getProvider = (options: UploadOptions['provider']): GetProviderRetu
   const providerOptions = options[providerName]
 
   const providerMap: Record<AvailableDefaultProviders, () => BaseProvider> = {
+    minio: () => new MinIoProvider(providerOptions),
     aws: () => new AWSProvider(providerOptions),
     gcp: () => new GCPProvider(providerOptions),
     local: () => new LocalProvider(providerOptions),
