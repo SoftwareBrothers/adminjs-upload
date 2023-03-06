@@ -7,10 +7,15 @@ const Edit: FC<EditPropertyProps> = ({ property, record, onChange }) => {
   const { params } = record
   const { custom } = property as unknown as { custom: PropertyCustom }
 
-  const path = flat.get(params, custom.filePathProperty)
   const key = flat.get(params, custom.keyProperty)
   const file = flat.get(params, custom.fileProperty)
 
+  let path = flat.get(params, custom.filePathProperty)
+  if (custom.opts && custom.opts.baseUrl && path) {
+    const baseUrl = custom.opts.baseUrl || ''
+    path = path.map((singlePath, index) => (singlePath != null) ? `${baseUrl}/${key[index]}` : null)
+  }
+  
   const [originalKey, setOriginalKey] = useState(key)
   const [filesToUpload, setFilesToUpload] = useState<Array<File>>([])
 
