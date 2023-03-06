@@ -49,7 +49,7 @@ export const updateRecordFactory = (
         )))
 
         const newParams = DB_PROPERTIES.reduce((params, propertyName: string) => {
-          if (properties[propertyName]) {
+          if (properties[propertyName] && record.get(properties[propertyName])) {
             const filtered = record.get(properties[propertyName]).filter((el, i) => (
               !filesToDelete.includes(i.toString())
             ))
