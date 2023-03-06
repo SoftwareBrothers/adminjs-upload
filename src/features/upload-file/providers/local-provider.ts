@@ -1,5 +1,6 @@
 import { UploadedFile } from 'adminjs'
 import fs, { existsSync } from 'fs'
+import fse from 'fs-extra'
 import path from 'path'
 import { ERROR_MESSAGES } from '../constants'
 import { BaseProvider, ProviderOpts } from './base-provider'
@@ -33,7 +34,7 @@ export class LocalProvider extends BaseProvider {
     const filePath = process.platform === 'win32' ? this.path(key) : this.path(key).slice(1) // adjusting file path according to OS
 
     await fs.promises.mkdir(path.dirname(filePath), { recursive: true })
-    await fs.promises.rename(file.path, filePath)
+    await fse.move(file.path, filePath, { overwrite: true })
   }
 
   public async delete(key: string, bucket: string): Promise<any> {
