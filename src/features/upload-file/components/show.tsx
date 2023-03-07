@@ -1,8 +1,7 @@
-import React, { FC } from 'react'
-import { ShowPropertyProps } from 'adminjs'
 import { FormGroup, Label } from '@adminjs/design-system'
-
-import File from './file'
+import { ShowPropertyProps } from 'adminjs'
+import React, { FC } from 'react'
+import File from './file.js'
 
 const Show: FC<ShowPropertyProps> = (props) => {
   const { property } = props

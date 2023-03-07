@@ -5,16 +5,16 @@ import AdminJS, {
   ListActionResponse,
   RecordActionResponse,
 } from 'adminjs'
-import { ERROR_MESSAGES } from './constants'
-import { deleteFileFactory } from './factories/delete-file-factory'
-import { deleteFilesFactory } from './factories/delete-files-factory'
-import { stripPayloadFactory } from './factories/strip-payload-factory'
-import { updateRecordFactory } from './factories/update-record-factory'
-import { BaseProvider } from './providers'
-import PropertyCustom from './types/property-custom.type'
-import UploadOptions, { UploadOptionsWithDefault } from './types/upload-options.type'
-import { fillRecordWithPath } from './utils/fill-record-with-path'
-import { getProvider } from './utils/get-provider'
+import { ERROR_MESSAGES } from './constants.js'
+import { deleteFileFactory } from './factories/delete-file-factory.js'
+import { deleteFilesFactory } from './factories/delete-files-factory.js'
+import { stripPayloadFactory } from './factories/strip-payload-factory.js'
+import { updateRecordFactory } from './factories/update-record-factory.js'
+import { BaseProvider } from './providers/index.js'
+import PropertyCustom from './types/property-custom.type.js'
+import UploadOptions, { UploadOptionsWithDefault } from './types/upload-options.type.js'
+import { fillRecordWithPath } from './utils/fill-record-with-path.js'
+import { getProvider } from './utils/get-provider.js'
 
 export type ProviderOptions = Required<
   Exclude<UploadOptions['provider'], BaseProvider>

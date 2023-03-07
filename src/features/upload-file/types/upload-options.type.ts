@@ -1,8 +1,8 @@
 import { BaseRecord } from 'adminjs'
-import { AWSOptions } from '../providers/aws-provider'
-import { BaseProvider } from '../providers/base-provider'
-import { LocalUploadOptions } from '../providers/local-provider'
-import { GCPOptions } from '../providers/gcp-provider'
+import { AWSOptions } from '../providers/aws-provider.js'
+import { BaseProvider } from '../providers/base-provider.js'
+import { GCPOptions } from '../providers/gcp-provider.js'
+import { LocalUploadOptions } from '../providers/local-provider.js'
 
 /**
  * Configuration options for @adminjs/upload feature

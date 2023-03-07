@@ -1,12 +1,11 @@
+import { ActionContext, ActionRequest, After, RecordActionResponse } from 'adminjs'
 import chai, { expect } from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import { After, RecordActionResponse, ActionRequest, ActionContext } from 'adminjs'
-import { BaseProvider } from './providers/base-provider'
-import UploadOptions from './types/upload-options.type'
-
-import uploadFile from './upload-file.feature'
-import stubProvider from './spec/stub-provider'
+import { BaseProvider } from './providers/base-provider.js'
+import stubProvider from './spec/stub-provider.js'
+import UploadOptions from './types/upload-options.type.js'
+import uploadFile from './upload-file.feature.js'
 
 chai.use(sinonChai)
 
@@ -48,9 +47,13 @@ describe('uploadFileFeature', () => {
     }
 
     it('fills record with the path', async () => {
-      const response = { record: { params: {
-        [properties.key]: key,
-      } } }
+      const response = {
+        record: {
+          params: {
+            [properties.key]: key,
+          },
+        },
+      }
       const fillPath = getAfterHook({ provider, properties })
 
       const ret = await fillPath(
@@ -66,10 +69,14 @@ describe('uploadFileFeature', () => {
     it('gets bucket from the record when it is present', async () => {
       const bucket = 'some-other-bucket'
       properties.bucket = 'storedBucketProperty'
-      const response = { record: { params: {
-        [properties.key]: key,
-        [properties.bucket]: bucket,
-      } } }
+      const response = {
+        record: {
+          params: {
+            [properties.key]: key,
+            [properties.bucket]: bucket,
+          },
+        },
+      }
       const fillPath = getAfterHook({ provider, properties })
 
       await fillPath(
@@ -82,9 +89,13 @@ describe('uploadFileFeature', () => {
     })
 
     it('does nothing when path is not present', async () => {
-      const response = { record: { params: {
-        name: 'some value',
-      } } }
+      const response = {
+        record: {
+          params: {
+            name: 'some value',
+          },
+        },
+      }
       const fillPath = getAfterHook({ provider, properties })
 
       const ret = await fillPath(

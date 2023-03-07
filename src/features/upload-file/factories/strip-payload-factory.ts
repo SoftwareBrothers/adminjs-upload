@@ -1,9 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import { Before, ActionContext, ActionRequest, flat } from 'adminjs'
-
-import { FeatureInvocation, UploadOptionsWithDefault } from '../types/upload-options.type'
-import { CONTEXT_NAMESPACE, ERROR_MESSAGES } from '../constants'
-import { validatePropertiesGlobally } from '../utils/validate-properties'
+import { ActionContext, ActionRequest, Before, flat } from 'adminjs'
+import { CONTEXT_NAMESPACE, ERROR_MESSAGES } from '../constants.js'
+import { FeatureInvocation, UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { validatePropertiesGlobally } from '../utils/validate-properties.js'
 
 type ContextNamespace = {
   /**

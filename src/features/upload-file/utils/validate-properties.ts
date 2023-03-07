@@ -1,5 +1,5 @@
-import { DuplicateOccurrence } from '../constants'
-import { FeatureInvocation, UploadOptions, UploadOptionsWithDefault } from '../types/upload-options.type'
+import { DuplicateOccurrence } from '../constants.js'
+import { FeatureInvocation, UploadOptions, UploadOptionsWithDefault } from '../types/upload-options.type.js'
 
 const invocationPrefix = (index) => (
   `__invocation__${index}__`
@@ -21,7 +21,8 @@ export const hasDuplicatedProperties = (
       [properties[key]]: {
         keys,
         value: properties[key],
-      } } : {}
+      },
+    } : {}
     return {
       ...memo,
       ...property,

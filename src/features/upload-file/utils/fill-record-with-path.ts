@@ -1,6 +1,6 @@
-import { RecordJSON, ActionContext, flat } from 'adminjs'
-import { BaseProvider } from '../providers'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
+import { ActionContext, flat, RecordJSON } from 'adminjs'
+import { BaseProvider } from '../providers/index.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
 
 export const fillRecordWithPath = async (
   record: RecordJSON,

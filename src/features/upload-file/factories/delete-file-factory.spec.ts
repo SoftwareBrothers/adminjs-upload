@@ -1,12 +1,11 @@
-import { ActionRequest, RecordActionResponse, ActionContext, BaseRecord } from 'adminjs'
-import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
+import { ActionContext, ActionRequest, BaseRecord, RecordActionResponse } from 'adminjs'
 import chai, { expect } from 'chai'
+import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
 import sinonChai from 'sinon-chai'
-
-import { deleteFileFactory } from './delete-file-factory'
-import { BaseProvider } from '../providers'
-import stubProvider from '../spec/stub-provider'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
+import { BaseProvider } from '../providers/index.js'
+import stubProvider from '../spec/stub-provider.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { deleteFileFactory } from './delete-file-factory.js'
 
 chai.use(sinonChai)
 
@@ -30,7 +29,8 @@ describe('deleteFileFactory', () => {
       },
       provider: {
         aws: { bucket: 'any' },
-      } as UploadOptionsWithDefault['provider'] }
+      } as UploadOptionsWithDefault['provider'],
+    }
     record = createStubInstance(BaseRecord, {
       id: sinon.stub<any, string>().returns('1'),
       isValid: sinon.stub<any, boolean>().returns(true),

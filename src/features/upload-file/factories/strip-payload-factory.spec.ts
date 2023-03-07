@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import { ActionContext, ActionRequest, Before } from 'adminjs'
 import { expect } from 'chai'
-import { CONTEXT_NAMESPACE } from '../constants'
-import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type'
-import { stripPayloadFactory } from './strip-payload-factory'
+import { CONTEXT_NAMESPACE } from '../constants.js'
+import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { stripPayloadFactory } from './strip-payload-factory.js'
 
 describe('stripPayloadFactory', () => {
   let actionContext = {} as ActionContext
@@ -21,7 +21,8 @@ describe('stripPayloadFactory', () => {
       },
       provider: {
         aws: { bucket: 'any' },
-      } as UploadOptions['provider'] }
+      } as UploadOptions['provider'],
+    }
   })
 
   context('standard upload payload', () => {

@@ -12,15 +12,13 @@
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+
     "baseUrl": ".",
     "paths": {
       "react": ["node_modules/@types/react"]
     }
   },
-  "include": [
-    "./src/**/*",
-    "./spec/**/*"
-  ],
+  "include": ["./src/**/*", "./spec/**/*"]
 }

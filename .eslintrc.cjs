@@ -22,7 +22,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 11,
+    ecmaVersion: 20,
     sourceType: 'module',
   },
   plugins: [

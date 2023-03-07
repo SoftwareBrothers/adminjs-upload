@@ -1,12 +1,11 @@
-import { After, RecordActionResponse, ActionContext, BaseRecord, ActionRequest, UploadedFile, BaseResource } from 'adminjs'
-import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
+import { ActionContext, ActionRequest, After, BaseRecord, BaseResource, RecordActionResponse, UploadedFile } from 'adminjs'
 import { expect } from 'chai'
-
-import { updateRecordFactory } from './update-record-factory'
-import stubProvider from '../spec/stub-provider'
-import { BaseProvider } from '../providers'
-import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type'
-import { CONTEXT_NAMESPACE } from '../constants'
+import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
+import { CONTEXT_NAMESPACE } from '../constants.js'
+import { BaseProvider } from '../providers/index.js'
+import stubProvider from '../spec/stub-provider.js'
+import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { updateRecordFactory } from './update-record-factory.js'
 
 describe('updateRecordFactory', () => {
   const request: ActionRequest = { method: 'post' } as ActionRequest
@@ -29,9 +28,13 @@ describe('updateRecordFactory', () => {
 
   beforeEach(() => {
     provider = stubProvider(resolvedS3Path)
-    response = { record: { params: {
-      name: 'some value',
-    } } } as unknown as RecordActionResponse
+    response = {
+      record: {
+        params: {
+          name: 'some value',
+        },
+      },
+    } as unknown as RecordActionResponse
     uploadOptions = {
       properties: {
         key: 's3Key',
@@ -41,7 +44,8 @@ describe('updateRecordFactory', () => {
       },
       provider: {
         aws: { bucket: 'any' },
-      } as UploadOptions['provider'] }
+      } as UploadOptions['provider'],
+    }
     recordStub = createStubInstance(BaseRecord, {
       id: sinon.stub<any, string>().returns('1'),
       isValid: sinon.stub<any, boolean>().returns(true),
