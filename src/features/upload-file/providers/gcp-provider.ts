@@ -1,8 +1,8 @@
-import { UploadedFile } from 'adminjs'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { UploadResponse, DeleteFileResponse } from '@google-cloud/storage'
-import { BaseProvider } from './base-provider'
-import { DAY_IN_MINUTES } from '../constants'
+import { DeleteFileResponse, UploadResponse } from '@google-cloud/storage'
+import { UploadedFile } from 'adminjs'
+import { DAY_IN_MINUTES } from '../constants.js'
+import { BaseProvider } from './base-provider.js'
 
 /**
  * Google Storage options which can be set for GCP file upload.

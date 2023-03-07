@@ -2,11 +2,10 @@ import AdminJS, { ActionContext, ActionRequest, After, ComponentLoader, RecordAc
 import chai, { expect } from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import { BaseProvider } from './providers/base-provider'
-import UploadOptions from './types/upload-options.type'
-
-import stubProvider from './spec/stub-provider'
-import uploadFile from './upload-file.feature'
+import { BaseProvider } from './providers/base-provider.js'
+import stubProvider from './spec/stub-provider.js'
+import UploadOptions from './types/upload-options.type.js'
+import uploadFile from './upload-file.feature.js'
 
 chai.use(sinonChai)
 
@@ -57,6 +56,7 @@ describe('uploadFileFeature', () => {
           },
         },
       }
+
       const fillPath = getAfterHook({ componentLoader, provider, properties })
 
       const ret = await fillPath(
@@ -99,6 +99,7 @@ describe('uploadFileFeature', () => {
           },
         },
       }
+
       const fillPath = getAfterHook({ componentLoader, provider, properties })
 
       const ret = await fillPath(

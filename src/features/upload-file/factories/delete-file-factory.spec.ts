@@ -1,12 +1,11 @@
 import { ActionContext, ActionRequest, BaseRecord, ComponentLoader, RecordActionResponse } from 'adminjs'
 import chai, { expect } from 'chai'
-import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
+import sinon, { SinonStubbedInstance, createStubInstance } from 'sinon'
 import sinonChai from 'sinon-chai'
-
-import { BaseProvider } from '../providers'
-import stubProvider from '../spec/stub-provider'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
-import { deleteFileFactory } from './delete-file-factory'
+import { BaseProvider } from '../providers/index.js'
+import stubProvider from '../spec/stub-provider.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { deleteFileFactory } from './delete-file-factory.js'
 
 const componentLoader = new ComponentLoader()
 chai.use(sinonChai)

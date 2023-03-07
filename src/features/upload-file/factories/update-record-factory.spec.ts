@@ -1,12 +1,11 @@
 import { ActionContext, ActionRequest, After, BaseRecord, BaseResource, ComponentLoader, RecordActionResponse, UploadedFile } from 'adminjs'
 import { expect } from 'chai'
-import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
-
-import { CONTEXT_NAMESPACE } from '../constants'
-import { BaseProvider } from '../providers'
-import stubProvider from '../spec/stub-provider'
-import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type'
-import { updateRecordFactory } from './update-record-factory'
+import sinon, { SinonStubbedInstance, createStubInstance } from 'sinon'
+import { CONTEXT_NAMESPACE } from '../constants.js'
+import { BaseProvider } from '../providers/index.js'
+import stubProvider from '../spec/stub-provider.js'
+import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { updateRecordFactory } from './update-record-factory.js'
 
 const componentLoader = new ComponentLoader()
 describe('updateRecordFactory', () => {

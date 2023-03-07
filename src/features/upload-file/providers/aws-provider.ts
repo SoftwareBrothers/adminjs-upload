@@ -1,10 +1,9 @@
-import fs from 'fs'
+import { UploadedFile } from 'adminjs'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { S3 } from 'aws-sdk'
-import { UploadedFile } from 'adminjs'
-import { ERROR_MESSAGES, DAY_IN_MINUTES } from '../constants'
-
-import { BaseProvider } from './base-provider'
+import fs from 'fs'
+import { DAY_IN_MINUTES, ERROR_MESSAGES } from '../constants.js'
+import { BaseProvider } from './base-provider.js'
 
 /**
  * AWS Credentials which can be set for S3 file upload.
