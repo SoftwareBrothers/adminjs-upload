@@ -47,6 +47,8 @@ export class AWSProvider extends BaseProvider {
 
   public expires: number
 
+  private previewBaseUrl: string | undefined
+
   constructor(options: AWSOptions) {
     super(options.bucket)
 
@@ -70,6 +72,7 @@ export class AWSProvider extends BaseProvider {
       Bucket: this.bucket,
       Key: key,
       Body: tmpFile,
+      ContentType: file.type
     }
     if (!this.expires) {
       params.ACL = 'public-read'
@@ -90,6 +93,10 @@ export class AWSProvider extends BaseProvider {
       })
     }
     // https://bucket.s3.amazonaws.com/key
-    return this.previewBaseUrl || `https://${bucket}.s3.amazonaws.com/${key}`
+    let base : string = `https://${bucket}.s3.amazonaws.com`;
+    if (this.previewBaseUrl) {
+      base = this.previewBaseUrl;
+    }
+    return `${base}/${key}`
   }
 }
