@@ -43,7 +43,7 @@
     "@types/sinon-chai": "^3.2.9",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
-    "adminjs": "^6.8.7",
+    "adminjs": "^7.0.0-beta-v7.1",
     "aws-sdk": "^2.1339.0",
     "chai": "^4.3.7",
     "eslint": "^8.36.0",

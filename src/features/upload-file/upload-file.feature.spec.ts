@@ -1,4 +1,4 @@
-import { ActionContext, ActionRequest, After, RecordActionResponse } from 'adminjs'
+import AdminJS, { ActionContext, ActionRequest, After, RecordActionResponse } from 'adminjs'
 import chai, { expect } from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
@@ -42,7 +42,7 @@ describe('uploadFileFeature', () => {
     const key = 'someKeyValue'
 
     const getAfterHook = (options: UploadOptions): After<RecordActionResponse> => {
-      const feature = uploadFile(options)({})
+      const feature = uploadFile(options)(new AdminJS(), {})
       return feature.actions?.show?.after?.[0] as After<RecordActionResponse>
     }
 
