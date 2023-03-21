@@ -50,6 +50,8 @@ module.exports = {
       'react/prop-types': 'off',
       'react/jsx-props-no-spreading': 'off',
       'import/no-extraneous-dependencies': 'off',
+      'react/function-component-definition': 'off',
+      'react/require-default-props': 'off',
     },
   }, {
     files: ['./src/**/*.spec.ts', '**/*/spec/**/*.ts'],
