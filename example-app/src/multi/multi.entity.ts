@@ -20,35 +20,35 @@ export type PhotoInDB = {
 @Entity({ name: 'multi' })
 export class Multi extends BaseEntity {
   @PrimaryGeneratedColumn()
-  public id: number;
+  public id: number
 
   @Column({ nullable: false })
-  public name: string;
+  public name: string
 
   @Column({ nullable: true })
-  public key: string;
+  public key: string
 
   @Column({ nullable: true })
-  public bucket: string;
+  public bucket: string
 
   @Column({ nullable: true })
-  public mime: string;
+  public mime: string
 
   @Column({ nullable: true })
-  public size: number;
+  public size: number
 
   @Column({ nullable: true, type: 'jsonb' })
-  public topPhoto: any;
+  public topPhoto: any
 
   @Column({ nullable: true, type: 'jsonb' })
-  public bottomPhoto: any;
+  public bottomPhoto: any
 
   @Column({ nullable: true, type: 'jsonb' })
-  public images: any;
+  public images: any
 
   @CreateDateColumn({ name: 'created_at' })
-  public createdAt: Date;
+  public createdAt: Date
 
   @UpdateDateColumn({ name: 'updated_at' })
-  public updatedAt: Date;
+  public updatedAt: Date
 }
