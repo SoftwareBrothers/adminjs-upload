@@ -4,7 +4,6 @@ import { BaseProvider } from '../providers/base-provider.js'
 import { GCPOptions } from '../providers/gcp-provider.js'
 import { LocalUploadOptions } from '../providers/local-provider.js'
 
-
 /**
  * Function which defines where in the bucket file should be stored.
  * If we have 2 uploads in one resource we might need to set them to

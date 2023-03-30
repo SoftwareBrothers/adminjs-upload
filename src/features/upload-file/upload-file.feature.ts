@@ -17,7 +17,6 @@ import bundleComponent from './utils/bundle-component.js'
 import { fillRecordWithPath } from './utils/fill-record-with-path.js'
 import { getProvider } from './utils/get-provider.js'
 
-
 export type ProviderOptions = Required<
   Exclude<UploadOptions['provider'], BaseProvider>
 >;
