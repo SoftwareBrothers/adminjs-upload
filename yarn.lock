@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@adminjs/design-system@^4.0.0-beta-v4.1":
-  version "4.0.0-beta-v4.1"
-  resolved "https://registry.yarnpkg.com/@adminjs/design-system/-/design-system-4.0.0-beta-v4.1.tgz#3bd9df085193680d1a9431a291860379063646b7"
-  integrity sha512-iUnu3XIloH2YuTe2Zjcc7Dm7Ms5bspLaeCNkO67nvBPO9Q9DWYcoRZhKP8ftX86/4pugCr7gCm3d1Vj4+HrRKg==
+"@adminjs/design-system@^4.0.0-beta-v4.5":
+  version "4.0.0-beta-v4.5"
+  resolved "https://registry.yarnpkg.com/@adminjs/design-system/-/design-system-4.0.0-beta-v4.5.tgz#404d2eea9cb3e47332394452ee9fac63b4cddeb4"
+  integrity sha512-eVBU+V46q/zFwlVckM4q0D827YSkXvNNZYts+HjzqrJ5e5kMCJSLl3rg8k0579IQ1KLDKjRec4xcEnfIzHTDug==
   dependencies:
     "@hypnosphi/create-react-context" "^0.3.1"
     "@tiptap/core" "2.0.0-beta.220"
@@ -35,7 +35,7 @@
     react-datepicker "^4.10.0"
     react-feather "^2.0.10"
     react-phone-input-2 "^2.15.1"
-    react-select "^5.7.0"
+    react-select "^5.7.2"
     react-text-mask "^5.5.0"
     styled-system "^5.1.5"
     text-mask-addons "^3.8.0"
@@ -83,7 +83,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.21.0.tgz#c241dc454e5b5917e40d37e525e2f4530c399298"
   integrity sha512-gMuZsmsgxk/ENC3O/fRw5QY8A9/uxQbbCEypnLIiYYc/qVJtEV7ouxC3EllIIwNzMqAQee5tanFabWsUOutS7g==
 
-"@babel/core@^7.20.12", "@babel/core@^7.20.7":
+"@babel/core@^7.20.7", "@babel/core@^7.21.0":
   version "7.21.3"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.21.3.tgz#cf1c877284a469da5d1ce1d1e53665253fae712e"
   integrity sha512-qIJONzoa/qiHghnm0l1n4i/6IIziDpzqc36FBs4pzMhDUraHqponwJLiAKm1hGLP3OSB/TVNz6rMwVGpwxxySw==
@@ -491,7 +491,7 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.18.8.tgz#822146080ac9c62dac0823bb3489622e0bc1cbdf"
   integrity sha512-RSKRfYX20dyH+elbJK2uqAkVyucL+xXzhqlMD5/ZXx+dAAwpyB7HsvnHe/ZUGOF+xLr5Wx9/JoXVTj6BQE2/oA==
 
-"@babel/parser@^7.20.15", "@babel/parser@^7.20.7", "@babel/parser@^7.21.3":
+"@babel/parser@^7.20.7", "@babel/parser@^7.21.0", "@babel/parser@^7.21.3":
   version "7.21.3"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.3.tgz#1d285d67a19162ff9daa358d4cb41d50c06220b3"
   integrity sha512-lobG0d7aOfQRXh8AyklEAgZGvA4FShxo6xQbUrrT/cNBPUdIDojlokwJsQyCC/eKia7ifqM0yP+2DRZ4WKw2RQ==
@@ -1016,7 +1016,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.18.6"
 
-"@babel/plugin-transform-runtime@^7.19.6":
+"@babel/plugin-transform-runtime@^7.21.0":
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.21.0.tgz#2a884f29556d0a68cd3d152dcc9e6c71dfb6eee8"
   integrity sha512-ReY6pxwSzEU0b3r2/T/VhqMKg/AkceBT19X0UptA3/tYi5Pe2eXgEUH+NNMC5nok6c6XQz5tyVTUpuezRfSMSg==
@@ -1193,7 +1193,7 @@
     "@babel/plugin-transform-react-jsx-development" "^7.18.6"
     "@babel/plugin-transform-react-pure-annotations" "^7.18.6"
 
-"@babel/preset-typescript@^7.18.6":
+"@babel/preset-typescript@^7.18.6", "@babel/preset-typescript@^7.21.0":
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/@babel/preset-typescript/-/preset-typescript-7.21.0.tgz#bcbbca513e8213691fe5d4b23d9251e01f00ebff"
   integrity sha512-myc9mpoVA5m1rF8K8DgLEatOYFDpwC+RkMkjZ0Du6uI62YvDe8uxIEYVs/VCdSJ097nlALiU/yBC7//3nI+hNg==
@@ -1202,7 +1202,7 @@
     "@babel/helper-validator-option" "^7.21.0"
     "@babel/plugin-transform-typescript" "^7.21.0"
 
-"@babel/register@^7.18.9":
+"@babel/register@^7.21.0":
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/@babel/register/-/register-7.21.0.tgz#c97bf56c2472e063774f31d344c592ebdcefa132"
   integrity sha512-9nKsPmYDi5DidAqJaQooxIhsLJiNMkGr8ypQ8Uic7cIox7UCDsM7HuUGxdGT7mSDTYbqzIdsOWzfBton/YJrMw==
@@ -2185,10 +2185,10 @@
   dependencies:
     type-fest "^2.0.0"
 
-"@remix-run/router@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.4.0.tgz#74935d538e4df8893e47831a7aea362f295bcd39"
-  integrity sha512-BJ9SxXux8zAg991UmT8slpwpsd31K1dHHbD3Ba4VzD+liLQ4WAMSxQp2d2ZPRPfN0jN2NPRowcSSoM7lCaF08Q==
+"@remix-run/router@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.5.0.tgz#57618e57942a5f0131374a9fdb0167e25a117fdc"
+  integrity sha512-bkUDCp8o1MvFO+qxkODcbhSqRa6P2GXgrGZVpt0dCXNW2HCSCqYI0ZoAqEOSAjRWmmlKcYgFvN4B4S+zo/f8kg==
 
 "@rollup/plugin-babel@^6.0.3":
   version "6.0.3"
@@ -3068,20 +3068,20 @@ acorn@^8.4.1, acorn@^8.5.0, acorn@^8.8.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.2.tgz#1b2f25db02af965399b9776b0c2c391276d37c4a"
   integrity sha512-xjIYgE8HBrkpd/sJqOGNspf8uHG+NOHGOw6a/Urj8taM2EXfdNAH2oFcPeIFfsv3+kz/mJrS5VuMqbNLjCa2vw==
 
-adminjs@^7.0.0-beta-v7.1:
-  version "7.0.0-beta-v7.1"
-  resolved "https://registry.yarnpkg.com/adminjs/-/adminjs-7.0.0-beta-v7.1.tgz#b64bf3e5938b4c8cbbc116ca4232bdd08136eb0c"
-  integrity sha512-iFiFj30vXb+CvYpcD6JIgcYVfNb35rr9CQUeye69I3iW2QHwqMTcpr3lnxsk9dz+9BSIqNdCM7fzYtxgRG8CVA==
+adminjs@^7.0.0-beta-v7.2:
+  version "7.0.0-beta-v7.2"
+  resolved "https://registry.yarnpkg.com/adminjs/-/adminjs-7.0.0-beta-v7.2.tgz#1359205e7113741ca2a69777282fdccc10727dca"
+  integrity sha512-FqlpaYhsBQfzp1J3wKjk8yL92EcX3lfTljKPgeUDCHVAIv1ZFtpwxM2oMPvld8KFUqZr+qHTaaEwTWkGrorBVw==
   dependencies:
-    "@adminjs/design-system" "^4.0.0-beta-v4.1"
-    "@babel/core" "^7.20.12"
-    "@babel/parser" "^7.20.15"
+    "@adminjs/design-system" "^4.0.0-beta-v4.5"
+    "@babel/core" "^7.21.0"
+    "@babel/parser" "^7.21.0"
     "@babel/plugin-syntax-import-assertions" "^7.20.0"
-    "@babel/plugin-transform-runtime" "^7.19.6"
+    "@babel/plugin-transform-runtime" "^7.21.0"
     "@babel/preset-env" "^7.20.2"
     "@babel/preset-react" "^7.18.6"
-    "@babel/preset-typescript" "^7.18.6"
-    "@babel/register" "^7.18.9"
+    "@babel/preset-typescript" "^7.21.0"
+    "@babel/register" "^7.21.0"
     "@emotion/stylis" "^0.8.5"
     "@hello-pangea/dnd" "^16.2.0"
     "@rollup/plugin-babel" "^6.0.3"
@@ -3092,24 +3092,24 @@ adminjs@^7.0.0-beta-v7.1:
     "@rollup/plugin-terser" "^0.4.0"
     "@types/babel-core" "^6.25.7"
     "@types/react" "^18.0.28"
-    axios "^1.3.3"
+    axios "^1.3.4"
     babel-plugin-styled-components "^2.0.7"
     commander "^10.0.0"
     flat "^5.0.2"
-    i18next "^22.4.9"
+    i18next "^22.4.13"
     i18next-browser-languagedetector "^7.0.1"
-    i18next-http-backend "^2.1.1"
+    i18next-http-backend "^2.2.0"
     lodash "^4.17.21"
-    ora "^6.1.2"
+    ora "^6.2.0"
     prop-types "^15.8.1"
     punycode "^2.3.0"
     react "^18.2.0"
     react-dom "^18.2.0"
-    react-i18next "^12.1.5"
+    react-i18next "^12.2.0"
     react-is "^18.2.0"
     react-redux "^8.0.5"
-    react-router "^6.8.1"
-    react-router-dom "^6.8.1"
+    react-router "^6.9.0"
+    react-router-dom "^6.9.0"
     redux "^4.2.1"
     rollup "^3.15.0"
     rollup-plugin-polyfill-node "^0.12.0"
@@ -3412,7 +3412,7 @@ axe-core@^4.6.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.6.3.tgz#fc0db6fdb65cc7a80ccf85286d91d64ababa3ece"
   integrity sha512-/BQzOX780JhsxDnPpH4ZiyrJAzcd8AfzFPkv+89veFSr1rcMjuq2JDCwypKaPeB6ljHp9KjXhPpjgCvQlWYuqg==
 
-axios@^1.3.3:
+axios@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.4.tgz#f5760cefd9cfb51fd2481acf88c05f67c4523024"
   integrity sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==
@@ -5607,14 +5607,14 @@ i18next-browser-languagedetector@^7.0.1:
   dependencies:
     "@babel/runtime" "^7.19.4"
 
-i18next-http-backend@^2.1.1:
+i18next-http-backend@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-2.2.0.tgz#f77c06dc8e766c7588bb38da2f5fa0614ba67b3f"
   integrity sha512-Z4sM7R6tzdLknSPER9GisEBxKPg5FkI07UrQniuroZmS15PHQrcCPLyuGKj8SS68tf+O2aEDYSUnmy1TZqZSbw==
   dependencies:
     cross-fetch "3.1.5"
 
-i18next@^22.4.9:
+i18next@^22.4.13:
   version "22.4.13"
   resolved "https://registry.yarnpkg.com/i18next/-/i18next-22.4.13.tgz#02e291ab0056eab13b7d356fb454ff991923eaa0"
   integrity sha512-GX7flMHRRqQA0I1yGLmaZ4Hwt1JfLqagk8QPDPZsqekbKtXsuIngSVWM/s3SLgNkrEXjA+0sMGNuOEkkmyqmWg==
@@ -7678,10 +7678,10 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-ora@^6.1.2:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/ora/-/ora-6.2.0.tgz#6d727902151d5b1badc599ace4df45a34d53f556"
-  integrity sha512-c1qb/1rdE+EFDYiLXh10VY459uMh7DN9zlgd8mZJLoeiPpYllN8eAOiih2Rkah5ywxRm5tHN5C9zPheDq8d1MA==
+ora@^6.2.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/ora/-/ora-6.3.0.tgz#a314600999f514a989a0904f5c17c8b7c1f7c878"
+  integrity sha512-1/D8uRFY0ay2kgBpmAwmSA404w4OoPVhHMqRqtjvrcK/dnzcEZxMJ+V4DUbyICu8IIVRclHcOf5wlD1tMY4GUQ==
   dependencies:
     chalk "^5.0.0"
     cli-cursor "^4.0.0"
@@ -8397,7 +8397,7 @@ react-feather@^2.0.10:
   dependencies:
     prop-types "^15.7.2"
 
-react-i18next@^12.1.5:
+react-i18next@^12.2.0:
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-12.2.0.tgz#010e3f6070b8d700442947233352ebe4b252d7a1"
   integrity sha512-5XeVgSygaGfyFmDd2WcXvINRw2WEC1XviW1LXY/xLOEMzsCFRwKqfnHN+hUjla8ZipbVJR27GCMSuTr0BhBBBQ==
@@ -8452,25 +8452,25 @@ react-redux@^8.0.4, react-redux@^8.0.5:
     react-is "^18.0.0"
     use-sync-external-store "^1.0.0"
 
-react-router-dom@^6.8.1:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.9.0.tgz#dd8b4e461453bd4cad2e6404493d1a5b4bfea758"
-  integrity sha512-/seUAPY01VAuwkGyVBPCn1OXfVbaWGGu4QN9uj0kCPcTyNYgL1ldZpxZUpRU7BLheKQI4Twtl/OW2nHRF1u26Q==
+react-router-dom@^6.9.0:
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.10.0.tgz#090ddc5c84dc41b583ce08468c4007c84245f61f"
+  integrity sha512-E5dfxRPuXKJqzwSe/qGcqdwa18QiWC6f3H3cWXM24qj4N0/beCIf/CWTipop2xm7mR0RCS99NnaqPNjHtrAzCg==
   dependencies:
-    "@remix-run/router" "1.4.0"
-    react-router "6.9.0"
+    "@remix-run/router" "1.5.0"
+    react-router "6.10.0"
 
-react-router@6.9.0, react-router@^6.8.1:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.9.0.tgz#0f503d9becbc62d9e4ddc0f9bd4026e0fd29fbf5"
-  integrity sha512-51lKevGNUHrt6kLuX3e/ihrXoXCa9ixY/nVWRLlob4r/l0f45x3SzBvYJe3ctleLUQQ5fVa4RGgJOTH7D9Umhw==
+react-router@6.10.0, react-router@^6.9.0:
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.10.0.tgz#230f824fde9dd0270781b5cb497912de32c0a971"
+  integrity sha512-Nrg0BWpQqrC3ZFFkyewrflCud9dio9ME3ojHCF/WLsprJVzkq3q3UeEhMCAW1dobjeGbWgjNn/PVF6m46ANxXQ==
   dependencies:
-    "@remix-run/router" "1.4.0"
+    "@remix-run/router" "1.5.0"
 
-react-select@^5.7.0:
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.1.tgz#c85afa8a771d75c935ec698726a8fbfece662ed0"
-  integrity sha512-u/brzm3B6vgI+PtxNyE4/18kXgaf6bn5sOAjKhaQ54EItBfW41SRLH1AJC5fefPnGM4JmMcM51t/HAVCi5GrpQ==
+react-select@^5.7.2:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.2.tgz#ccd40071b9429277983bf15526e7a5773a060e09"
+  integrity sha512-cTlJkQ8YjV6T/js8wW0owTzht0hHGABh29vjLscY4HfZGkv7hc3FFTmRp9NzY/Ib1uQ36GieAKEjxpHdpCFpcA==
   dependencies:
     "@babel/runtime" "^7.12.0"
     "@emotion/cache" "^11.4.0"
