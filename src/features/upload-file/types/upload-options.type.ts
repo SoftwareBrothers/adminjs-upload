@@ -1,8 +1,8 @@
-import { BaseRecord } from 'adminjs'
+import { BaseRecord, ComponentLoader } from 'adminjs'
 import { AWSOptions } from '../providers/aws-provider'
 import { BaseProvider } from '../providers/base-provider'
-import { LocalUploadOptions } from '../providers/local-provider'
 import { GCPOptions } from '../providers/gcp-provider'
+import { LocalUploadOptions } from '../providers/local-provider'
 
 /**
  * Configuration options for @adminjs/upload feature
@@ -11,6 +11,10 @@ import { GCPOptions } from '../providers/gcp-provider'
  * @memberof module:@adminjs/upload
  */
 export type UploadOptions = {
+  /**
+   * Your ComponentLoader instance. It is required for the feature to add it's components.
+   */
+  componentLoader: ComponentLoader;
   /**
    * Options for the provider
    */

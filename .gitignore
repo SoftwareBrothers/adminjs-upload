@@ -162,3 +162,4 @@ build
 
 example-app/cypress/videos
 example-app/public
+.nova
