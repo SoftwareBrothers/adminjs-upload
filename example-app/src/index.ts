@@ -12,6 +12,7 @@ import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import { Database, Resource } from '@adminjs/typeorm'
 import { createConnection } from 'typeorm'
+import { componentLoader } from './admin/component-loader.js'
 
 import createPhotoResource from './admin/resources/photo/photo.resource.js'
 import createUserResource from './admin/resources/user/user.resource.js'
@@ -27,6 +28,7 @@ const run = async () => {
   const app = express()
   app.use('/public', express.static('public'))
   const admin = new AdminJS({
+    componentLoader,
     resources: [
       createPhotoResource(),
       createUserResource(),

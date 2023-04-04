@@ -15,6 +15,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "types": ["cypress"],
+    "skipLibCheck": true,
   },
-  "include": [ "ormconfig.js", "./src/**/*", "./cypress/**/*"]
+  "include": [ "ormconfig.js", "./src/**/*", "./cypress/**/*", "../src/**/*"]
 }

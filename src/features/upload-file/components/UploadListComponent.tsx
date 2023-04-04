@@ -1,7 +1,7 @@
 import { ShowPropertyProps } from 'adminjs'
 import React, { FC } from 'react'
 
-import File from './file.js'
+import File from './file.jsx'
 
 const List: FC<ShowPropertyProps> = (props) => (<File width={100} {...props} />)
 

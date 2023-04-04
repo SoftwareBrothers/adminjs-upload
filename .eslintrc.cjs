@@ -13,6 +13,7 @@ module.exports = {
     '*/dist/**/*',
     '*.json',
     '*.txt',
+    '*.mp4',
     'yarn.lock',
     '*.yaml',
     '*.md',
