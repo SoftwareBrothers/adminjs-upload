@@ -12,6 +12,7 @@ const createPostResource = (): CreateResourceResult<typeof Post> => ({
     componentLoader,
     provider: {
       gcp: {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         bucket: process.env.GCP_STORAGE_BUCKET!,
         expires: 0,
       },

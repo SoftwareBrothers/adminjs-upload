@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "outDir": "./build",
+    "baseUrl": "./",
+    "outDir": "build",
     "target": "esnext",
     "esModuleInterop": true,
     "jsx": "preserve",
     "declaration": true,
-    "declarationDir": "./types",
+    "declarationDir": "types",
     "skipLibCheck": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
