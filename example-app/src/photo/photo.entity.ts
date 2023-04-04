@@ -11,7 +11,7 @@ import {
   OneToMany,
 } from 'typeorm'
 
-import { RawFile } from '../utils/types'
+import { RawFile } from '../utils/types.js'
 
 @Entity({ name: 'photos' })
 export class Photo extends BaseEntity {

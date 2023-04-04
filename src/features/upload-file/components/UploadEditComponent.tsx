@@ -1,6 +1,6 @@
 import { DropZone, DropZoneItem, FormGroup, Label } from '@adminjs/design-system'
 import { EditPropertyProps, flat } from 'adminjs'
-import { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import PropertyCustom from '../types/property-custom.type.js'
 
 const Edit: FC<EditPropertyProps> = ({ property, record, onChange }) => {

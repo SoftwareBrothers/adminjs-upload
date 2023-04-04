@@ -3,7 +3,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "./build",
-    "target": "es2017",
+    "target": "esnext",
     "esModuleInterop": true,
     "jsx": "react",
     "strictNullChecks": true,
@@ -11,11 +11,10 @@
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
     "types": ["cypress"],
     "paths": {
-      "react": ["node_modules/@types/react"],
       "adminjs": ["node_modules/adminjs"],
     },
     "baseUrl": "."

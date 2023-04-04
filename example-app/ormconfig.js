@@ -1,16 +1,18 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path')
+import path from 'path'
+import { fileURLToPath } from 'node:url'
 
+const dirname = fileURLToPath(new URL('.', import.meta.url))
 const rootDir = 'build/src'
 
-module.exports = {
+export default {
   type: 'postgres',
   host: process.env.POSTGRES_HOST || 'localhost',
   port: +(process.env.POSTGRES_PORT || 5432),
   username: process.env.POSTGRES_USER || 'postgres',
   password: process.env.POSTGRES_PASSWORD || 'secret',
   database: process.env.POSTGRES_DATABASE || 'postgres',
-  entities: [`${__dirname}/./**/*.entity.js`],
+  entities: [`${dirname}/./**/*.entity.js`],
   migrations: [path.join(rootDir, '/migration/**/*.js')],
   subscribers: [path.join(rootDir, '/subscriber/**/*.js')],
   synchronize: true,
