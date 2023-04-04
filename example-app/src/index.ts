@@ -10,7 +10,6 @@ config({ path: path.join(dirname, '../../.env') })
 import express from 'express'
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
-// import { buildRouter } from '@adminjs/express'
 import { Database, Resource } from '@adminjs/typeorm'
 import { createConnection } from 'typeorm'
 

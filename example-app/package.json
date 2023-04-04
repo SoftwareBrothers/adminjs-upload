@@ -6,9 +6,9 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "yarn build && node --trace-warnings build/src/index.js",
-    "clean": "rm -rf build && mkdir build",
-    "dev": "yarn clean && concurrently \"wait-on build/src/index.js && nodemon --ext '.js' --watch ../build --watch ./build --ignore 'cypress/**/*.js' node build/src/index.js\" \"yarn build --watch\"",
+    "start": "yarn build && node dist/example-app/src/index.js",
+    "clean": "rm -rf dist && mkdir dist",
+    "dev": "yarn clean && concurrently \"wait-on dist/src/index.js && nodemon --ext '.js' --watch ../build --watch ./dist --ignore 'cypress/**/*.js' node dist/example-app/src/index.js\" \"yarn build --watch\"",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
@@ -25,7 +25,6 @@
     "@adminjs/design-system": "^4.0.0-beta-v4.8",
     "@adminjs/express": "^6.0.0-beta.3",
     "@adminjs/typeorm": "5.0.0-beta.1",
-    "@adminjs/upload": "file:../",
     "@google-cloud/storage": "^5.3.0",
     "adminjs": "7.0.0-beta-v7.4",
     "dotenv": "^16.0.3",

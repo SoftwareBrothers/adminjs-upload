@@ -1,23 +1,20 @@
 {
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "outDir": "./build",
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "outDir": "dist",
     "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
-    "jsx": "react",
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
-    "moduleResolution": "nodenext",
-    "module": "nodenext",
-    "types": ["cypress"],
-    "paths": {
-      "adminjs": ["node_modules/adminjs"],
-    },
-    "baseUrl": "."
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["cypress"]
   },
-  "include": ["./src/**/*", "./cypress/**/*", "ormconfig.js", "../src/upload-file"]
+  "include": [ "ormconfig.js", "./src/**/*", "./cypress/**/*"]
 }

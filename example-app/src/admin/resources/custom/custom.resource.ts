@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
-import uploadFeature, { BaseProvider } from '@adminjs/upload'
+import uploadFeature, { BaseProvider } from '../../../../../src/index.js'
 import { componentLoader } from '../../component-loader.js'
 
 import { CreateResourceResult } from '../create-resource-result.type.js'

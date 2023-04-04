@@ -1,4 +1,4 @@
-import uploadFeature from '@adminjs/upload'
+import uploadFeature from '../../../../../src/index.js'
 import { componentLoader } from '../../component-loader.js'
 import { CreateResourceResult } from '../create-resource-result.type.js'
 import { Photo } from '../../../photo/photo.entity.js'

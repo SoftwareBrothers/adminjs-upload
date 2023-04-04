@@ -1,5 +1,4 @@
-import uploadFeature from '@adminjs/upload'
-// import uploadFeature from '../../../../../src/index.js'
+import uploadFeature from '../../../../../src/index.js'
 import { componentLoader } from '../../component-loader.js'
 import { CreateResourceResult } from '../create-resource-result.type.js'
 import { Post } from '../../../post/post.entity.js'
