@@ -1,20 +1,24 @@
 /* eslint-disable import/first */
 import path from 'path'
+import * as url from 'url'
 import { config } from 'dotenv'
 
-config({ path: path.join(__dirname, '../../.env') })
+const dirname = url.fileURLToPath(new URL('.', import.meta.url))
+
+config({ path: path.join(dirname, '../../.env') })
 
 import express from 'express'
 import AdminJS from 'adminjs'
-import { buildRouter } from '@adminjs/express'
+import AdminJSExpress from '@adminjs/express'
 import { Database, Resource } from '@adminjs/typeorm'
 import { createConnection } from 'typeorm'
+import { componentLoader } from './admin/component-loader.js'
 
-import createPhotoResource from './admin/resources/photo/photo.resource'
-import createUserResource from './admin/resources/user/user.resource'
-import createCustomResource from './admin/resources/custom/custom.resource'
-import createPostResource from './admin/resources/post/post.resource'
-import createMultiResource from './admin/resources/multi/multi.resource'
+import createPhotoResource from './admin/resources/photo/photo.resource.js'
+import createUserResource from './admin/resources/user/user.resource.js'
+import createCustomResource from './admin/resources/custom/custom.resource.js'
+import createPostResource from './admin/resources/post/post.resource.js'
+import createMultiResource from './admin/resources/multi/multi.resource.js'
 
 const PORT = 3000
 
@@ -24,6 +28,7 @@ const run = async () => {
   const app = express()
   app.use('/public', express.static('public'))
   const admin = new AdminJS({
+    componentLoader,
     resources: [
       createPhotoResource(),
       createUserResource(),
@@ -47,7 +52,7 @@ const run = async () => {
 
   admin.watch()
 
-  const router = buildRouter(admin)
+  const router = AdminJSExpress.buildRouter(admin)
 
   app.use(admin.options.rootPath, router)
 

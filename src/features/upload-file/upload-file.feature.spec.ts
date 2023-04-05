@@ -1,4 +1,4 @@
-import AdminJS, { ActionContext, ActionRequest, After, RecordActionResponse } from 'adminjs'
+import AdminJS, { ActionContext, ActionRequest, After, ComponentLoader, RecordActionResponse } from 'adminjs'
 import chai, { expect } from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
@@ -8,6 +8,8 @@ import UploadOptions from './types/upload-options.type.js'
 import uploadFile from './upload-file.feature.js'
 
 chai.use(sinonChai)
+
+const componentLoader = new ComponentLoader()
 
 describe('uploadFileFeature', () => {
   let provider: BaseProvider
@@ -54,7 +56,8 @@ describe('uploadFileFeature', () => {
           },
         },
       }
-      const fillPath = getAfterHook({ provider, properties })
+
+      const fillPath = getAfterHook({ componentLoader, provider, properties })
 
       const ret = await fillPath(
         response as RecordActionResponse,
@@ -77,7 +80,7 @@ describe('uploadFileFeature', () => {
           },
         },
       }
-      const fillPath = getAfterHook({ provider, properties })
+      const fillPath = getAfterHook({ componentLoader, provider, properties })
 
       await fillPath(
         response as RecordActionResponse,
@@ -96,7 +99,8 @@ describe('uploadFileFeature', () => {
           },
         },
       }
-      const fillPath = getAfterHook({ provider, properties })
+
+      const fillPath = getAfterHook({ componentLoader, provider, properties })
 
       const ret = await fillPath(
         response as unknown as RecordActionResponse,

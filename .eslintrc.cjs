@@ -10,8 +10,10 @@ module.exports = {
   ],
   ignorePatterns: [
     '*/build/**/*',
+    '*/dist/**/*',
     '*.json',
     '*.txt',
+    '*.mp4',
     'yarn.lock',
     '*.yaml',
     '*.md',

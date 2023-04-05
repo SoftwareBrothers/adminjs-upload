@@ -1,11 +1,13 @@
-import { ActionContext, ActionRequest, After, BaseRecord, BaseResource, RecordActionResponse, UploadedFile } from 'adminjs'
+import { ActionContext, ActionRequest, After, BaseRecord, BaseResource, ComponentLoader, RecordActionResponse, UploadedFile } from 'adminjs'
 import { expect } from 'chai'
-import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
+import sinon, { SinonStubbedInstance, createStubInstance } from 'sinon'
 import { CONTEXT_NAMESPACE } from '../constants.js'
 import { BaseProvider } from '../providers/index.js'
 import stubProvider from '../spec/stub-provider.js'
 import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type.js'
 import { updateRecordFactory } from './update-record-factory.js'
+
+const componentLoader = new ComponentLoader()
 
 describe('updateRecordFactory', () => {
   const request: ActionRequest = { method: 'post' } as ActionRequest
@@ -36,6 +38,7 @@ describe('updateRecordFactory', () => {
       },
     } as unknown as RecordActionResponse
     uploadOptions = {
+      componentLoader,
       properties: {
         key: 's3Key',
         filePath: 'resolvedPath',

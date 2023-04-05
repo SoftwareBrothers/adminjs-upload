@@ -1,9 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import { ActionContext, ActionRequest, Before } from 'adminjs'
+import { ActionContext, ActionRequest, Before, ComponentLoader } from 'adminjs'
 import { expect } from 'chai'
+
 import { CONTEXT_NAMESPACE } from '../constants.js'
 import UploadOptions, { UploadOptionsWithDefault } from '../types/upload-options.type.js'
 import { stripPayloadFactory } from './strip-payload-factory.js'
+
+const componentLoader = new ComponentLoader()
 
 describe('stripPayloadFactory', () => {
   let actionContext = {} as ActionContext
@@ -13,6 +16,7 @@ describe('stripPayloadFactory', () => {
 
   beforeEach(() => {
     uploadOptions = {
+      componentLoader,
       properties: {
         key: 's3Key',
         filePath: 'resolvedPath',

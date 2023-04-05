@@ -1,10 +1,10 @@
-import AdminJS, {
+import {
   After,
-  buildFeature,
-  FeatureType,
+  buildFeature, FeatureType,
   ListActionResponse,
   RecordActionResponse,
 } from 'adminjs'
+
 import { ERROR_MESSAGES } from './constants.js'
 import { deleteFileFactory } from './factories/delete-file-factory.js'
 import { deleteFilesFactory } from './factories/delete-files-factory.js'
@@ -13,6 +13,7 @@ import { updateRecordFactory } from './factories/update-record-factory.js'
 import { BaseProvider } from './providers/index.js'
 import PropertyCustom from './types/property-custom.type.js'
 import UploadOptions, { UploadOptionsWithDefault } from './types/upload-options.type.js'
+import bundleComponent from './utils/bundle-component.js'
 import { fillRecordWithPath } from './utils/fill-record-with-path.js'
 import { getProvider } from './utils/get-provider.js'
 
@@ -25,7 +26,7 @@ const DEFAULT_FILE_PATH_PROPERTY = 'filePath'
 const DEFAULT_FILES_TO_DELETE_PROPERTY = 'filesToDelete'
 
 const uploadFileFeature = (config: UploadOptions): FeatureType => {
-  const { provider: providerOptions, validation, multiple } = config
+  const { componentLoader, provider: providerOptions, validation, multiple } = config
 
   const configWithDefault: UploadOptionsWithDefault = {
     ...config,
@@ -99,49 +100,48 @@ const uploadFileFeature = (config: UploadOptions): FeatureType => {
     opts: provider?.opts,
   }
 
-  const uploadFeature = buildFeature({
-    properties: {
-      [properties.file]: {
-        custom,
-        isVisible: { show: true, edit: true, list: true, filter: false },
-        components: {
-          edit: AdminJS.bundle(
-            '../../../src/features/upload-file/components/edit',
-          ),
-          list: AdminJS.bundle(
-            '../../../src/features/upload-file/components/list',
-          ),
-          show: AdminJS.bundle(
-            '../../../src/features/upload-file/components/show',
-          ),
+  const uploadFeature = () => {
+    const editComponent = bundleComponent(componentLoader, 'UploadEditComponent')
+    const listComponent = bundleComponent(componentLoader, 'UploadListComponent')
+    const showComponent = bundleComponent(componentLoader, 'UploadShowComponent')
+    return buildFeature({
+      properties: {
+        [properties.file]: {
+          custom,
+          isVisible: { show: true, edit: true, list: true, filter: false },
+          components: {
+            edit: editComponent,
+            list: listComponent,
+            show: showComponent,
+          },
         },
       },
-    },
-    actions: {
-      show: {
-        after: fillPath,
+      actions: {
+        show: {
+          after: fillPath,
+        },
+        new: {
+          before: stripFileFromPayload,
+          after: [updateRecord, fillPath],
+        },
+        edit: {
+          before: [stripFileFromPayload],
+          after: [updateRecord, fillPath],
+        },
+        delete: {
+          after: deleteFile,
+        },
+        list: {
+          after: fillPaths,
+        },
+        bulkDelete: {
+          after: deleteFiles,
+        },
       },
-      new: {
-        before: stripFileFromPayload,
-        after: [updateRecord, fillPath],
-      },
-      edit: {
-        before: [stripFileFromPayload],
-        after: [updateRecord, fillPath],
-      },
-      delete: {
-        after: deleteFile,
-      },
-      list: {
-        after: fillPaths,
-      },
-      bulkDelete: {
-        after: deleteFiles,
-      },
-    },
-  })
+    })
+  }
 
-  return uploadFeature
+  return uploadFeature()
 }
 
 export default uploadFileFeature
