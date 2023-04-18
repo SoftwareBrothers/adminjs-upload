@@ -1,26 +1,25 @@
 {
   "compilerOptions": {
-    "outDir": "./build",
-    "target": "es2017",
+    "baseUrl": "./",
+    "outDir": "build",
+    "target": "esnext",
     "esModuleInterop": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "declaration": true,
-    "declarationDir": "./types",
+    "declarationDir": "types",
     "skipLibCheck": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+
     "baseUrl": ".",
     "paths": {
       "react": ["node_modules/@types/react"]
     }
   },
-  "include": [
-    "./src/**/*",
-    "./spec/**/*"
-  ],
+  "include": ["./src/**/*", "./spec/**/*"]
 }

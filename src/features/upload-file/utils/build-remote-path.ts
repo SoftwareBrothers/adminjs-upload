@@ -1,7 +1,7 @@
-import path from 'path'
 import { BaseRecord, UploadedFile } from 'adminjs'
-import { ERROR_MESSAGES } from '../constants'
-import { UploadPathFunction } from '../types/upload-options.type'
+import path from 'path'
+import { ERROR_MESSAGES } from '../constants.js'
+import { UploadPathFunction } from '../types/upload-options.type.js'
 
 /**
  * Creates a path to the file. Related to the given provider. If it is an AWS

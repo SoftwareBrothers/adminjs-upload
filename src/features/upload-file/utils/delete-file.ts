@@ -1,7 +1,6 @@
-import { BaseRecord, ActionContext } from 'adminjs'
-
-import { BaseProvider } from '../providers'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
+import { ActionContext, BaseRecord } from 'adminjs'
+import { BaseProvider } from '../providers/index.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
 
 export const deleteFile = async (
   options: UploadOptionsWithDefault,

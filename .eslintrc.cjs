@@ -10,8 +10,10 @@ module.exports = {
   ],
   ignorePatterns: [
     '*/build/**/*',
+    '*/dist/**/*',
     '*.json',
     '*.txt',
+    '*.mp4',
     'yarn.lock',
     '*.yaml',
     '*.md',
@@ -22,7 +24,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 11,
+    ecmaVersion: 20,
     sourceType: 'module',
   },
   plugins: [
@@ -50,6 +52,8 @@ module.exports = {
       'react/prop-types': 'off',
       'react/jsx-props-no-spreading': 'off',
       'import/no-extraneous-dependencies': 'off',
+      'react/function-component-definition': 'off',
+      'react/require-default-props': 'off',
     },
   }, {
     files: ['./src/**/*.spec.ts', '**/*/spec/**/*.ts'],

@@ -13,17 +13,17 @@ import {
 @Entity({ name: 'custom' })
 export class Custom extends BaseEntity {
   @PrimaryGeneratedColumn()
-  public id: number;
+  public id: number
 
   @Column({ nullable: true })
-  public filePath: string;
+  public filePath: string
 
   @Column({ nullable: true })
-  public bucket: string;
+  public bucket: string
 
   @CreateDateColumn()
-  public createdAt: Date;
+  public createdAt: Date
 
   @UpdateDateColumn()
-  public updatedAt: Date;
+  public updatedAt: Date
 }

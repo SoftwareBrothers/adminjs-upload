@@ -1,24 +1,21 @@
 {
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "outDir": "./build",
-    "target": "es2017",
-    "esModuleInterop": true,
     "jsx": "react",
+    "baseUrl": "./",
+    "outDir": "dist",
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "types": ["cypress"],
-    "paths": {
-      "react": ["node_modules/@types/react"],
-      "adminjs": ["node_modules/adminjs"],
-    },
-    "baseUrl": "."
+    "skipLibCheck": true,
   },
-  "include": ["./src/**/*", "./cypress/**/*", "ormconfig.js", "../src/upload-file"]
+  "include": [ "ormconfig.js", "./src/**/*", "./cypress/**/*", "../src/**/*"]
 }

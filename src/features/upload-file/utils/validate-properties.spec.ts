@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { FeatureInvocation } from '../types/upload-options.type'
-import { hasDuplicatedProperties, validatePropertiesGlobally } from './validate-properties'
+import { FeatureInvocation } from '../types/upload-options.type.js'
+import { hasDuplicatedProperties, validatePropertiesGlobally } from './validate-properties.js'
 
 describe('hasDuplicatedProperties', () => {
   it('does not throw an all properties have different values', () => {

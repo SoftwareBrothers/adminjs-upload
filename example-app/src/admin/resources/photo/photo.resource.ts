@@ -1,7 +1,7 @@
-import uploadFeature from '@adminjs/upload'
-
-import { CreateResourceResult } from '../create-resource-result.type'
-import { Photo } from '../../../photo/photo.entity'
+import uploadFeature from '../../../../../src/index.js'
+import { componentLoader } from '../../component-loader.js'
+import { CreateResourceResult } from '../create-resource-result.type.js'
+import { Photo } from '../../../photo/photo.entity.js'
 
 const createPhotoResource = (): CreateResourceResult<typeof Photo> => ({
   resource: Photo,
@@ -9,7 +9,8 @@ const createPhotoResource = (): CreateResourceResult<typeof Photo> => ({
     listProperties: ['id', 's3Key', 'bucket', 'path'],
   },
   features: [uploadFeature({
-    provider: { local: { bucket: 'public' } },
+    componentLoader,
+    provider: { local: { bucket: 'public', opts: {} } },
     properties: { file: 'file', key: 's3Key', bucket: 'bucket', mimeType: 'mime' },
     validation: { mimeTypes: ['image/png'] },
   })],

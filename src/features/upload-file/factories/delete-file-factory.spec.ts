@@ -1,13 +1,13 @@
-import { ActionRequest, RecordActionResponse, ActionContext, BaseRecord } from 'adminjs'
-import sinon, { createStubInstance, SinonStubbedInstance } from 'sinon'
+import { ActionContext, ActionRequest, BaseRecord, ComponentLoader, RecordActionResponse } from 'adminjs'
 import chai, { expect } from 'chai'
+import sinon, { SinonStubbedInstance, createStubInstance } from 'sinon'
 import sinonChai from 'sinon-chai'
+import { BaseProvider } from '../providers/index.js'
+import stubProvider from '../spec/stub-provider.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { deleteFileFactory } from './delete-file-factory.js'
 
-import { deleteFileFactory } from './delete-file-factory'
-import { BaseProvider } from '../providers'
-import stubProvider from '../spec/stub-provider'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
-
+const componentLoader = new ComponentLoader()
 chai.use(sinonChai)
 
 describe('deleteFileFactory', () => {
@@ -21,6 +21,7 @@ describe('deleteFileFactory', () => {
   before(() => {
     provider = stubProvider()
     uploadOptions = {
+      componentLoader,
       properties: {
         key: 's3Key',
         filePath: 'resolvedPath',
@@ -30,7 +31,8 @@ describe('deleteFileFactory', () => {
       },
       provider: {
         aws: { bucket: 'any' },
-      } as UploadOptionsWithDefault['provider'] }
+      } as UploadOptionsWithDefault['provider'],
+    }
     record = createStubInstance(BaseRecord, {
       id: sinon.stub<any, string>().returns('1'),
       isValid: sinon.stub<any, boolean>().returns(true),

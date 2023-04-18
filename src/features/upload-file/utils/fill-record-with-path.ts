@@ -1,6 +1,6 @@
-import { RecordJSON, ActionContext, flat } from 'adminjs'
-import { BaseProvider } from '../providers'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
+import { ActionContext, flat, RecordJSON } from 'adminjs'
+import { BaseProvider } from '../providers/index.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
 
 export const fillRecordWithPath = async (
   record: RecordJSON,
@@ -16,14 +16,10 @@ export const fillRecordWithPath = async (
   let filePath: string | Array<string> | undefined
   if (multiple && key && key.length) {
     filePath = await Promise.all(key.map(async (singleKey, index) => (
-      provider.path(
-        singleKey, storedBucket?.[index] ?? provider.bucket, context,
-      )
+      provider.path(singleKey, storedBucket?.[index] ?? provider.bucket, context)
     )))
   } else if (!multiple && key) {
-    filePath = await provider.path(
-      key, storedBucket ?? provider.bucket, context,
-    )
+    filePath = await provider.path(key, storedBucket ?? provider.bucket, context)
   }
 
   return {
