@@ -2,8 +2,8 @@
 import { Box, Button, Icon } from '@adminjs/design-system'
 import { flat, ShowPropertyProps } from 'adminjs'
 import React, { FC } from 'react'
-import { AudioMimeTypes, ImageMimeTypes } from '../types/mime-types.type'
-import PropertyCustom from '../types/property-custom.type'
+import { AudioMimeTypes, ImageMimeTypes } from '../types/mime-types.type.js'
+import PropertyCustom from '../types/property-custom.type.js'
 
 type Props = ShowPropertyProps & {
   width?: number | string;

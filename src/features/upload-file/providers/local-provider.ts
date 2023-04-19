@@ -2,8 +2,8 @@ import { UploadedFile } from 'adminjs'
 import fs, { existsSync } from 'fs'
 import fse from 'fs-extra'
 import path from 'path'
-import { ERROR_MESSAGES } from '../constants'
-import { BaseProvider, ProviderOpts } from './base-provider'
+import { ERROR_MESSAGES } from '../constants.js'
+import { BaseProvider, ProviderOpts } from './base-provider.js'
 
 /**
  * Options required by the LocalAdapter

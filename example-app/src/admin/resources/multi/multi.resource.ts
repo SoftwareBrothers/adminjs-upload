@@ -1,7 +1,7 @@
-import uploadFeature from '@adminjs/upload'
-
-import { CreateResourceResult } from '../create-resource-result.type'
-import { Multi } from '../../../multi/multi.entity'
+import uploadFeature from '../../../../../src/index.js'
+import { componentLoader } from '../../component-loader.js'
+import { CreateResourceResult } from '../create-resource-result.type.js'
+import { Multi } from '../../../multi/multi.entity.js'
 
 const photoProperties = (options = {}) => ({
   bucket: {
@@ -28,6 +28,7 @@ const photoProperties = (options = {}) => ({
 
 const uploadFeatureFor = (name?: string, multiple = false) => (
   uploadFeature({
+    componentLoader,
     provider: {
       gcp: {
         bucket: process.env.GOOGLE_BUCKET as string,

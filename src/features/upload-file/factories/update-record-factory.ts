@@ -1,17 +1,16 @@
 import {
-  flat,
-  RecordActionResponse,
-  ActionRequest,
-  ActionContext,
-  UploadedFile,
-  After,
-} from 'adminjs'
+  ActionContext, ActionRequest,
 
-import { buildRemotePath } from '../utils/build-remote-path'
-import { BaseProvider } from '../providers'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
-import { DB_PROPERTIES } from '../constants'
-import { getNamespaceFromContext } from './strip-payload-factory'
+  After, flat,
+  RecordActionResponse,
+
+  UploadedFile,
+} from 'adminjs'
+import { DB_PROPERTIES } from '../constants.js'
+import { BaseProvider } from '../providers/index.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { buildRemotePath } from '../utils/build-remote-path.js'
+import { getNamespaceFromContext } from './strip-payload-factory.js'
 
 export const updateRecordFactory = (
   uploadOptionsWithDefault: UploadOptionsWithDefault,

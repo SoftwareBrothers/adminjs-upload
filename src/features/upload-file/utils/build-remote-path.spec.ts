@@ -1,8 +1,7 @@
 import { BaseRecord, UploadedFile } from 'adminjs'
 import { expect } from 'chai'
 import sinon, { createStubInstance } from 'sinon'
-
-import { buildRemotePath } from './build-remote-path'
+import { buildRemotePath } from './build-remote-path.js'
 
 describe('buildPath', () => {
   let recordStub: BaseRecord

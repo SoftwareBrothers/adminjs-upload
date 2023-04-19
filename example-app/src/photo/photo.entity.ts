@@ -11,28 +11,28 @@ import {
   OneToMany,
 } from 'typeorm'
 
-import { RawFile } from '../utils/types'
+import { RawFile } from '../utils/types.js'
 
 @Entity({ name: 'photos' })
 export class Photo extends BaseEntity {
   @PrimaryGeneratedColumn()
-  public id: number;
+  public id: number
 
   @Column({ nullable: true, name: 'key' })
-  public s3Key: string;
+  public s3Key: string
 
   @Column({ nullable: true })
-  public bucket: string;
+  public bucket: string
 
   @Column({ nullable: true })
-  public path: string;
+  public path: string
 
   @Column({ nullable: true })
-  public mime: string;
+  public mime: string
 
   @CreateDateColumn({ name: 'created_at' })
-  public createdAt: Date;
+  public createdAt: Date
 
   @UpdateDateColumn({ name: 'updated_at' })
-  public updatedAt: Date;
+  public updatedAt: Date
 }

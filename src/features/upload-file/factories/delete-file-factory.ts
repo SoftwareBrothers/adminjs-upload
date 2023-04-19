@@ -1,7 +1,7 @@
-import { RecordActionResponse, After, ActionRequest, ActionContext } from 'adminjs/types/src'
-import { BaseProvider } from '../providers'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
-import { deleteFile } from '../utils/delete-file'
+import { ActionContext, ActionRequest, After, RecordActionResponse } from 'adminjs'
+import { BaseProvider } from '../providers/index.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { deleteFile } from '../utils/delete-file.js'
 
 export const deleteFileFactory = (
   uploadOptionsWithDefault: UploadOptionsWithDefault,

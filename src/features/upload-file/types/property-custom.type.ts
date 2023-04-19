@@ -1,5 +1,5 @@
-import { ProviderOpts } from '../providers/base-provider'
-import { MimeType } from './mime-types.type'
+import { ProviderOpts } from '../providers/base-provider.js'
+import { MimeType } from './mime-types.type.js'
 
 // src/features/upload-file/providers/base-provider.ts
 

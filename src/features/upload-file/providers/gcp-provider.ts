@@ -1,8 +1,8 @@
-import { UploadedFile } from 'adminjs'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { UploadResponse, DeleteFileResponse } from '@google-cloud/storage'
-import { BaseProvider } from './base-provider'
-import { DAY_IN_MINUTES } from '../constants'
+import type { DeleteFileResponse, UploadResponse, Storage } from '@google-cloud/storage'
+import { UploadedFile } from 'adminjs'
+import { DAY_IN_MINUTES } from '../constants.js'
+import { BaseProvider } from './base-provider.js'
 
 /**
  * Google Storage options which can be set for GCP file upload.
@@ -24,6 +24,14 @@ export type GCPOptions = {
   expires?: number;
 }
 
+let GCPStorage: typeof Storage | null = null
+try {
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  GCPStorage = (await import('@google-cloud/storage')).Storage
+} catch (error) {
+  GCPStorage = null
+}
+
 export class GCPProvider extends BaseProvider {
   private storage: Storage
 
@@ -32,15 +40,12 @@ export class GCPProvider extends BaseProvider {
   constructor(options: GCPOptions) {
     super(options.bucket)
 
-    let GCPStorage: typeof Storage
-    try {
-      // eslint-disable-next-line
-      GCPStorage = require('@google-cloud/storage').Storage
-    } catch (error) {
+    if (!GCPStorage) {
       throw new Error(
         'You have to install "@google-cloud/storage" in order to run this plugin with GCP',
       )
     }
+
     // // this check is needed because option expires can be `0`
     this.expires = typeof options.expires === 'undefined'
       ? DAY_IN_MINUTES

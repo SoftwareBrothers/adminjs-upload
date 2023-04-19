@@ -162,3 +162,5 @@ build
 
 example-app/cypress/videos
 example-app/public
+example-app/yarn-error.log*
+.nova

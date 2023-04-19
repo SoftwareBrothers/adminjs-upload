@@ -1,7 +1,6 @@
-import sinon from 'sinon'
 import { UploadedFile } from 'adminjs'
-
-import { BaseProvider } from '../providers/base-provider'
+import sinon from 'sinon'
+import { BaseProvider } from '../providers/base-provider.js'
 
 const stubProvider = (resolvedS3Path?: string): BaseProvider => {
   const resolvedPath = resolvedS3Path || '/someS3Path.png'

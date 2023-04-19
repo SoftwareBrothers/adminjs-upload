@@ -1,5 +1,5 @@
 import { ActionContext, UploadedFile } from 'adminjs'
-import { ERROR_MESSAGES } from '../constants'
+import { ERROR_MESSAGES } from '../constants.js'
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable class-methods-use-this */
@@ -21,17 +21,17 @@ abstract class BaseProvider {
    * this type. We cannot check typeof because there could be a different versions of
    * npm package installed in a project.
    */
-  public name: string;
+  public name: string
 
   /**
    * Bucket is a place where files should be stored. Usually it is a folder location
    */
-  public bucket: string;
+  public bucket: string
 
   /**
    * Provider extra options
    */
-  public opts?: ProviderOpts;
+  public opts?: ProviderOpts
 
   /**
    * @param { string } bucket     place where files should be stored

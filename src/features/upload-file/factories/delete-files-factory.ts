@@ -3,10 +3,10 @@ import {
   ActionRequest,
   After,
   BulkActionResponse,
-} from 'adminjs/types/src'
-import { BaseProvider } from '../providers'
-import { UploadOptionsWithDefault } from '../types/upload-options.type'
-import { deleteFile } from '../utils/delete-file'
+} from 'adminjs'
+import { BaseProvider } from '../providers/index.js'
+import { UploadOptionsWithDefault } from '../types/upload-options.type.js'
+import { deleteFile } from '../utils/delete-file.js'
 
 export const deleteFilesFactory = (
   uploadOptionsWithDefault: UploadOptionsWithDefault,
