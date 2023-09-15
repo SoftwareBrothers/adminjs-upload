@@ -159,11 +159,11 @@ Local storage will save files to the local folder.
 
 There are 2 things you have to do before using this Provider.
 
-#### 1. create the*folder** (`bucket`) for the files (i.e. `public`)
+#### 1. create the*folder** (`bucket`) for the files (i.e. `uploads`)
 
 ```sh
 cd your-app
-mkdir public
+mkdir uploads
 ```
 
 #### 2. tell your HTTP framework to host this folder
@@ -171,7 +171,7 @@ mkdir public
 This is an example for the [express](https://expressjs.com) server
 
 ```
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 ```
 
 Next you have to add @adminjs/upload to given resource:
@@ -181,7 +181,7 @@ Next you have to add @adminjs/upload to given resource:
   resources: [{
     resource: User,
     features: [uploadFeature({
-      provider: { local: { bucket: 'public' } },
+      provider: { local: { bucket: 'uploads' } },
     })]
   }]
 }
