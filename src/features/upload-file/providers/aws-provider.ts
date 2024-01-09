@@ -35,6 +35,12 @@ export type AWSOptions = {
    * Default to 24h. If set to 0 adapter will mark uploaded files as PUBLIC ACL.
    */
   expires?: number;
+  
+  /**
+   * Allows to override 'https://${bucket}.s3.amazonaws.com' for previews in admin
+   * mihgt be usefull for buckets served via CDN and static website hosting, e.g. https://support.cloudflare.com/hc/en-us/articles/360037983412-Configuring-an-Amazon-Web-Services-static-site-to-use-Cloudflare
+   */
+  previewBaseUrl?: string
 }
 
 let AWS_S3
@@ -51,6 +57,8 @@ export class AWSProvider extends BaseProvider {
 
   public expires: number
 
+  private previewBaseUrl: string | undefined
+
   constructor(options: AWSOptions) {
     super(options.bucket)
 
@@ -60,6 +68,7 @@ export class AWSProvider extends BaseProvider {
 
     this.expires = options.expires ?? DAY_IN_MINUTES
     this.s3 = new AWS_S3(options)
+    this.previewBaseUrl = options.previewBaseUrl;
   }
 
   public async upload(file: UploadedFile, key: string): Promise<PutObjectCommandOutput> {
@@ -68,6 +77,7 @@ export class AWSProvider extends BaseProvider {
       Bucket: this.bucket,
       Key: key,
       Body: tmpFile,
+      ContentType: file.type
     }
     if (!this.expires) {
       params.ACL = 'public-read'
@@ -88,6 +98,10 @@ export class AWSProvider extends BaseProvider {
       )
     }
     // https://bucket.s3.amazonaws.com/key
-    return `https://${bucket}.s3.amazonaws.com/${key}`
+    let base : string = `https://${bucket}.s3.amazonaws.com`;
+    if (this.previewBaseUrl) {
+      base = this.previewBaseUrl;
+    }
+    return `${base}/${key}`
   }
 }
