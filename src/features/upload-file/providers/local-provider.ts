@@ -33,7 +33,8 @@ export class LocalProvider extends BaseProvider {
     const filePath = process.platform === 'win32' ? this.path(key) : this.path(key).slice(1) // adjusting file path according to OS
 
     await fs.promises.mkdir(path.dirname(filePath), { recursive: true })
-    await fs.promises.rename(file.path, filePath)
+    await fs.promises.copyFile(file.path, filePath) //Changed for Error: EXDEV: cross-device link not permitted
+    await fs.promises.unlink(file.path)
   }
 
   public async delete(key: string, bucket: string): Promise<any> {
