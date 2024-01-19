@@ -18,7 +18,7 @@ export type LocalUploadOptions = {
   /**
    * options for local provider
    */
-  opts: ProviderOpts;
+  opts?: ProviderOpts;
 };
 
 export class LocalProvider extends BaseProvider {
