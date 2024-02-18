@@ -26,17 +26,17 @@ describe('buildPath', () => {
     recordStub.params = {}
   })
 
-  it('returns default path when no custom function is given', () => {
-    expect(buildRemotePath(recordStub, File)).to.equal(`${recordId}/${File.name}`)
+  it('returns default path when no custom function is given', async () => {
+    expect(await buildRemotePath(recordStub, File)).to.equal(`${recordId}/${File.name}`)
   })
 
-  it('returns default custom path when function is given', () => {
+  it('returns custom path when function is given', async () => {
     const newPath = '1/1/filename'
-    const fnStub = sinon.stub<[BaseRecord, string], string>().returns(newPath)
+    const fnStub = sinon.stub<[BaseRecord, string, UploadedFile], string>().returns(newPath)
 
-    const path = buildRemotePath(recordStub, File, fnStub)
+    const path = await buildRemotePath(recordStub, File, fnStub)
 
     expect(path).to.equal(newPath)
-    expect(fnStub).to.have.been.calledWith(recordStub, File.name)
+    expect(fnStub).to.have.been.calledWith(recordStub, File.name, File)
   })
 })

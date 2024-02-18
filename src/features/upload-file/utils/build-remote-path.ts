@@ -18,7 +18,7 @@ export const buildRemotePath = (
   record: BaseRecord,
   file: UploadedFile,
   uploadPathFunction?: UploadPathFunction,
-): string => {
+): string | Promise<string> => {
   if (!record.id()) {
     throw new Error(ERROR_MESSAGES.NO_PERSISTENT_RECORD_UPLOAD)
   }
@@ -28,7 +28,7 @@ export const buildRemotePath = (
   const { ext, name } = path.parse(file.name)
 
   if (uploadPathFunction) {
-    return uploadPathFunction(record, `${name}${ext}`)
+    return uploadPathFunction(record, `${name}${ext}`, file)
   }
 
   return `${record.id()}/${name}${ext}`
