@@ -1,4 +1,4 @@
-import { BaseRecord, ComponentLoader } from 'adminjs'
+import { BaseRecord, ComponentLoader, UploadedFile } from 'adminjs'
 import { AWSOptions } from '../providers/aws-provider.js'
 import { BaseProvider } from '../providers/base-provider.js'
 import { GCPOptions } from '../providers/gcp-provider.js'
@@ -24,7 +24,11 @@ export type UploadPathFunction = (
    * filename with extension
    */
   filename: string,
-) => string
+  /**
+   * File to upload
+   */
+  file: UploadedFile,
+) => string | Promise<string>
 
 /**
  * Configuration options for @adminjs/upload feature

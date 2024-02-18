@@ -63,7 +63,7 @@ export const updateRecordFactory = (
         const uploadedFiles = files as Array<UploadedFile>
 
         const keys = await Promise.all<string>(uploadedFiles.map(async (uploadedFile) => {
-          const key = buildRemotePath(record, uploadedFile, uploadPath)
+          const key = await buildRemotePath(record, uploadedFile, uploadPath)
           await provider.upload(uploadedFile, key, context)
           return key
         }))
@@ -109,7 +109,7 @@ export const updateRecordFactory = (
         const uploadedFile: UploadedFile = files[0]
 
         const oldRecordParams = { ...record.params }
-        const key = buildRemotePath(record, uploadedFile, uploadPath)
+        const key = await buildRemotePath(record, uploadedFile, uploadPath)
 
         await provider.upload(uploadedFile, key, context)
 
