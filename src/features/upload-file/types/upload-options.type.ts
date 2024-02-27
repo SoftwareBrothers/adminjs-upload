@@ -1,9 +1,9 @@
-import { BaseRecord, ComponentLoader } from "adminjs";
-import { AWSOptions } from "../providers/aws-provider.js";
-import { AzureOptions } from "../providers/azure-provider.js";
-import { BaseProvider } from "../providers/base-provider.js";
-import { GCPOptions } from "../providers/gcp-provider.js";
-import { LocalUploadOptions } from "../providers/local-provider.js";
+import { BaseRecord, ComponentLoader } from 'adminjs'
+import { AWSOptions } from '../providers/aws-provider.js'
+import { AzureOptions } from '../providers/azure-provider.js'
+import { BaseProvider } from '../providers/base-provider.js'
+import { GCPOptions } from '../providers/gcp-provider.js'
+import { LocalUploadOptions } from '../providers/local-provider.js'
 
 /**
  * Function which defines where in the bucket file should be stored.
@@ -119,23 +119,23 @@ export type UploadOptions = {
 
 export type UploadOptionsWithDefault = {
   properties: Exclude<
-    UploadOptions["properties"],
-    "filePath" | "file" | "filesToDelete"
+    UploadOptions['properties'],
+    'filePath' | 'file' | 'filesToDelete'
   > & {
     filePath: string;
     file: string;
     filesToDelete: string;
   };
-} & Exclude<UploadOptions, "properties">;
+} & Exclude<UploadOptions, 'properties'>;
 
 export type FeatureInvocation = {
-  properties: Partial<UploadOptions["properties"]>;
+  properties: Partial<UploadOptions['properties']>;
 };
 
 export type ProviderOptions = Required<
-  Exclude<UploadOptions["provider"], BaseProvider>
+  Exclude<UploadOptions['provider'], BaseProvider>
 >;
 
-export type AvailableDefaultProviders = keyof ProviderOptions | "base";
+export type AvailableDefaultProviders = keyof ProviderOptions | 'base';
 
-export default UploadOptions;
+export default UploadOptions
