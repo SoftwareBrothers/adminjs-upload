@@ -31,7 +31,8 @@
   "optionalDependencies": {
     "@aws-sdk/client-s3": "^3.301.0",
     "@aws-sdk/s3-request-presigner": "^3.301.0",
-    "@google-cloud/storage": "^6.9.4"
+    "@google-cloud/storage": "^6.9.4",
+    "@azure/storage-blob": "^12.17.0"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.301.0",
@@ -64,8 +65,5 @@
     "sinon-chai": "^3.7.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
-  },
-  "dependencies": {
-    "@azure/storage-blob": "^12.17.0"
   }
 }
