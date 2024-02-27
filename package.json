@@ -65,5 +65,7 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@azure/storage-blob": "^12.17.0"
+  }
 }
